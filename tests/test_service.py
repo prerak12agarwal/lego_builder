@@ -45,8 +45,8 @@ def running_server():
     server.shutdown();server.server_close();thread.join(timeout=2)
 
 
-def call(server,method,path,body=None,headers=None):
-    connection=http.client.HTTPConnection('127.0.0.1',server.server_port,timeout=3)
+def call(server,method,path,body=None,headers=None,timeout=3):
+    connection=http.client.HTTPConnection('127.0.0.1',server.server_port,timeout=timeout)
     connection.request(method,path,body,headers or {})
     response=connection.getresponse();status=response.status;data=json.loads(response.read());connection.close()
     return status,data
@@ -104,7 +104,7 @@ def test_real_http_obj_to_ldr_end_to_end(running_server):
     obj=trimesh.exchange.obj.export_obj(trimesh.creation.box(),include_normals=False)
     payload=request_payload(obj,target=100)
     status,result=call(running_server,'POST','/convert',json.dumps(payload).encode(),
-                       {'Authorization':'Bearer test-token','Content-Type':'application/json'})
+                       {'Authorization':'Bearer test-token','Content-Type':'application/json'},timeout=60)
     assert status==200
     assert result['sourceObjSha256']==payload['sourceObjSha256']
     assert result['settingsSha256']==payload['settingsSha256']

@@ -122,15 +122,24 @@ def test_source_hash_contract_and_repeated_hash_binding():
 
 
 def test_palette_is_deterministic_and_every_color_has_manufactured_fallback():
-    codes,labs,available=palette()
+    codes,labs,available=palette("source-solid-palette-v1")
     assert codes.tolist()==[0,1,2,4,14,15,71,72]
     assert all(('3024',int(c)) in available for c in codes)
     assert np.array_equal(np.argmin(((labs[:,None]-labs[None,:])**2).sum(axis=2),axis=1),np.arange(8))
 
 
+def test_palette_versions_keep_legacy_codes_and_expand_v2_only():
+    legacy,_,_=palette("source-solid-palette-v1")
+    current,_,available=palette("source-solid-palette-v2")
+    assert legacy.tolist()==[0,1,2,4,14,15,71,72]
+    assert len(current)==26 and set(legacy).issubset(current)
+    assert all(("3024",int(code)) in available for code in current)
+    with pytest.raises(ConversionError,match="palette"):palette("not-a-palette")
+
+
 def test_fitting_never_spans_color_boundary_or_unreviewed_part_color():
     shell=np.ones((4,2,3),dtype=bool);colors=np.full(shell.shape,4);colors[2:]=1
-    _,_,available=palette(); metadata={}
+    _,_,available=palette("source-solid-palette-v1"); metadata={}
     placements,covered=fit_shell(shell,shell,metadata,colors,available)
     assert covered.all()
     assert {p['color'] for p in placements}=={1,4}
@@ -144,7 +153,7 @@ def test_fitting_never_spans_color_boundary_or_unreviewed_part_color():
 def test_actual_colored_candidate_keeps_ldr_inventory_and_draft_steps_consistent(tmp_path):
     glb,obj=fixture_glb(); obj_path=tmp_path/'source.obj'; glb_path=tmp_path/'source.glb'
     obj_path.write_bytes(obj);glb_path.write_bytes(glb)
-    model=generate_obj(obj_path,target_parts=100,max_trials=2,source_glb=glb_path)
+    model=generate_obj(obj_path,target_parts=100,max_trials=2,source_glb=glb_path,palette_version="source-solid-palette-v1")
     assert {p['color'] for p in model['placements']}=={1,4}
     library=LDrawLibrary(Path(__file__).parents[1]/'lego_builder/data/parts-library')
     model,report=publish_candidate(tmp_path/'result',model,library)
@@ -157,12 +166,19 @@ def test_actual_colored_candidate_keeps_ldr_inventory_and_draft_steps_consistent
     assert ldr.rstrip().endswith('0 STEP')
 
 
-def test_real_source_color_worker_contract():
+@pytest.mark.parametrize("version", [None, "source-solid-palette-v1", "source-solid-palette-v2"])
+def test_real_source_color_worker_contract(version):
     glb,obj=fixture_glb(); p=payload(glb,obj)
+    if version is not None:
+        p["settings"]["paletteVersion"] = version
+        p["settingsSha256"] = canonical_settings_hash(p["settings"])
+    validate_request(json.dumps(p).encode())
     response=convert_payload(p,obj,timeout=90)
     assert response['schemaVersion']==2 and response['sourceGlbSha256']==p['sourceGlbSha256']
     codes=sorted({int(line.split()[1]) for line in response['ldr'].splitlines() if line.startswith('1 ')})
-    assert codes==[1,4]==response['colorSummary']['usedColorCodes']
+    assert codes==response['colorSummary']['usedColorCodes']
+    assert response['colorSummary']['paletteVersion']==(version or 'source-solid-palette-v1')
+    if version != 'source-solid-palette-v2': assert codes==[1,4]
     assert response['colorSummary']['method']=='surface-base-color-to-palette-v1'
 
 
@@ -179,7 +195,7 @@ def test_oversized_decoded_texture_rejected_before_pixel_allocation():
 
 def test_settings_v2_rejects_unknown_keys_and_boolean_targets():
     glb,obj=fixture_glb()
-    for field,value in [('targetParts',True),('inputUpAxis','unknown'),('colorMode','gray'),('unknown',1)]:
+    for field,value in [('targetParts',True),('inputUpAxis','unknown'),('colorMode','gray'),('paletteVersion','unknown'),('unknown',1)]:
         p=payload(glb,obj);p['settings'][field]=value
         with pytest.raises(RequestError,match='invalid_settings'):validate_request(json.dumps(p).encode())
     p=payload(glb,obj);p['unexpected']=1

@@ -16,7 +16,7 @@ import trimesh
 from .assembly import SCHEMA, revision, draft_instruction_plan
 from .mesh import ConversionError, surface_voxels, MAX_BYTES, MAX_FACES
 
-ALGORITHM = "generic-exterior-shell-v3-source-color"
+ALGORITHM = "generic-exterior-shell-v4-source-color-palette"
 MAX_GRID_CELLS = 500_000
 MAX_OUTPUT_PARTS = 10_000
 # Actual LDraw local X is the long dimension for these rectangular parts.
@@ -128,7 +128,7 @@ def envelope(mesh, source, size, up="y", closing_cells=1):
     return shell,inferred,raster,meta
 
 
-def fit_shell(shell, inferred, metadata, cell_colors=None, available_colors=None):
+def fit_shell(shell, inferred, metadata, cell_colors=None, available_colors=None, palette_version="source-solid-palette-v1"):
     remaining=shell.copy();nx,ny,nz=shell.shape
     placements=[];covered=np.zeros_like(shell)
     def eligible(part,x,y,z,w,d,h):
@@ -165,6 +165,17 @@ def fit_shell(shell, inferred, metadata, cell_colors=None, available_colors=None
                 yaw=candidates[0]
                 add("3039",x,y,h-3,2,2,3,yaw,"source-aligned slope shoulders",YAW[yaw]@np.array([0,0,10]))
                 slope_count+=1
+    if palette_version == "source-solid-palette-v2":
+        for x in range(nx-1):
+            for y in range(ny-1):
+                h=int(heights[x:x+2,y:y+2].min())
+                if h<2 or not np.all(heights[x:x+2,y:y+2]==h) or not remaining[x:x+2,y:y+2,h-2:h].all(): continue
+                candidates=[]
+                if y>0 and heights[x:x+2,y-1].max()<=h-2:candidates.append(0)
+                if x>0 and heights[x-1,y:y+2].max()<=h-2:candidates.append(1)
+                if y+2<ny and heights[x:x+2,y+2].max()<=h-2:candidates.append(2)
+                if x+2<nx and heights[x+2,y:y+2].max()<=h-2:candidates.append(3)
+                if candidates and eligible("15068",x,y,h-2,2,2,2): add("15068",x,y,h-2,2,2,2,candidates[0],"source-aligned curved slope shoulders",YAW[candidates[0]]@np.array([0,16,0])); slope_count+=1
     # Uppermost exposed plate cells receive smooth tiles instead of studs.
     above=np.pad(inferred[:,:,1:],((0,0),(0,0),(0,1)),constant_values=False)
     exposed=remaining & ~above
@@ -226,7 +237,7 @@ def continuous_source_distance(mesh, metadata, inferred, sample_limit=512):
             "scope":"Inferred exterior envelope fidelity; not final part-surface or perceptual accuracy. One LDU is0.4mm."}
 
 
-def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5,source_glb=None):
+def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5,source_glb=None,palette_version="source-solid-palette-v2"):
     if type(target_parts) is not int or not 100<=target_parts<=MAX_OUTPUT_PARTS:
         raise ConversionError("invalid_piece_target","Target parts must be an integer from100 to10,000.")
     if type(max_trials) is not int or not 1<=max_trials<=8:
@@ -253,8 +264,8 @@ def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5,sour
             if appearance is None:
                 placements,covered=fit_shell(shell,inferred,metadata)
             else:
-                cell_colors,available=appearance.cell_colors(shell,metadata)
-                placements,covered=fit_shell(shell,inferred,metadata,cell_colors,available)
+                cell_colors,available=appearance.cell_colors(shell,metadata,palette_version)
+                placements,covered=fit_shell(shell,inferred,metadata,cell_colors,available,palette_version)
         except ConversionError as exc:
             if exc.code!="resource_limit" or size<=12:raise
             trials.append({"size_studs":size,"error":exc.code,"message":str(exc)})
@@ -294,7 +305,7 @@ def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5,sour
     return model
 
 
-def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_cells=1, source_glb=None):
+def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_cells=1, source_glb=None, palette_version="source-solid-palette-v2"):
     """CLI orchestration with failure diagnostics and atomic successful bundles."""
     import json
     import os
@@ -306,7 +317,7 @@ def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_c
     if output.exists():raise FileExistsError(f"Output already exists: {output}")
     library=LDrawLibrary(library_path)
     try:
-        model=generate_obj(path,target_parts,up,closing_cells,source_glb=source_glb)
+        model=generate_obj(path,target_parts,up,closing_cells,source_glb=source_glb,palette_version=palette_version)
     except ConversionError as exc:
         report={"status":"conversion_failed","artifact_checks_passed":False,"errors":[exc.code],
                 "message":str(exc),"details":exc.details,"request":{"input_name":Path(path).name,"target_parts":target_parts,"up_axis":up,"closing_cells":closing_cells},

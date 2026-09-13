@@ -2,7 +2,7 @@ import { CONVERSION_LIMITS, parseConversionResult, type ConversionResultInput } 
 import { HttpError, readLimited } from "./http.ts";
 export type ConverterBindings = { CONVERTER_URL?: string; CONVERTER_TOKEN?: string };
 type SourceSettings = { targetParts: number; inputUpAxis: "x" | "y" | "z" };
-export type ServiceInput = { schemaVersion: 1; obj: string; sourceObjSha256: string; settingsSha256: string; settings: SourceSettings } | { schemaVersion: 2; obj: string; glbBase64: string; sourceObjSha256: string; sourceGlbSha256: string; settingsSha256: string; settings: SourceSettings & { colorMode: "source"; sourceGlbSha256: string } };
+export type ServiceInput = { schemaVersion: 1; obj: string; sourceObjSha256: string; settingsSha256: string; settings: SourceSettings } | { schemaVersion: 2; obj: string; glbBase64: string; sourceObjSha256: string; sourceGlbSha256: string; settingsSha256: string; settings: SourceSettings & { colorMode: "source"; sourceGlbSha256: string; paletteVersion?: string } };
 export function converterEndpoint(env: ConverterBindings) {
   if (!env.CONVERTER_URL?.trim() || !env.CONVERTER_TOKEN?.trim()) throw new HttpError(503, "LEGO conversion is not configured. Your mesh remains available to download.");
   let url: URL; try { url = new URL(env.CONVERTER_URL); } catch { throw new HttpError(503, "The converter endpoint is not configured correctly."); }
@@ -22,6 +22,7 @@ export async function runConverter(env: ConverterBindings, input: ServiceInput, 
     const result = parseConversionResult(payload);
     if (result.sourceObjSha256 !== input.sourceObjSha256 || result.settingsSha256 !== input.settingsSha256) throw new HttpError(409, "The converter returned a result for different source or settings.");
     if (result.schemaVersion !== input.schemaVersion || (input.schemaVersion === 2 && result.sourceGlbSha256 !== input.sourceGlbSha256)) throw new HttpError(409, "The converter returned a result for different source colors.");
+    if (input.schemaVersion === 2 && result.colorSummary?.paletteVersion !== (input.settings.paletteVersion ?? "source-solid-palette-v1")) throw new HttpError(409, "The converter returned a different color palette.");
     return result;
   } catch (error) {
     if (error instanceof HttpError) throw error;

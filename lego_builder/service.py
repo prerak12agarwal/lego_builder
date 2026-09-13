@@ -65,7 +65,7 @@ def validate_request(raw):
     settings_keys = {"targetParts", "inputUpAxis"}
     if payload["schemaVersion"] == 2:
         settings_keys |= {"colorMode", "sourceGlbSha256"}
-    if not isinstance(settings, dict) or set(settings) != settings_keys:
+    if not isinstance(settings, dict) or not (set(settings) == settings_keys or (payload["schemaVersion"] == 2 and set(settings) == settings_keys | {"paletteVersion"})):
         raise RequestError(400, "invalid_settings")
     if type(settings["targetParts"]) is not int or not 100 <= settings["targetParts"] <= 2200 or settings["inputUpAxis"] not in ("x", "y", "z"):
         raise RequestError(400, "invalid_settings")
@@ -83,7 +83,7 @@ def validate_request(raw):
     if not hmac.compare_digest(hashlib.sha256(obj).hexdigest(), payload["sourceObjSha256"]):
         raise RequestError(422, "source_hash_mismatch")
     if payload["schemaVersion"] == 2:
-        if settings["colorMode"] != "source" or settings["sourceGlbSha256"] != payload["sourceGlbSha256"]:
+        if settings["colorMode"] != "source" or settings["sourceGlbSha256"] != payload["sourceGlbSha256"] or settings.get("paletteVersion", "source-solid-palette-v1") not in ("source-solid-palette-v1","source-solid-palette-v2"):
             raise RequestError(400, "invalid_settings")
         decode_source_glb(payload)
     if not hmac.compare_digest(canonical_settings_hash(settings), payload["settingsSha256"]):
@@ -106,10 +106,10 @@ def decode_source_glb(payload):
     return raw
 
 
-def worker(input_path, output_path, target_parts, up, source_glb=None):
+def worker(input_path, output_path, target_parts, up, source_glb=None, palette_version="source-solid-palette-v1"):
     from .generic import convert_obj
     library = Path(__file__).parent / "data" / "parts-library"
-    report = convert_obj(input_path, output_path, library, target_parts, up, source_glb=source_glb)
+    report = convert_obj(input_path, output_path, library, target_parts, up, source_glb=source_glb, palette_version=palette_version)
     if not report.get("artifact_checks_passed"):
         return 2
     model = json.loads((Path(output_path) / "model.json").read_text())
@@ -131,7 +131,7 @@ def convert_payload(payload, obj, timeout=CONVERSION_TIMEOUT_SECONDS):
         if payload["schemaVersion"] == 2:
             glb_path = directory / "source.glb"
             glb_path.write_bytes(decode_source_glb(payload))
-            command.append(str(glb_path))
+            command.extend((str(glb_path), settings.get("paletteVersion", "source-solid-palette-v1")))
         # Provider/service credentials are not inherited by the geometry worker.
         environment = {key: value for key, value in os.environ.items() if key in {"PATH", "SYSTEMROOT", "PYTHONPATH", "LANG", "LC_ALL", "TMPDIR"}}
         try:
@@ -250,9 +250,9 @@ class ConverterHandler(BaseHTTPRequestHandler):
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv[:1] == ["--worker"]:
-        if len(argv) not in (5, 6):
+        if len(argv) not in (5, 6, 7):
             return 2
-        return worker(argv[1], argv[2], int(argv[3]), argv[4], argv[5] if len(argv) == 6 else None)
+        return worker(argv[1], argv[2], int(argv[3]), argv[4], argv[5] if len(argv) >= 6 else None, argv[6] if len(argv) == 7 else "source-solid-palette-v1")
     parser = argparse.ArgumentParser(description="Authenticated real OBJ-to-LEGO HTTP converter")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", "8080")))

@@ -2,10 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Maximize, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { baseColorMaterial } from "@/lib/model-appearance";
 
 export default function ModelViewer({ id }: { id: string }) {
   const host = useRef<HTMLDivElement>(null);
-  const actions = useRef<{ reset: () => void; rotate: () => void; zoom: (factor: number) => void } | null>(null);
+  const actions = useRef<{ reset: () => void; rotate: () => void; zoom: (factor: number) => void; appearance: (lit: boolean) => void } | null>(null);
+  const [lit, setLit] = useState(false);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -13,11 +15,12 @@ export default function ModelViewer({ id }: { id: string }) {
     const abort = new AbortController();
     let dispose = () => {};
     let stopped = false;
-    setError(""); setLoaded(false);
+    setError(""); setLoaded(false); setLit(false);
     async function start() {
       try {
-        const [THREE, { OrbitControls }, { GLTFLoader }] = await Promise.all([
+        const [THREE, { OrbitControls }, { GLTFLoader }, { RoomEnvironment }] = await Promise.all([
           import("three"), import("three/addons/controls/OrbitControls.js"), import("three/addons/loaders/GLTFLoader.js"),
+          import("three/addons/environments/RoomEnvironment.js"),
         ]);
         const response = await fetch(`/api/jobs/${id}/files/glb`, { signal: abort.signal });
         if (!response.ok) throw new Error("Model download failed.");
@@ -36,6 +39,7 @@ export default function ModelViewer({ id }: { id: string }) {
         let renderer: import("three").WebGLRenderer | undefined;
         let controls: InstanceType<typeof OrbitControls> | undefined;
         let observer: ResizeObserver | undefined;
+        let environment: import("three").WebGLRenderTarget | undefined;
         const extraMaterials = new Set<import("three").Material>();
         const removeListeners: Array<() => void> = [];
         let disposed = false;
@@ -59,7 +63,7 @@ export default function ModelViewer({ id }: { id: string }) {
           }
           textures.forEach(texture => texture.dispose()); bitmaps.forEach(bitmap => bitmap.close?.());
           materials.forEach(material => material.dispose()); geometries.forEach(geometry => geometry.dispose());
-          renderer?.dispose(); renderer?.forceContextLoss(); renderer?.domElement.remove(); actions.current = null;
+          environment?.dispose(); renderer?.dispose(); renderer?.forceContextLoss(); renderer?.domElement.remove(); actions.current = null;
         };
         if (stopped) { dispose(); return; }
         // GLTFLoader can resolve with a missing map after image decoding fails.
@@ -68,12 +72,19 @@ export default function ModelViewer({ id }: { id: string }) {
         scene.background = new THREE.Color("#f1f5fb");
         const camera = new THREE.PerspectiveCamera(40, 1, 0.01, 100);
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.NoToneMapping;
+        const room = new RoomEnvironment();
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        try { environment = pmrem.fromScene(room, 0.04); }
+        finally { room.dispose(); pmrem.dispose(); }
         renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
         renderer.domElement.setAttribute("role", "img");
         renderer.domElement.tabIndex = 0;
         renderer.domElement.setAttribute("aria-label", "Generated 3D model. Use the buttons to rotate, zoom, or reset the view.");
         element.appendChild(renderer.domElement);
         let fallback: import("three").MeshStandardMaterial | undefined;
+        const appearances: Array<{ mesh: import("three").Mesh; original: import("three").Material | import("three").Material[]; colors: import("three").Material | import("three").Material[] }> = [];
         gltf.scene.traverse(child => {
           if (child instanceof THREE.Mesh) {
             if (!child.geometry.getAttribute("normal")) child.geometry.computeVertexNormals();
@@ -87,6 +98,11 @@ export default function ModelViewer({ id }: { id: string }) {
               for (const old of Array.isArray(child.material) ? child.material : [child.material]) extraMaterials.add(old);
               child.material = fallback;
             }
+            const original = child.material;
+            const copy = (material: import("three").Material) => { extraMaterials.add(material); const result = baseColorMaterial(material); extraMaterials.add(result); return result; };
+            const colors = Array.isArray(original) ? original.map(copy) : copy(original);
+            appearances.push({ mesh: child, original, colors });
+            child.material = colors;
           }
         });
         const bounds = new THREE.Box3().setFromObject(gltf.scene);
@@ -126,6 +142,7 @@ export default function ModelViewer({ id }: { id: string }) {
           reset,
           rotate: () => { camera.position.sub(controls!.target).applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 6).add(controls!.target); controls!.update(); render(); },
           zoom: factor => { const offset = camera.position.clone().sub(controls!.target); offset.setLength(Math.min(15, Math.max(1.3, offset.length() * factor))); camera.position.copy(controls!.target).add(offset); controls!.update(); render(); },
+          appearance: lit => { for (const item of appearances) item.mesh.material = lit ? item.original : item.colors; scene.environment = lit ? environment!.texture : null; render(); },
         };
         resize(); reset(); setLoaded(true);
       } catch { dispose(); if (!stopped) setError("The 3D preview could not open on this device. Your model is saved; you can still download it below."); }
@@ -137,6 +154,10 @@ export default function ModelViewer({ id }: { id: string }) {
     <div ref={host} className="three-host"/>
     {!loaded && !error && <p className="canvas-notice" role="status">Opening your model…</p>}
     {error && <p className="canvas-notice error-note" role="alert">{error}</p>}
+    {loaded && !error && <div className="model-appearance-controls" role="group" aria-label="Model appearance">
+      <Button variant={!lit ? "default" : "outline"} size="sm" aria-pressed={!lit} onClick={() => { setLit(false); actions.current?.appearance(false); }}>Colors</Button>
+      <Button variant={lit ? "default" : "outline"} size="sm" aria-pressed={lit} onClick={() => { setLit(true); actions.current?.appearance(true); }}>Studio lighting</Button>
+    </div>}
     {loaded && !error && <div className="model-controls" aria-label="3D view controls">
       <Button variant="outline" size="icon" onClick={() => actions.current?.rotate()} aria-label="Rotate model"><RotateCcw/></Button>
       <Button variant="outline" size="icon" onClick={() => actions.current?.zoom(0.8)} aria-label="Zoom in"><ZoomIn/></Button>

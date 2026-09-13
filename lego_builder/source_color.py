@@ -15,7 +15,8 @@ from PIL import Image
 from .mesh import ConversionError
 
 MAX_GLB_BYTES = 16 * 1024 * 1024
-PALETTE_VERSION = "source-solid-palette-v1"
+PALETTE_VERSION = "source-solid-palette-v2"
+PALETTE_VERSIONS = {"source-solid-palette-v1", "source-solid-palette-v2"}
 METHOD = "surface-base-color-to-palette-v1"
 LIMITATIONS = ["palette-approximation", "one-color-per-part", "materials-not-reproduced"]
 
@@ -74,14 +75,15 @@ def linear_to_lab(value):
     return np.stack([116*f[...,1]-16, 500*(f[...,0]-f[...,1]), 200*(f[...,1]-f[...,2])], axis=-1)
 
 
-def color_evidence():
-    path = Path(__file__).parent / "data" / "source-color-evidence.json"
+def color_evidence(palette_version=PALETTE_VERSION):
+    if palette_version not in PALETTE_VERSIONS: fail("Unknown source color palette version.")
+    path = Path(__file__).parent / "data" / ("source-color-evidence.json" if palette_version.endswith("v1") else "source-color-expanded-evidence.json")
     evidence = json.loads(path.read_text())
     return evidence
 
 
-def palette():
-    evidence = color_evidence()
+def palette(palette_version=PALETTE_VERSION):
+    evidence = color_evidence(palette_version)
     available = {(r["part_id"], r["ldraw_color"]) for r in evidence["lot_evidence"] if r["status"] == "verified"}
     legacy = json.loads((Path(__file__).parent / "data" / "vehicle-color-evidence.json").read_text())
     available.update((r["part_id"], r["ldraw_color"]) for r in legacy["lot_evidence"] if r["status"] == "verified")
@@ -116,8 +118,8 @@ class ColorSurface:
                 result[mask] *= sample_texture(image, uv, wrap_s, wrap_t, nearest)
         return np.clip(result, 0, 1)
 
-    def cell_colors(self, shell, metadata):
-        codes, labs, available = palette()
+    def cell_colors(self, shell, metadata, palette_version=PALETTE_VERSION):
+        codes, labs, available = palette(palette_version)
         matrix = np.asarray(metadata["source_to_grid_matrix"])
         triangles = self.triangles @ matrix[:3,:3].T + matrix[:3,3]
         # Distances use physical stud/plate proportions, not anisotropic cell units.
@@ -136,7 +138,7 @@ class ColorSurface:
             lab = linear_to_lab(self.sample(faces,barycentric))
             selected = codes[np.argmin(((lab[:,None,:]-labs[None,:,:])**2).sum(axis=2), axis=1)]
             result[tuple(block.T)] = selected
-        metadata["source_color"] = {"mode":"source", "method":METHOD, "paletteVersion":PALETTE_VERSION,
+        metadata["source_color"] = {"mode":"source", "method":METHOD, "paletteVersion":palette_version,
             "sourceHasColor":True, "usedColorCodes":sorted(int(v) for v in np.unique(result[shell])),
             "limitations":LIMITATIONS, "sampling":"nearest continuous source triangle at shell cell centers; barycentric base color; D65 CIELAB nearest reviewed solid color"}
         metadata["warnings"][-1] = "Interior mesh interfaces are removed where enclosed; source base colors are approximated by solid LEGO colors."

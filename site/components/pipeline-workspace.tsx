@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { ConversionView } from "@/lib/conversions";
 import type { ConversionSettings, InputUpAxis } from "@/lib/conversion-contract";
+import { LEGO_COLOR_CATALOG } from "@/lib/lego-color-catalog";
 import type { JobView } from "@/lib/limits";
 import ModelViewer from "@/app/model-viewer";
 import { AssemblyWorkspace, type AssemblyTab } from "./assembly-workspace";
@@ -107,7 +108,7 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
     try {
       const desired: ConversionSettings = { targetParts: settings.targetParts ?? 2000, inputUpAxis: settings.inputUpAxis === "unspecified" ? "y" : settings.inputUpAxis };
       let selected = conversion;
-      if (selected.settings.targetParts !== desired.targetParts || selected.settings.inputUpAxis !== desired.inputUpAxis || selected.settings.targetSizeStuds !== undefined || (job.appearance === "preserved" && selected.settings.colorMode !== "source")) {
+      if (selected.settings.targetParts !== desired.targetParts || selected.settings.inputUpAxis !== desired.inputUpAxis || selected.settings.targetSizeStuds !== undefined || (job.appearance === "preserved" && (selected.settings.colorMode !== "source" || selected.settings.paletteVersion !== LEGO_COLOR_CATALOG.version))) {
         selected = await request<ConversionView>(base, { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify({ schemaVersion: 1, settings: desired }) });
         if (!alive.current) return;
         setConversion(selected); setSettings(selected.settings); selectedRequest.current = selected.id;
@@ -142,12 +143,14 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
     <p className="handoff-snapshot">{job.appearance === "preserved" ? "LEGO conversion uses the saved model’s colors and matches them to the closest supported LEGO colors. The textured OBJ download includes its material and texture files; keep them together." : job.appearance === "absent" ? "TRELLIS returned this model without color information. LEGO conversion will use neutral gray." : "This older model has no retained colors. Its LEGO conversion uses neutral gray; generating a new model from the photo can recover color."}</p>
     {hasResult && conversion?.colorSummary && <p className="handoff-snapshot" role="status">{conversion.colorSummary.usedColorCodes.length} LEGO colors · The model, parts list and draft steps use the same part and color assignments. Fine texture details and material finishes are approximated.</p>}
     {hasResult && job.appearance === "preserved" && !conversion?.colorSummary && <p className="handoff-snapshot">This saved LEGO result predates color conversion. Select Convert to LEGO to make a colored version from the saved mesh, without generating the photo again.</p>}
+    {hasResult && conversion?.colorSummary && conversion.colorSummary.paletteVersion !== LEGO_COLOR_CATALOG.version && <p className="handoff-snapshot">This saved model uses the earlier color palette. Convert to LEGO creates an updated version from this mesh.</p>}
     {!converterConfigured && <p className="handoff-snapshot" role="status">LEGO conversion requires the site owner to configure the converter backend. Downloads and existing results remain available.</p>}
     {conversion?.settings.targetSizeStuds !== undefined && <p className="handoff-snapshot">This saved legacy handoff uses {conversion.settings.targetSizeStuds} studs. Convert to LEGO creates a new explicit piece-target request; it does not reinterpret that size.</p>}
     <Tabs value={tab} onValueChange={setTab} className="pipeline-tabs">
       <TabsList aria-label="Model workspace views"><TabsTrigger value="mesh"><Box/>3D mesh</TabsTrigger><TabsTrigger value="model"><Layers/>Brick model</TabsTrigger><TabsTrigger value="parts"><Layers/>Parts</TabsTrigger><TabsTrigger value="instructions"><BookOpen/>Instructions</TabsTrigger></TabsList>
       <TabsContent value={tab}>
-        {tab === "mesh" ? <ModelViewer id={job.id}/> : hasResult && conversion ? <AssemblyWorkspace key={conversion.revisionSha256!} result={{ url: `${base}/${conversion.id}/artifact`, revisionId: conversion.revisionSha256!, sha256: conversion.ldrSha256!, placements: conversion.inspection!.placements, steps: conversion.inspection!.stepCount, hasSteps: conversion.inspection!.hasSteps }} tab={tab as AssemblyTab}/> : <div className="assembly-message"><BookOpen size={36}/><h3>{tab === "instructions" ? "Instructions will appear with the brick model" : tab === "parts" ? "Parts will appear with the brick model" : "The brick model is awaiting conversion"}</h3><p>Your reconstructed mesh is ready. This view opens when an LDraw result is returned; your image will not need to be generated again.</p><Button variant="outline" onClick={() => setTab("mesh")}>View saved 3D mesh</Button></div>}
+        {tab === "mesh" && <ModelViewer id={job.id}/>}
+        {hasResult && conversion ? <AssemblyWorkspace key={conversion.revisionSha256!} result={{ url: `${base}/${conversion.id}/artifact`, revisionId: conversion.revisionSha256!, sha256: conversion.ldrSha256!, placements: conversion.inspection!.placements, steps: conversion.inspection!.stepCount, hasSteps: conversion.inspection!.hasSteps }} tab={tab === "mesh" ? null : tab as AssemblyTab}/> : tab !== "mesh" && <div className="assembly-message"><BookOpen size={36}/><h3>{tab === "instructions" ? "Instructions will appear with the brick model" : tab === "parts" ? "Parts will appear with the brick model" : "The brick model is awaiting conversion"}</h3><p>Your reconstructed mesh is ready. This view opens when an LDraw result is returned; your image will not need to be generated again.</p><Button variant="outline" onClick={() => setTab("mesh")}>View saved 3D mesh</Button></div>}
       </TabsContent>
     </Tabs>
     {error && <div className="pipeline-error" role="alert"><p>{error}</p><Button variant="outline" size="sm" onClick={() => setReload(value => value + 1)} disabled={busy}>Reload saved handoff</Button></div>}

@@ -1,11 +1,11 @@
 import { HttpError } from "./http.ts";
 import { parseDocument } from "./ldraw/model.ts";
-import { LEGO_COLOR_CATALOG } from "./lego-color-catalog.ts";
+import { LEGO_COLOR_CATALOGS } from "./lego-color-catalog.ts";
 
 export const CONVERSION_SCHEMA_VERSION = 1 as const;
 export const CONVERSION_LIMITS = { ldrBytes: 5 * 1024 * 1024, placements: 2500, bodyBytes: 2 * 5 * 1024 * 1024 + 64 * 1024 } as const;
 export type InputUpAxis = "x" | "y" | "z" | "unspecified";
-export type ConversionSettings = { targetSizeStuds?: number; targetParts?: number; inputUpAxis: InputUpAxis; colorMode?: "source"; sourceGlbSha256?: string };
+export type ConversionSettings = { targetSizeStuds?: number; targetParts?: number; inputUpAxis: InputUpAxis; colorMode?: "source"; sourceGlbSha256?: string; paletteVersion?: string };
 export type ConversionRequestInput = { schemaVersion: 1; settings: ConversionSettings };
 export type ColorSummary = { mode: "source"; method: "surface-base-color-to-palette-v1"; paletteVersion: string; sourceHasColor: true; usedColorCodes: number[]; limitations: ["palette-approximation", "one-color-per-part", "materials-not-reproduced"] };
 export type ConversionResultInput = { schemaVersion: 1 | 2; sourceObjSha256: string; sourceGlbSha256?: string; settingsSha256: string; ldr: string; producer?: { name: string; version: string }; colorSummary?: ColorSummary };
@@ -38,15 +38,16 @@ export function parseConversionResult(value: unknown): ConversionResultInput {
   if (root.schemaVersion === 2) {
     const summary = object(root.colorSummary);
     exactKeys(summary, ["mode", "method", "paletteVersion", "sourceHasColor", "usedColorCodes", "limitations"]);
-    if (summary.mode !== "source" || summary.method !== "surface-base-color-to-palette-v1" || summary.sourceHasColor !== true || summary.paletteVersion !== LEGO_COLOR_CATALOG.version) throw new HttpError(422, "The converter returned an unsupported color palette.");
+    const catalog = typeof summary.paletteVersion === "string" ? LEGO_COLOR_CATALOGS[summary.paletteVersion] : undefined;
+    if (summary.mode !== "source" || summary.method !== "surface-base-color-to-palette-v1" || summary.sourceHasColor !== true || !catalog) throw new HttpError(422, "The converter returned an unsupported color palette.");
     const codes = summary.usedColorCodes;
-    if (!Array.isArray(codes) || !codes.length || codes.length > LEGO_COLOR_CATALOG.codes.length || codes.some((code, i) => !Number.isInteger(code) || !LEGO_COLOR_CATALOG.codes.includes(code) || (i > 0 && code <= codes[i - 1]))) throw new HttpError(422, "The converter returned invalid LEGO colors.");
+    if (!Array.isArray(codes) || !codes.length || codes.length > catalog.codes.length || codes.some((code, i) => !Number.isInteger(code) || !catalog.codes.includes(code) || (i > 0 && code <= codes[i - 1]))) throw new HttpError(422, "The converter returned invalid LEGO colors.");
     const limits = ["palette-approximation", "one-color-per-part", "materials-not-reproduced"];
     if (JSON.stringify(summary.limitations) !== JSON.stringify(limits)) throw new HttpError(422, "The converter returned invalid color limitations.");
     const refs = parseDocument("result.ldr", root.ldr).references;
     for (const ref of refs) {
       const part = ref.name.endsWith(".dat") ? ref.name.slice(0,-4) : "";
-      if (!/^(0|[1-9]\d*)$/.test(ref.color) || !LEGO_COLOR_CATALOG.parts[part]?.includes(Number(ref.color))) throw new HttpError(422, "The result contains an unsupported manufactured part and color combination.");
+      if (!/^(0|[1-9]\d*)$/.test(ref.color) || !catalog.parts[part]?.includes(Number(ref.color))) throw new HttpError(422, "The result contains an unsupported manufactured part and color combination.");
     }
     const actual = [...new Set(refs.map(ref => Number(ref.color)))].sort((a,b) => a-b);
     if (JSON.stringify(actual) !== JSON.stringify(codes)) throw new HttpError(422, "The model colors do not match the converter color summary.");

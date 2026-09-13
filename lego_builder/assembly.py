@@ -234,7 +234,8 @@ def catalog_for_model(model, library):
     evidence = json.loads(evidence_raw)
     reviewed = {(r["part_id"], r["ldraw_color"]): r for r in evidence["lot_evidence"] if r["status"] == "verified"}
     from .source_color import color_evidence
-    source_evidence = color_evidence()
+    palette_version = model.get("provenance", {}).get("source_color", {}).get("paletteVersion", "source-solid-palette-v1")
+    source_evidence = color_evidence(palette_version)
     reviewed.update({(r["part_id"], r["ldraw_color"]): r for r in source_evidence["lot_evidence"] if r["status"] == "verified"})
     ids = sorted({p["part_id"] for p in model["placements"]})
     manifest = library.manifest(ids)

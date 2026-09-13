@@ -4,7 +4,8 @@ import json
 import numpy as np
 import pytest
 import trimesh
-from lego_builder.generic import read_obj,envelope,generate_obj,fit_shell,convert_obj
+from lego_builder.generic import read_obj,envelope,generate_obj,fit_shell,convert_obj,YAW
+from lego_builder.ldraw_library import LDrawLibrary
 from lego_builder.mesh import ConversionError
 from lego_builder.assembly import draft_instruction_plan, ldraw_text, validate_roundtrip, validate_candidate, revision
 
@@ -80,6 +81,39 @@ def test_genuine_slope_origin_covers_reserved_2_by_2_footprint():
     assert np.ptp(corners[:,0])==pytest.approx(40)
     assert np.ptp(corners[:,2])==pytest.approx(40)
     assert np.allclose((corners.min(0)[[0,2]]+np.array([40,50]))%20,0)
+
+
+@pytest.mark.parametrize("yaw",range(4))
+def test_v2_curved_slope_fitter_uses_official_geometry_for_every_yaw(yaw):
+    solid=np.zeros((5,5,2),dtype=bool)
+    solid[1:3,1:3,:]=True
+    # Block each earlier direction in the fitter's stable candidate order so
+    # the same shoulder is exercised in all four supported orientations.
+    blockers=(np.s_[1:3,0,0],np.s_[0,1:3,0],np.s_[1:3,3,0])
+    for blocker in blockers[:yaw]: solid[blocker]=True
+    colors=np.full(solid.shape,25,dtype=np.int16)
+    available={("15068",25),("3024",25)}
+    placements,_=fit_shell(solid.copy(),solid,{},colors,available,"source-solid-palette-v2")
+    slope=next(p for p in placements if p["part_id"]=="15068")
+    rotation=np.array(slope["rotation"]).reshape(3,3)
+    assert np.allclose(rotation,YAW[yaw])
+    geometry=LDrawLibrary(Path(__file__).parents[1]/"lego_builder/data/parts-library").geometry("15068")
+    world=geometry.vertices@rotation.T+np.array(slope["position_ldu"])
+    assert np.allclose([world.min(axis=(0,1)),world.max(axis=(0,1))],[[-30,-16.00006,-30],[10,0,10]],atol=1e-4)
+
+
+def test_v2_curved_slope_requires_a_verified_uniform_part_color_lot():
+    solid=np.zeros((4,4,2),dtype=bool);solid[1:3,1:3,:]=True
+    legacy_colors=np.zeros(solid.shape,dtype=np.int16)
+    placements,_=fit_shell(solid.copy(),solid,{},legacy_colors,{("15068",0),("3024",0)},"source-solid-palette-v1")
+    assert all(p["part_id"]!="15068" for p in placements)
+    colors=np.full(solid.shape,25,dtype=np.int16)
+    placements,_=fit_shell(solid.copy(),solid,{},colors,{("3024",25)},"source-solid-palette-v2")
+    assert all(p["part_id"]!="15068" for p in placements)
+    colors[1,1,0]=3
+    available={("15068",25),("3024",25),("3024",3)}
+    placements,_=fit_shell(solid.copy(),solid,{},colors,available,"source-solid-palette-v2")
+    assert all(p["part_id"]!="15068" for p in placements)
 
 
 def test_resource_limit_remains_bounded(tmp_path):

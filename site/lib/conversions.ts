@@ -1,3 +1,4 @@
+import { LEGO_COLOR_CATALOG } from "./lego-color-catalog.ts";
 import { hash, HttpError, readLimited } from "./http.ts";
 import { runConverter, converterConfigured, type ConverterBindings } from "./converter-client.ts";
 import { inspectRootLdr, parseConversionResult, type ColorSummary, type ConversionRequestInput, type ConversionResultInput, type ConversionSettings } from "./conversion-contract.ts";
@@ -7,7 +8,7 @@ type Parent = { id: string; owner: string; state: string; manifest: string | nul
 type Row = { id: string; source_job_id: string; owner: string; request_key: string; settings: string; settings_hash: string; source_obj_sha256: string; state: string; created_at: number; updated_at: number; lease: string | null; lease_until: number; ldr_hash: string | null; revision_hash: string | null; result: string | null };
 export type ConversionView = { id: string; sourceJobId: string; settings: ConversionSettings; settingsSha256: string; sourceObjSha256: string; state: "awaiting_converter" | "result_available" | "deleted"; createdAt: number; updatedAt: number; ldrSha256: string | null; revisionSha256: string | null; inspection: ReturnType<typeof inspectRootLdr> | null; producer: { name: string; version: string } | null; colorSummary: ColorSummary | null };
 
-export function settingsJson(settings: ConversionSettings) { return JSON.stringify(settings.colorMode === "source" ? { colorMode: "source", inputUpAxis: settings.inputUpAxis, sourceGlbSha256: settings.sourceGlbSha256, targetParts: settings.targetParts } : settings.targetParts !== undefined ? { inputUpAxis: settings.inputUpAxis, targetParts: settings.targetParts } : { inputUpAxis: settings.inputUpAxis, targetSizeStuds: settings.targetSizeStuds }); }
+export function settingsJson(settings: ConversionSettings) { return JSON.stringify(settings.colorMode === "source" ? { colorMode: "source", inputUpAxis: settings.inputUpAxis, ...(settings.paletteVersion ? { paletteVersion: settings.paletteVersion } : {}), sourceGlbSha256: settings.sourceGlbSha256, targetParts: settings.targetParts } : settings.targetParts !== undefined ? { inputUpAxis: settings.inputUpAxis, targetParts: settings.targetParts } : { inputUpAxis: settings.inputUpAxis, targetSizeStuds: settings.targetSizeStuds }); }
 function sourceAppearance(parent: Parent): string | null {
   if (!parent.manifest) return null;
   const manifest = JSON.parse(parent.manifest);
@@ -60,7 +61,7 @@ export class Conversions {
       if (!appearance) throw new HttpError(404, "The saved color model is unavailable.");
       const glb = await readLimited(appearance.body, 16 * 1024 * 1024);
       if (await hash(glb) !== glbHash) throw new HttpError(409, "The saved colors no longer match this conversion request.");
-      result = await runConverter(this.env, { ...geometryInput, schemaVersion: 2, glbBase64: base64(glb), sourceGlbSha256: glbHash, settings: { ...geometryInput.settings, colorMode: "source", sourceGlbSha256: glbHash } });
+      result = await runConverter(this.env, { ...geometryInput, schemaVersion: 2, glbBase64: base64(glb), sourceGlbSha256: glbHash, settings: { ...geometryInput.settings, colorMode: "source", sourceGlbSha256: glbHash, ...(settings.paletteVersion ? { paletteVersion: settings.paletteVersion } : {}) } });
     } else result = await runConverter(this.env, { ...geometryInput, schemaVersion: 1 });
     return this.acceptResult(owner, sourceJobId, id, result);
   }
@@ -73,12 +74,13 @@ export class Conversions {
     if (!/^[a-zA-Z0-9-]{16,100}$/.test(requestKey)) throw new HttpError(400, "A conversion submission identifier is required.");
     const parent = await this.parent(owner, sourceJobId), objHash = sourceHash(parent);
     const glbHash = input.settings.targetParts !== undefined ? sourceAppearance(parent) : null;
-    const settings = settingsJson(glbHash ? { ...input.settings, colorMode: "source", sourceGlbSha256: glbHash } : input.settings), settingsHash = await hash(new TextEncoder().encode(settings));
+    const settings = settingsJson(glbHash ? { ...input.settings, colorMode: "source", sourceGlbSha256: glbHash, paletteVersion: LEGO_COLOR_CATALOG.version } : input.settings), settingsHash = await hash(new TextEncoder().encode(settings));
     const old = await this.findRequest(owner, sourceJobId, requestKey);
     if (old) {
-      // An existing idempotency key must keep its original geometry-only recipe.
+      // Replaying a pre-palette or geometry-only key keeps its frozen recipe.
       const originalSettingsHash = await hash(new TextEncoder().encode(settingsJson(input.settings)));
-      if ((old.settings_hash !== settingsHash && old.settings_hash !== originalSettingsHash) || old.source_obj_sha256 !== objHash) throw new HttpError(409, "This conversion submission identifier was used for different source or settings.");
+      const legacyColorHash = glbHash ? await hash(new TextEncoder().encode(settingsJson({ ...input.settings, colorMode: "source", sourceGlbSha256: glbHash }))) : null;
+      if ((old.settings_hash !== settingsHash && old.settings_hash !== originalSettingsHash && old.settings_hash !== legacyColorHash) || old.source_obj_sha256 !== objHash) throw new HttpError(409, "This conversion submission identifier was used for different source or settings.");
       return old;
     }
     const now = Date.now(), id = crypto.randomUUID();
@@ -102,6 +104,7 @@ export class Conversions {
     if (input.sourceObjSha256 !== row.source_obj_sha256 || input.settingsSha256 !== row.settings_hash) throw new HttpError(409, "The result does not match this immutable conversion request.");
     const settings = JSON.parse(row.settings) as ConversionSettings;
     if (settings.colorMode === "source" ? input.schemaVersion !== 2 || input.sourceGlbSha256 !== settings.sourceGlbSha256 : input.schemaVersion !== 1) throw new HttpError(409, "The result does not match this request's source colors.");
+    if (settings.colorMode === "source" && input.colorSummary?.paletteVersion !== (settings.paletteVersion ?? "source-solid-palette-v1")) throw new HttpError(409, "The result does not match this request's color palette.");
     const ldrHash = await hash(new TextEncoder().encode(input.ldr)), revisionHash = await hash(new TextEncoder().encode(`${row.id}:${ldrHash}`));
     if (row.state === "result_available") { if (row.ldr_hash === ldrHash) return row; throw new HttpError(409, "A different result cannot replace an immutable conversion result."); }
     const inspection = inspectRootLdr(input.ldr), lease = crypto.randomUUID(), now = Date.now();

@@ -38,3 +38,10 @@ test("colored results bind exact GLB identity and catalog color summary to the L
   assert.throws(()=>parseConversionResult({...input,ldr:input.ldr.replaceAll("3004.dat","3039.dat")}),/unsupported manufactured/);
   assert.throws(()=>parseConversionResult({...input,colorSummary:{...summary,usedColorCodes:[511]},ldr:placement.replace("1 16 ","1 511 ")}),/invalid LEGO colors/);
 });
+
+test("expanded palette accepts verified teal/orange/curve lots without expanding legacy results",()=>{
+  const digest="a".repeat(64);
+  const input={schemaVersion:2,sourceObjSha256:digest,sourceGlbSha256:digest,settingsSha256:digest,ldr:"1 3 0 0 0 1 0 0 0 1 0 0 0 1 3024.dat\n1 25 0 -16 0 1 0 0 0 1 0 0 0 1 15068.dat",colorSummary:{mode:"source",method:"surface-base-color-to-palette-v1",paletteVersion:"source-solid-palette-v2",sourceHasColor:true,usedColorCodes:[3,25],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"]}};
+  assert.deepEqual(parseConversionResult(input).colorSummary?.usedColorCodes,[3,25]);
+  assert.throws(()=>parseConversionResult({...input,colorSummary:{...input.colorSummary,paletteVersion:"source-solid-palette-v1"}}),/invalid LEGO colors/);
+});
