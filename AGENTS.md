@@ -66,13 +66,11 @@ Confirmed by Prerak on 2026-09-13 for ongoing work with Jacob:
 
 Additional safeguards:
 
-- Use a separate branch per person and focused change. For concurrent writing agents, use separate worktrees or provably non-overlapping ownership; never switch a shared working directory's branch underneath another worker.
+- For concurrent writing agents, use separate worktrees or provably non-overlapping ownership; never switch a shared working directory's branch underneath another worker.
 - Inspect local changes before editing. Preserve unrelated and uncommitted work. Never reset, force-push, discard, or overwrite a partner's work to make integration easier.
 - Before integration, the primary agent runs `git status`, fetches the remote, and compares the branch with its upstream and `origin/main`. On a clean branch, use `git pull --ff-only` for its upstream. Bring `origin/main` into a published/shared feature branch with a normal merge when needed; do not rebase or rewrite shared history.
 - A role agent may fetch and inspect remote updates. It may pull or merge only in its own assigned clean worktree, when no other writer uses that branch, and only within an explicit integration assignment. Check status first, use fast-forward-only pull, preserve untracked files, and stop for the primary integrator if the update is non-fast-forward or conflicts. In a shared checkout, only the primary integrator pulls or merges.
 - Role agents never commit, push, force-push, rebase, reset, clean, delete branches, change remotes, or discard local changes. They hand uncommitted edits and evidence to the primary agent. The primary agent reviews the combined diff, tests it, checks the remote again, then commits and pushes.
-- Submit small PRs into the shared main branch. Use partner review; branch protection is a repository setting, not something this file enforces or claims is configured.
-- Avoid simultaneous edits to dependency manifests, lockfiles, schemas or the same documentation section. Agree a single integrator for overlapping changes; resolve conflicts using both contributors' intent and rerun relevant checks.
 - Handoffs identify the branch/revision, goal, files/contracts touched, decisions, checks and remaining risks. Keep active task status in issues/PRs rather than copying it across these documents.
 
 ## Engineering rules
