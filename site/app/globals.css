@@ -459,7 +459,8 @@ p {
 .side-nav {
   padding: 4px 14px
 }
-.side-nav button {
+.side-nav button,
+.side-nav a {
   width: 100%;
   display: flex;
   align-items: center;
@@ -470,7 +471,8 @@ p {
   font-size: 15px;
   text-align: left
 }
-.side-nav button.active {
+.side-nav button.active,
+.side-nav a.active {
   background: #1a355a;
   color: white
 }
@@ -1746,3 +1748,5 @@ button:hover.secondary {
 .ldr-step-controls [data-slot="select-trigger"]{min-width:115px;background:white}.admin-bench .eyebrow,.ldr-local,.ldr-unvalidated,.ldr-upload small,.ldr-part-id,.ldr-provenance,.ldr-attribution,.ldr-viewer-caption,.ldr-step-part small{font-size:12px}.ldr-upload p,.ldr-empty a,.ldr-explainer,.ldr-result table,.ldr-parts-toolbar input,.ldr-step-part,.ldr-status,.ldr-error{font-size:14px}.ldr-empty p,.ldr-heading p{font-size:16px}.ldr-result .workbench-tabs{gap:10px;height:42px}.ldr-result .workbench-tabs [role="tab"]{padding:10px 16px;font-size:14px}.ldr-result .workbench-tabs [data-state="active"]{background:#eaf0ff;color:#225ace}
 .ldr-upload.has-model{padding:18px 22px;gap:14px}.ldr-upload.has-model .ldr-upload-icon,.ldr-upload.has-model small{display:none}.ldr-upload.has-model .primary{margin-left:auto}.ldr-upload.has-model h2{font-size:15px}.ldr-upload.has-model p{font-size:12px}.ldr-upload.has-model{flex-wrap:nowrap}@media(max-width:600px){.ldr-upload.has-model{flex-wrap:wrap}.ldr-upload.has-model .primary{width:auto;margin-left:0}}
 .ldr-canvas canvas:focus-visible{outline:3px solid #245bd6;outline-offset:-4px}
+
+.side-nav a, .sample-card, .side-brand, .new-project { text-decoration: none; }
