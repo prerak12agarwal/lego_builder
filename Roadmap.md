@@ -75,6 +75,14 @@ This workstream may prototype the upstream portion of P2 while P0/P1 milestones 
 
 The independent Sites UI track includes founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
 
+### Confirmed unified pipeline integration slice
+
+Confirmed founder direction: use the dedicated integration branch to join the user-visible path from image upload through fal-hosted TRELLIS, the returned geometry-only `OBJ`, Prerak’s Python mesh-to-brick scripts, and the resulting `.ldr` model, parts and authored assembly steps. The intended experience is one resumable job with no manual download/re-upload between stages. Product F8 owns the acceptance criteria.
+
+The reconstruction and LDraw inspection applications exist separately, and Prerak’s converter is under review in [PR #5](https://github.com/prerak12agarwal/lego_builder/pull/5). [Architecture’s integration assessment](Architecture.md#confirmed-integration-direction-adapter-design-proposed) owns their compatibility gaps and proposed adapter boundaries. First reconcile the converter’s input, runtime and failure contracts and prove a representative TRELLIS `OBJ` → stepped `.ldr` handoff. Then connect durable jobs, private artifacts and the consumer workspace, preserving existing validation gates.
+
+This vertical slice advances P2 and P3 but does not reorder or waive their dependencies: the converter still has to satisfy P0/P1 validity and consistency gates, image reconstruction needs representative quality/latency/cost evidence, and physical buildability still requires P4 evidence. A connected demo may be labeled as a pipeline prototype until those gates pass.
+
 ## Quality and release gates
 
 - Every delivered model uses valid part/color combinations from a versioned catalog.
@@ -96,6 +104,7 @@ The independent Sites UI track includes founder-approved browser-local LDraw ins
 | Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Confirmed: optimize for both delivery speed and user-visible generation speed. Proposed benchmark question: can the chosen baseline reach a median of 60 seconds or less from upload start to usable viewer, with slower jobs reported separately? This is unmeasured and not a release promise. Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | Live image latency claim; P0 exit for converter limits; P3 for slider ranges |
 | Q6 | Accounts and business model | Private projects; defer billing and public gallery | Persistence and launch scope |
 | Q7 | Exact theme, typography and brand; references received | Product's reference register and design translation own the direction; R2 and R7 are the founder's favorites | Visual implementation |
+| Q8 | Integrated job timing, retention and downstream retry limits | Preserve each successful stage so an eligible failure can resume without another paid reconstruction; set exact limits after converter and hosted benchmarks | External pipeline pilot |
 
 ## Keeping this useful
 

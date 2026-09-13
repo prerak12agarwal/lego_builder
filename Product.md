@@ -173,6 +173,25 @@ Implemented on the independent Sites UI track at the founder’s request. Admin 
 - Label imported geometry and order as supplied, with physical buildability unverified. Embedded custom parts are identified; inventory is not a purchasing-validity claim.
 - The current owner-private Site provides the test bench’s access boundary. This is not a separate production administrator role or permission system.
 
+### F8 — Unified image-to-build pipeline
+
+Confirmed founder direction: join the existing image reconstruction, mesh-to-brick conversion and LDraw inspection work into one user journey on the dedicated integration branch. One Generate action should take the selected image through TRELLIS, pass the resulting geometry-only `OBJ` to Prerak’s Python converter, and open the returned `.ldr` revision in the model workspace with its parts and every authored assembly step. The user must not download and re-upload intermediate files.
+
+Acceptance criteria:
+
+- A supported image creates one traceable pipeline job. The interface reports truthful stages for image preparation, TRELLIS reconstruction, brick conversion, validation and viewer preparation, and identifies which stage failed with an actionable retry path.
+- The converter receives the exact prepared `OBJ` associated with the successful TRELLIS result. The source image, mesh handoff and LDraw result remain associated with one immutable revision through stable identifiers and integrity metadata; retrying a stage cannot silently mix artifacts from different attempts.
+- A pipeline result is successful only when the Python converter returns a parseable `.ldr` revision with authored assembly steps and the required validation evidence. A result with missing steps may still be inspected as an incomplete output, using the F7 missing-steps message, but is not presented as a complete build.
+- The model workspace renders the bricks from that `.ldr`, derives its parts inventory from the same revision and preserves every authored `STEP` / `ROTSTEP` group for direct, previous and next navigation. The final step reconstructs the full displayed model and its placement count matches the parts total.
+- Closing or refreshing the site does not create duplicate paid TRELLIS work or lose a recorded successful stage. The authorized user can resume the job within the configured retention window; a failed downstream conversion leaves the reusable mesh available for an eligible retry.
+- Input, intermediate and result artifacts remain private to the authorized user and follow explicit retention and removal behavior. Provider and converter credentials remain server-side.
+- The integrated upload, status, model, parts and step controls meet the keyboard, touch, text-fallback and reduced-motion expectations of F1, F3 and F5.
+- Completion of this integration does not by itself establish resemblance, structural stability or physical buildability. F0 validation, BrickLink Studio import, benchmark and physical-build gates remain required for those claims.
+
+Current source inspection shows two implemented endpoints of this journey: `reconstruction-site` can generate and retain a TRELLIS `OBJ`/`GLB`/manifest result, and `site` can import a browser-local `.ldr`/packed `.mpd` and display its model, derived parts and authored steps. Prerak’s converter is available for integration review in [PR #5](https://github.com/prerak12agarwal/lego_builder/pull/5), not in this branch: its documented CLI accepts `OBJ`/`STL`, a longest dimension from 4–48 studs and an explicit up axis, and emits LDraw plus canonical model, sequence, bill-of-material and validation files. It currently requires closed, consistently oriented, non-degenerate geometry, uses a red-only catalog of 12 rectangular part families, and does not implement the five consumer complexity presets. TRELLIS output is not yet checked against those mesh requirements. Automated server-side handoff, a shared pipeline job/revision, and end-to-end image-to-stepped-LDraw evidence are also missing. Until those gaps are closed, the two sites remain separate tools and the LDraw viewer requires manual file selection.
+
+Integration non-goals are arbitrary-object guarantees, manual mesh or brick editing, live pricing or purchasing, public sharing, and expansion of account or project-library UX. This decision does not select a new hosting boundary, paid provider or converter implementation.
+
 ## UI and interaction principles
 
 Use a model-focused workspace with clear navigation and restrained supporting controls. Proposed desktop layout: large 3D canvas with a contextual panel for configuration, parts or steps. On smaller screens, stack the canvas and active controls while preserving readable part information. Apply the reference direction below; exact page compositions remain proposals until reviewed.
