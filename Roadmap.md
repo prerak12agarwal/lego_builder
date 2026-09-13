@@ -38,7 +38,7 @@ Confirmed: the team will first build and evaluate a local converter from a clean
 
 The milestone outputs are a validated canonical placement model, LDraw `.ldr` or `.mpd` export, exact bill of materials, preview, bottom-up placement sequence and validation report. LDraw is the working geometry/interchange foundation; a restricted local catalog is used during solving; BrickLink Studio is the compatibility and inspection baseline. BrickLink/Rebrickable mappings and live sourcing are enrichment work, not prerequisites for the first successful conversion.
 
-Defer photo reconstruction, production web integration, accounts, persistence, pricing and automated purchasing until this milestone passes its exit gate. A founder-approved independent Sites UI track may proceed now with explicitly labeled sample data; it does not satisfy P0–P4 exit gates. This changes delivery order, not the long-term product promise.
+Photo reconstruction and the consumer web app remain outside this milestone. A separately gated upstream prototype and the founder-approved independent Sites UI track may proceed without claiming that P0 has passed. The UI track uses explicitly labeled sample data and does not satisfy P0–P4 exit gates. Full account management, project-library UX, pricing and automated purchasing remain deferred; the upstream workstream may retain private jobs and results as required for secure processing and recovery. This preserves the long-term product promise without weakening the mesh-to-brick exit gate.
 
 Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick editing, collaborative editing inside the app, marketplace checkout, and photorealistic accuracy. Collaboration between the two developers is required now; multiplayer product features are a separate choice.
 
@@ -55,7 +55,23 @@ Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick 
 
 P1 hardening can begin as the P0 converter stabilizes, but successful fixture conversion is not evidence of image conversion. Product UI exploration can proceed independently of the reconstruction provider. Later phases depend on validated earlier contracts.
 
-For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Do not begin photo reconstruction merely because the converter produces attractive previews.
+For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Attractive previews from either workstream do not count as converter evidence.
+
+### Approved quick photo-to-mesh MVP
+
+Confirmed direction: the first image-stage output is an ordinary reconstructed 3D mesh intended for the existing mesh-to-LEGO converter, not a finished LEGO model. Both fast delivery of this slice and fast user-visible generation matter. No numeric generation target is approved; a representative benchmark is still pending.
+
+Confirmed MVP provider direction: use the fal-hosted original TRELLIS model, `fal-ai/trellis`. Key configuration and one funded local bottle inference are verified. This single result does not establish hosted behavior, general output quality or latency.
+
+Approved MVP scope is a narrow single-image upload → real generation → interactive neutral `GLB` preview → reusable geometry-only `OBJ` and manifest handoff. A successful result must be the user's returned mesh, with inferred hidden surfaces and unknown real-world scale disclosed. Actual converter compatibility requires validation. Failures, uncertain geometry, and provider limitations remain visible. Minimum private per-user jobs and artifact storage support secure processing and recovery, while full account management and project-library UX remain outside this slice.
+
+Pilot exception: provider generation may continue after the user closes the site, but result collection occurs only when the user requests the job again by reopening or refreshing it. Autonomous background collection is not part of this pilot. Production readiness retains the stronger gate for reliable server-side completion collection, expiry, and recovery within the approved retention policy.
+
+Current implementation status: source exists for normalized single-image upload, private per-user jobs, centralized pilot quotas, duplicate-submit protection, request-driven reopen recovery, saved source reuse, prior-ready navigation, neutral interactive preview, and private `GLB`/`OBJ`/manifest downloads with bounds and unknown-scale disclosure. App files are retained until user removal. Provider requests ask for private access, no fal input/output storage, and 24-hour output expiry; unfinished cancellation may still be charged.
+
+One local live bottle run completed through browser upload, fal, stored ready state, neutral preview, refresh recovery and authenticated downloads in 64.966 seconds. Download hashes matched the manifest and the downloaded `GLB` reproduced the `OBJ` exactly. This is one observation, not a median or general quality claim. Twenty-five synthetic checks, type checking and the production build also passed. See [the bottle smoke test](reconstruction-site/test/live-evidence.md). Version 1 of the owner-private [pilot site](https://lego-builder-image-to-3d.dragonjjk.chatgpt.site) published successfully. Hosted inference and identity/storage, repeated latency, broader object quality, provider retention guarantees and converter suitability remain open.
+
+This workstream may prototype the upstream portion of P2 while P0/P1 milestones and their buildability gates remain valid. It does not satisfy P2 or P3 exit evidence by itself and must not imply LEGO conversion, parts, instructions, structural validity, or physical buildability. Hosted evidence, representative quality, cost, verified privacy/retention behavior, timeout, and measured latency targets remain gates before production integration. Product F1 defines the approved MVP journey and criteria.
 
 The independent Sites UI track includes founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
 
@@ -74,10 +90,10 @@ The independent Sites UI track includes founder-approved browser-local LDraw ins
 | ID | Open decision | Working proposal | Resolve before |
 | --- | --- | --- | --- |
 | Q1 | Fidelity expectation; audience resolved | Confirmed: nostalgic adults unable to design from scratch. Proposed: recognizable stylized builds | Set the mesh benchmark target for P0; finalize the consumer promise before P2 exit |
-| Q2 | Exact categories/photo count; general scope resolved | Confirmed: limited simple objects from a few images | P2 benchmark selection |
-| Q3 | Inference provider/budget; hosting resolved | Confirmed: ChatGPT Sites. External generation approach and spending remain open | Paid integration/deployment |
+| Q2 | Exact categories/photo count; general scope resolved | Confirmed long-term: limited simple objects from a few images. Proposed accelerated baseline: one clear photo; add views only with genuine provider multiview support | P2 benchmark selection |
+| Q3 | Inference provider resolved for quick MVP; production evidence open | Confirmed: ChatGPT Sites, a reusable ordinary mesh, and fal-hosted original TRELLIS (`fal-ai/trellis`) for the quick MVP. One funded local bottle generation succeeded; hosted behavior, verified retention, representative quality and spending evidence remain open | Production integration or broader quality claim |
 | Q4 | Part universe and purchasing region | Immediate MVP: versioned LDraw-based catalog of approximately 8–12 common rectangular brick/plate families; exact part/color inventory first. Region remains open | Catalog expansion or sourcing integration |
-| Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | P0 exit for converter limits; P3 for slider ranges |
+| Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Confirmed: optimize for both delivery speed and user-visible generation speed. Proposed benchmark question: can the chosen baseline reach a median of 60 seconds or less from upload start to usable viewer, with slower jobs reported separately? This is unmeasured and not a release promise. Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | Live image latency claim; P0 exit for converter limits; P3 for slider ranges |
 | Q6 | Accounts and business model | Private projects; defer billing and public gallery | Persistence and launch scope |
 | Q7 | Exact theme, typography and brand; references received | Product's reference register and design translation own the direction; R2 and R7 are the founder's favorites | Visual implementation |
 

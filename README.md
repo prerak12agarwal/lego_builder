@@ -4,7 +4,9 @@ Turn photos of an item into an interactive LEGO-brick model, a matching parts li
 
 ## Current build target
 
-The immediate MVP deliberately starts one step later than the long-term product: it accepts a clean `OBJ` or `STL` file and converts it into a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. Photo reconstruction and production web integration are deferred until this converter is proven. The founder has separately approved an overall Sites UI preview with clearly labeled sample data, developed on the dedicated UI branch.
+The LEGO conversion MVP accepts a clean `OBJ` or `STL` file and aims to produce a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. The separately approved [image reconstruction pilot](reconstruction-site/README.md) implements photo upload, fal TRELLIS generation, neutral 3D preview, and GLB/OBJ downloads. A mesh preview does not establish LEGO conversion or buildability. See the Roadmap for the independent workstream and unchanged converter release gates.
+
+The independently approved [Sites UI preview](site/README.md) provides connected Model, Parts and Instructions views using clearly labeled sample data, plus browser-local LDraw inspection. It remains a separate application from the reconstruction pilot; integrating these user flows is future work.
 
 Start with the project documents:
 
@@ -17,7 +19,7 @@ Start with the project documents:
 - [agents/](agents/): detailed role briefs; runnable project configurations live in `.codex/agents/`.
 - [references/](references/): shared UI inspiration, generated concept mockups, and candidate 3D input fixtures.
 
-These documents distinguish proposals from confirmed requirements and implemented behavior. Consult code, manifests and CI for executable setup once the app is scaffolded.
+These documents distinguish proposals from confirmed requirements and implemented behavior. The [pilot README](reconstruction-site/README.md) contains executable setup and verification commands.
 
 ## Collaboration
 
