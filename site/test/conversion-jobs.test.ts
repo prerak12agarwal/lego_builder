@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { DatabaseSync, type SQLInputValue } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { Conversions } from "../lib/conversions.ts";
-import { HttpError } from "../lib/http.ts";
+import { HttpError, hash } from "../lib/http.ts";
 
 class Statement {
   private values: unknown[] = [];
@@ -123,4 +123,30 @@ test("server run enforces owner, legacy semantics and pinned R2 source before ou
   f.bucket.values.set(`${f.parent.id}/obj`, "different source bytes");
   await assert.rejects(configured.run(f.parent.owner,f.parent.id,piece.id), /no longer matches/);
   assert.equal(f.db.conversion(piece.id).state,"awaiting_converter");
+});
+
+test("new color requests pin appearance while legacy replay and results stay immutable",async()=>{
+  const f=await fixture(), pieceSettings={schemaVersion:1 as const,settings:{targetParts:2000,inputUpAxis:"y" as const}};
+  const legacy=await f.conversions.create(f.parent.owner,f.parent.id,"color-request-legacy",pieceSettings);
+  const glbHash="b".repeat(64);
+  f.db.database.prepare("UPDATE reconstruction_jobs SET manifest = ? WHERE id = ?").run(JSON.stringify({objSha256:f.parent.obj,glbSha256:glbHash,appearance:{status:"preserved"}}),f.parent.id);
+  assert.equal((await f.conversions.create(f.parent.owner,f.parent.id,"color-request-legacy",pieceSettings)).id,legacy.id);
+  assert.equal(JSON.parse(f.db.conversion(legacy.id).settings as string).colorMode,undefined);
+  const current=await f.conversions.create(f.parent.owner,f.parent.id,"color-request-new-1",pieceSettings),handoff=await f.conversions.handoff(f.parent.owner,f.parent.id,current.id);
+  assert.equal(handoff.schemaVersion,2);assert.equal(handoff.request.settings.sourceGlbSha256,glbHash);assert.equal(handoff.request.settings.colorMode,"source");
+  await assert.rejects(result(f,current.id),/source colors/);
+  const output={schemaVersion:2 as const,sourceObjSha256:f.parent.obj,sourceGlbSha256:glbHash,settingsSha256:current.settings_hash,ldr:ldr.replaceAll("1 16 ","1 4 ").replaceAll("3001.dat","3004.dat"),colorSummary:{mode:"source" as const,method:"surface-base-color-to-palette-v1" as const,paletteVersion:"source-solid-palette-v1",sourceHasColor:true as const,usedColorCodes:[4],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"] as ["palette-approximation","one-color-per-part","materials-not-reproduced"]}};
+  await f.conversions.acceptResult(f.parent.owner,f.parent.id,current.id,output);
+  assert.deepEqual((await f.conversions.handoff(f.parent.owner,f.parent.id,current.id)).request.colorSummary?.usedColorCodes,[4]);
+  await assert.rejects(f.conversions.acceptResult(f.parent.owner,f.parent.id,current.id,{...output,sourceGlbSha256:"c".repeat(64)}),/source colors/);
+});
+
+test("corrupt saved GLB is rejected before contacting the color converter",async()=>{
+  const f=await fixture(),obj="v 0 0 0\n",objHash=await hash(new TextEncoder().encode(obj));
+  f.db.database.prepare("UPDATE reconstruction_jobs SET manifest = ? WHERE id = ?").run(JSON.stringify({objSha256:objHash,glbSha256:"c".repeat(64),appearance:{status:"preserved"}}),f.parent.id);
+  const configured=new Conversions({DB:f.db as unknown as D1Database,BUCKET:f.bucket as unknown as R2Bucket,CONVERTER_URL:"https://converter.example/convert",CONVERTER_TOKEN:"private"});
+  const row=await configured.create(f.parent.owner,f.parent.id,"color-request-checksum",{schemaVersion:1,settings:{targetParts:2000,inputUpAxis:"y"}});
+  f.bucket.values.set(`${f.parent.id}/obj`,obj);f.bucket.values.set(`${f.parent.id}/glb`,"corrupted");
+  await assert.rejects(configured.run(f.parent.owner,f.parent.id,row.id),/saved colors no longer match/);
+  assert.equal(f.db.conversion(row.id).state,"awaiting_converter");
 });

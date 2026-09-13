@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { deflateSync } from "node:zlib";
 import { validateGlbAndExportObj } from "../src/glb.ts";
+import { exportObjBundle } from "../src/obj-bundle.ts";
 
 type Json = Record<string, any>;
 function encode(json: Json, binary: Uint8Array) {
@@ -204,4 +205,41 @@ test("TRELLIS adapter continues requesting the approved colored-mesh texture pre
     return new Response(JSON.stringify({ request_id:"fixture-request" }));
   } });
   assert.equal((await client.create("data:image/png;base64,fixture")).id, "fixture-request"); assert.equal(calls, 1);
+});
+
+function unzipStored(bytes: Uint8Array) {
+  const files = new Map<string,Uint8Array>(), view = new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  let at=0;
+  while(view.getUint32(at,true)===0x04034b50) {
+    assert.equal(view.getUint16(at+8,true),0);
+    const size=view.getUint32(at+18,true), nameSize=view.getUint16(at+26,true), extra=view.getUint16(at+28,true);
+    const name=new TextDecoder().decode(bytes.subarray(at+30,at+30+nameSize)), start=at+30+nameSize+extra;
+    const value=bytes.subarray(start,start+size);assert.equal(crc(value),view.getUint32(at+14,true));
+    assert.ok(!name.includes("..")&&!name.startsWith("/"));files.set(name,value);at=start+size;
+  }
+  assert.equal(view.getUint32(at,true),0x02014b50);
+  assert.equal(view.getUint32(bytes.length-22,true),0x06054b50);
+  return files;
+}
+test("textured OBJ ZIP retains image bytes, linked materials and flipped OBJ UVs",()=>{
+  const f=fixture(png()), hash="a".repeat(64), files=unzipStored(exportObjBundle(encode(f.json,f.binary),hash));
+  assert.deepEqual(files.get("textures/0.png"),new Uint8Array(png()));
+  const obj=new TextDecoder().decode(files.get("model.obj")),mtl=new TextDecoder().decode(files.get("model.mtl"));
+  assert.match(obj,/mtllib model.mtl/);assert.match(obj,/usemtl material_0/);assert.match(obj,/vt 0 1\nvt 1 1\nvt 0 0/);assert.match(obj,/f 1\/1 2\/2 3\/3/);
+  assert.match(mtl,/map_Kd textures\/0.png/);assert.match(mtl,/Kd 0.9999999999999999/);
+  assert.equal(JSON.parse(new TextDecoder().decode(files.get("manifest.json"))).sourceGlbSha256,hash);
+});
+test("OBJ bundle preserves reflected transformed geometry and material factor colors",()=>{
+  const f=fixture();f.json.nodes[0]={mesh:0,scale:[-2,3,1],translation:[4,5,6]};f.json.materials=[{pbrMetallicRoughness:{baseColorFactor:[1,0,.21404114,1]}}];f.json.meshes[0].primitives[0].material=0;
+  const files=unzipStored(exportObjBundle(encode(f.json,f.binary),"a".repeat(64)));
+  const obj=new TextDecoder().decode(files.get("model.obj")), mtl=new TextDecoder().decode(files.get("model.mtl"));
+  assert.match(obj,/v 4 5 6\nv 2 5 6\nv 4 8 6/);assert.match(obj,/f 1\/1 3\/3 2\/2/);
+  const kd=mtl.split("\n").find(line=>line.startsWith("Kd "))!.split(" ").slice(1).map(Number);assert.ok(Math.abs(kd[0]-1)<1e-8);assert.equal(kd[1],0);assert.ok(Math.abs(kd[2]-.5)<1e-6);
+});
+test("OBJ bundle retains seam-specific vertex colors as an explicitly documented extension",()=>{
+  const f=fixture();f.json.meshes[0].primitives[0].attributes.COLOR_0=3;
+  const files=unzipStored(exportObjBundle(encode(f.json,f.binary),"a".repeat(64))), obj=new TextDecoder().decode(files.get("model.obj"));
+  const rgb=obj.split("\n").filter(line=>line.startsWith("v ")).map(line=>line.split(" ").slice(4).map(Number));
+  assert.equal(rgb.length,3);assert.ok(rgb[0][0]>.99&&rgb[0][1]===0);assert.ok(rgb[1][1]>.99&&rgb[1][2]===0);assert.ok(rgb[2][2]>.99&&rgb[2][0]===0);
+  assert.match(new TextDecoder().decode(files.get("README.txt")),/Vertex RGB is an OBJ extension/);
 });

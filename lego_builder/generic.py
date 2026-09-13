@@ -1,7 +1,8 @@
 """Bounded, source-agnostic OBJ exterior reconstruction with real LDraw parts.
 
-The algorithm reads geometry only. No filenames, object names, materials, animal
-or vehicle templates select geometry. This is an approximate digital sculpture,
+The algorithm derives geometry from source triangles. No filenames, object names,
+animal or vehicle templates select geometry. An exact paired embedded GLB can
+supply base color without changing source geometry. This is an approximate digital sculpture,
 not a proof of physical assembly or universal artistic quality.
 """
 from __future__ import annotations
@@ -15,7 +16,7 @@ import trimesh
 from .assembly import SCHEMA, revision, draft_instruction_plan
 from .mesh import ConversionError, surface_voxels, MAX_BYTES, MAX_FACES
 
-ALGORITHM = "generic-exterior-shell-v2-draft-layers"
+ALGORITHM = "generic-exterior-shell-v3-source-color"
 MAX_GRID_CELLS = 500_000
 MAX_OUTPUT_PARTS = 10_000
 # Actual LDraw local X is the long dimension for these rectangular parts.
@@ -127,14 +128,18 @@ def envelope(mesh, source, size, up="y", closing_cells=1):
     return shell,inferred,raster,meta
 
 
-def fit_shell(shell, inferred, metadata):
+def fit_shell(shell, inferred, metadata, cell_colors=None, available_colors=None):
     remaining=shell.copy();nx,ny,nz=shell.shape
     placements=[];covered=np.zeros_like(shell)
+    def eligible(part,x,y,z,w,d,h):
+        if cell_colors is None:return True
+        color=int(cell_colors[x,y,z])
+        return (part,color) in available_colors and np.all(cell_colors[x:x+w,y:y+d,z:z+h]==color)
     def add(part,x,y,z,w,d,h,yaw=0,component="exterior shell",origin_shift=None):
         # z is the bottom layer; standard bricks/plates have top-origin and +Y body.
         point=np.array([(x+w/2-nx/2)*20,-(z+h)*8,(y+d/2-ny/2)*20])
         if origin_shift is not None:point+=origin_shift
-        placements.append({"id":f"p{len(placements)+1:06d}","part_id":part,"color":71,
+        placements.append({"id":f"p{len(placements)+1:06d}","part_id":part,"color":71 if cell_colors is None else int(cell_colors[x,y,z]),
                            "position_ldu":np.round(point,7).tolist(),"rotation":np.round(YAW[yaw].reshape(9),9).tolist(),"component":component})
         placements[-1]["draft_bottom_layer"] = int(z)
         if covered[x:x+w,y:y+d,z:z+h].any():
@@ -156,7 +161,7 @@ def fit_shell(shell, inferred, metadata):
             if x>0 and heights[x-1,y:y+2].max()<=h-2:candidates.append(1)
             if y+2<ny and heights[x:x+2,y+2].max()<=h-2:candidates.append(2)
             if x+2<nx and heights[x+2,y:y+2].max()<=h-2:candidates.append(3)
-            if candidates:
+            if candidates and eligible("3039",x,y,h-3,2,2,3):
                 yaw=candidates[0]
                 add("3039",x,y,h-3,2,2,3,yaw,"source-aligned slope shoulders",YAW[yaw]@np.array([0,0,10]))
                 slope_count+=1
@@ -173,7 +178,7 @@ def fit_shell(shell, inferred, metadata):
             x,y=int(x),int(y)
             if not remaining[x,y,z]:continue
             for part,w,d,yaw in tile_shapes:
-                if x+w<=nx and y+d<=ny and exposed[x:x+w,y:y+d,z].all() and remaining[x:x+w,y:y+d,z].all():
+                if x+w<=nx and y+d<=ny and exposed[x:x+w,y:y+d,z].all() and remaining[x:x+w,y:y+d,z].all() and eligible(part,x,y,z,w,d,1):
                     add(part,x,y,z,w,d,1,yaw,"smooth exposed top tiles");break
     shapes=[]
     for part,w,d,h in RECTANGLES:
@@ -186,7 +191,7 @@ def fit_shell(shell, inferred, metadata):
             x,y=int(x),int(y)
             if not remaining[x,y,z]:continue
             for part,w,d,h,yaw in shapes:
-                if x+w<=nx and y+d<=ny and z+h<=nz and remaining[x:x+w,y:y+d,z:z+h].all():
+                if x+w<=nx and y+d<=ny and z+h<=nz and remaining[x:x+w,y:y+d,z:z+h].all() and eligible(part,x,y,z,w,d,h):
                     add(part,x,y,z,w,d,h,yaw);break
     if remaining.any():raise RuntimeError("Generic shell coverage invariant failed")
     # Projection compares the final covered shell with the input triangle raster,
@@ -221,19 +226,35 @@ def continuous_source_distance(mesh, metadata, inferred, sample_limit=512):
             "scope":"Inferred exterior envelope fidelity; not final part-surface or perceptual accuracy. One LDU is0.4mm."}
 
 
-def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5):
+def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5,source_glb=None):
     if type(target_parts) is not int or not 100<=target_parts<=MAX_OUTPUT_PARTS:
         raise ConversionError("invalid_piece_target","Target parts must be an integer from100 to10,000.")
     if type(max_trials) is not int or not 1<=max_trials<=8:
         raise ConversionError("invalid_search_limit","Generic search supports1–8 bounded trials.")
     mesh,source=read_obj(path)
+    appearance=None
+    if source_glb is not None:
+        from .source_color import read_glb_colors, MAX_GLB_BYTES
+        color_path=Path(source_glb)
+        if not color_path.is_file():
+            raise ConversionError("input_missing","Paired source GLB file does not exist.")
+        if color_path.stat().st_size>MAX_GLB_BYTES:
+            raise ConversionError("resource_limit","Paired source GLB exceeds 16 MiB.")
+        raw=color_path.read_bytes()
+        appearance=read_glb_colors(raw,Path(path).read_bytes())
+        source["source_glb_sha256"]=hashlib.sha256(raw).hexdigest()
+        source["materials_and_group_names"]="embedded GLB base colors retained; no external paths opened"
     trials=[];best=None;size=32;seen=set()
     for attempt in range(max_trials):
         if size in seen:break
         seen.add(size)
         try:
             shell,inferred,raster,metadata=envelope(mesh,source,size,up,closing_cells)
-            placements,covered=fit_shell(shell,inferred,metadata)
+            if appearance is None:
+                placements,covered=fit_shell(shell,inferred,metadata)
+            else:
+                cell_colors,available=appearance.cell_colors(shell,metadata)
+                placements,covered=fit_shell(shell,inferred,metadata,cell_colors,available)
         except ConversionError as exc:
             if exc.code!="resource_limit" or size<=12:raise
             trials.append({"size_studs":size,"error":exc.code,"message":str(exc)})
@@ -256,6 +277,8 @@ def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5):
         size=proposed
     if best is None:raise ConversionError("resource_limit","No candidate fit within bounded generic resources.",{"trials":trials})
     _,placements,metadata,inferred=best
+    if appearance is not None:
+        metadata["source_color"]["usedColorCodes"]=sorted({p["color"] for p in placements})
     metadata["continuous_source_distance"]=continuous_source_distance(mesh,metadata,inferred)
     metadata["count_search"]={"requested_parts":target_parts,"actual_parts":len(placements),"max_trials":max_trials,"trials":trials,"deterministic":True}
     constraints={"target_parts":target_parts,"target_band":[int(target_parts*(1-.1)),min(MAX_OUTPUT_PARTS,int(target_parts*(1+.1)))],"target_tolerance":.1,"max_output_parts":MAX_OUTPUT_PARTS,"max_grid_cells":MAX_GRID_CELLS}
@@ -271,7 +294,7 @@ def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5):
     return model
 
 
-def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_cells=1):
+def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_cells=1, source_glb=None):
     """CLI orchestration with failure diagnostics and atomic successful bundles."""
     import json
     import os
@@ -283,7 +306,7 @@ def convert_obj(path, output, library_path, target_parts=2000, up="y", closing_c
     if output.exists():raise FileExistsError(f"Output already exists: {output}")
     library=LDrawLibrary(library_path)
     try:
-        model=generate_obj(path,target_parts,up,closing_cells)
+        model=generate_obj(path,target_parts,up,closing_cells,source_glb=source_glb)
     except ConversionError as exc:
         report={"status":"conversion_failed","artifact_checks_passed":False,"errors":[exc.code],
                 "message":str(exc),"details":exc.details,"request":{"input_name":Path(path).name,"target_parts":target_parts,"up_axis":up,"closing_cells":closing_cells},

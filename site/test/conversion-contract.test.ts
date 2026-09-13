@@ -27,3 +27,14 @@ test("a normal escaped 5 MiB LDR fits the JSON envelope while decoded oversize i
   assert.throws(() => parseConversionResult({ schemaVersion: 1, sourceObjSha256: digest, settingsSha256: digest, ldr: `${ldr}x` }), HttpError);
   assert.throws(() => parseConversionResult({ schemaVersion: 1, sourceObjSha256: digest, settingsSha256: digest, ldr: `${placement}\u0000` }), HttpError);
 });
+test("colored results bind exact GLB identity and catalog color summary to the LDR",()=>{
+  const digest="a".repeat(64), summary={mode:"source",method:"surface-base-color-to-palette-v1",paletteVersion:"source-solid-palette-v1",sourceHasColor:true,usedColorCodes:[1,4],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"]};
+  const input={schemaVersion:2,sourceObjSha256:digest,sourceGlbSha256:digest,settingsSha256:digest,ldr:`${placement.replace("1 16 ","1 1 ").replace("3001.dat","3004.dat")}\n0 STEP\n${placement.replace("1 16 ","1 4 ").replace("3001.dat","3004.dat")}`,colorSummary:summary};
+  assert.deepEqual(parseConversionResult(input).colorSummary?.usedColorCodes,[1,4]);
+  for(const mutation of [{sourceGlbSha256:"bad"},{schemaVersion:1},{colorSummary:{...summary,usedColorCodes:[4]}},{colorSummary:{...summary,usedColorCodes:[4,1]}},{colorSummary:{...summary,sourceHasColor:false}},{colorSummary:{...summary,limitations:[]}}]) assert.throws(()=>parseConversionResult({...input,...mutation}));
+  assert.throws(()=>parseConversionRequest({schemaVersion:1,settings:{targetParts:2000,inputUpAxis:"y",sourceGlbSha256:digest}}),/unsupported fields/);
+  assert.throws(()=>parseConversionResult({...input,colorSummary:{...summary,paletteVersion:"not-a-real-palette"}}),/unsupported color palette/);
+  assert.throws(()=>parseConversionResult({...input,ldr:input.ldr.replaceAll("3004.dat","9999.dat")}),/unsupported manufactured/);
+  assert.throws(()=>parseConversionResult({...input,ldr:input.ldr.replaceAll("3004.dat","3039.dat")}),/unsupported manufactured/);
+  assert.throws(()=>parseConversionResult({...input,colorSummary:{...summary,usedColorCodes:[511]},ldr:placement.replace("1 16 ","1 511 ")}),/invalid LEGO colors/);
+});

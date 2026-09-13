@@ -19,6 +19,8 @@ python3.11 -m venv .venv
 
 Choose the source's upright axis with `--up x|y|z` (default `y`; the supplied cat uses `z`). The piece target adjusts physical size through a bounded deterministic search; it is not an exact count or fixed size promise. The target band is ±10%, capped at 10,000 pieces; the report states whether the best candidate reaches it. Existing output directories are never overwritten. Exit `0` means the digital artifact checks passed; it does not mean the target band or mechanical checks passed. Rejected conversions return `2` and diagnostics.
 
+For color transfer, add `--source-glb path/to/source.glb` with the exact embedded GLB paired with the prepared geometry-only OBJ. The converter checks their transformed triangles, samples base-color textures and vertex colors, and fits one reviewed solid LEGO color per part. The finite palette approximates the source; metallic, emissive, transparent and other material effects are not reproduced. Transparent or masked materials are rejected. The generated LDraw, parts list and draft layer instructions share the same colored placements. Bare OBJ conversion retains the established geometry-only behavior and does not load external material paths.
+
 A reviewed subset of official LDraw geometry and manufactured part/color evidence is bundled, so conversion and previews need no network access. The recursive loader can search and render a full official LDraw library; the fitter currently selects parts for which placement rules and color evidence are implemented. Adding catalog files alone does not supply a geometric fitting or connection rule. See [catalog provenance](lego_builder/data/README.md).
 
 ## Results to inspect

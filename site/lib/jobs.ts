@@ -3,6 +3,7 @@ import { LIMITS, type JobView } from "./limits.ts";
 import { HttpError, hash, readLimited } from "./http.ts";
 import { validateNormalizedPng } from "./png.ts";
 import { validateTextureImageData } from "../core/src/texture-image.ts";
+import { exportObjBundle } from "../core/src/obj-bundle.ts";
 
 type Bindings = { DB: D1Database; BUCKET: R2Bucket; FAL_KEY?: string; RECONSTRUCTION_PROVIDER?: string };
 type Row = { id: string; owner: string; request_key: string; fingerprint: string; provider: string; task: string | null; state: string; created_at: number; updated_at: number; checked_at: number; lease: string | null; lease_until: number; message: string | null; manifest: string | null };
@@ -165,9 +166,19 @@ export class Jobs {
   }
   private async cleanup(id: string) { await this.env.BUCKET.delete(Object.keys(artifactKinds).map(kind => `${id}/${kind}`)); }
   async artifact(owner: string, id: string, kind: string) {
-    if (!Object.hasOwn(artifactKinds, kind)) throw new HttpError(404, "File not found.");
+    if (!Object.hasOwn(artifactKinds, kind) && kind !== "obj-bundle") throw new HttpError(404, "File not found.");
     const row = await this.get(owner, id);
     if (row.state === "deleted" || (kind !== "source" && row.state !== "ready")) throw new HttpError(404, "File is not available.");
+    if (kind === "obj-bundle") {
+      const manifest = row.manifest ? JSON.parse(row.manifest) : null;
+      if (manifest?.appearance?.status !== "preserved") throw new HttpError(404, "This saved model has no retained color bundle.");
+      const saved = await this.env.BUCKET.get(`${id}/glb`);
+      if (!saved) throw new HttpError(404, "The saved color model is unavailable.");
+      const bytes = await readLimited(saved.body, LIMITS.meshBytes);
+      if (await hash(bytes) !== manifest.glbSha256) throw new HttpError(409, "The saved color model does not match its manifest.");
+      const bundle = exportObjBundle(bytes, manifest.glbSha256);
+      return new Response(bundle as unknown as BodyInit, { headers: { "Content-Type": "application/zip", "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff", "Content-Disposition": `attachment; filename="lego-builder-${id}-textured-obj.zip"` } });
+    }
     const result = await this.env.BUCKET.get(`${id}/${kind}`);
     if (!result) throw new HttpError(404, "File is not available.");
     const headers = new Headers({ "Content-Type": artifactKinds[kind as ArtifactKind], "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" });

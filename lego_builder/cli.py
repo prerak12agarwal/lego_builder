@@ -58,6 +58,7 @@ def main(argv=None):
     command.add_argument("--library",type=Path,default=Path(__file__).parent/"data"/"parts-library",help="Official LDraw root; defaults to bundled reviewed subset")
     command.add_argument("--target-parts",type=int,default=2000,help="Useful-part target, 100–10000 (default: 2000)")
     command.add_argument("--up",choices=("x","y","z"),default="y",help="Source upright axis (default: y)")
+    command.add_argument("--source-glb",type=Path,help="Exact paired canonical embedded GLB for source-color transfer; no external materials")
     command.add_argument("--closing-cells",type=int,choices=(0,1),default=1,help="Maximum source repair radius in grid cells; default1")
     command=sub.add_parser("convert-exterior",help="Fit the named Cybertruck OBJ exterior to real LDraw parts; mechanical checks remain unverified")
     command.add_argument("input",type=Path)
@@ -75,7 +76,7 @@ def main(argv=None):
             report=convert(args.input,args.output,args.size,args.up)
         elif args.command=="convert-obj":
             from .generic import convert_obj
-            report=convert_obj(args.input,args.output,args.library,args.target_parts,args.up,args.closing_cells)
+            report=convert_obj(args.input,args.output,args.library,args.target_parts,args.up,args.closing_cells,source_glb=args.source_glb)
             print(json.dumps(report,indent=2,sort_keys=True))
             return 0 if report["artifact_checks_passed"] else 2
         elif args.command=="convert-exterior":
