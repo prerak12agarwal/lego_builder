@@ -4,13 +4,14 @@ Turn photos of an item into an interactive LEGO-brick model, a matching parts li
 
 ## Current build target
 
-The immediate MVP deliberately starts one step later than the long-term product: it accepts a clean `OBJ` or `STL` file and converts it into a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. Photo reconstruction and the web app are deferred until this converter is proven.
+The immediate MVP deliberately starts one step later than the long-term product: it accepts a clean `OBJ` or `STL` file and converts it into a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. Photo reconstruction and production web integration are deferred until this converter is proven. The founder has separately approved an overall Sites UI preview with clearly labeled sample data, developed on the dedicated UI branch.
 
 Start with the project documents:
 
 - [Roadmap.md](Roadmap.md): context, delivery phases, release gates and open direction.
 - [Architecture.md](Architecture.md): proposed stack, system design and engineering contracts.
 - [Product.md](Product.md): features, pages, UX and reference-led design decisions.
+- [site/README.md](site/README.md): UI preview, development commands and publication boundary.
 - [AGENTS.md](AGENTS.md): Product, Architect, Developer and QA roles and collaboration rules.
 - [research/image_to_brick_model_research.docx](research/image_to_brick_model_research.docx): research behind the selected conversion approach and tool choices.
 - [agents/](agents/): detailed role briefs; runnable project configurations live in `.codex/agents/`.

@@ -4,13 +4,29 @@ Owner: Architect. Purpose: system design, contracts and decision rationale. Prod
 
 ## Status and engineering principles
 
-Hosting on ChatGPT Sites is a confirmed founder preference. The architecture below adapts to that preference but does not describe deployed software. The initial repository has no application stack. Promote other proposals to accepted decisions with rationale and evidence during implementation. Dependency manifests and lockfiles will own exact versions; this document should not repeat them.
+Hosting on ChatGPT Sites is a confirmed founder preference. The consumer UI preview is implemented in [site/](site/) using the Sites-compatible Vinext starter, React and TypeScript. The converter and production service contracts below remain design targets. Promote other proposals to accepted decisions with rationale and evidence during implementation. Dependency manifests and lockfiles will own exact versions; this document should not repeat them.
 
 The core artifact is a structured assembly of real parts, each with a position, orientation and color. A generated image or a surface mesh is an intermediate representation, not the deliverable. Derive all three user outputs from the same validated model revision. Keep probabilistic reconstruction separate from deterministic catalog, geometry and inventory validation.
 
+## Independent UI implementation track
+
+The founders requested the overall interface on ChatGPT Sites while converter validation remains a separate prerequisite for real generation. This track implements the consumer journey using explicitly labeled hand-authored sample data. It does not establish mesh conversion, image reconstruction, physical validation or the production service architecture.
+
+The UI uses a canvas-based projection of rectangular brick geometry for its sample viewer; Three.js is used separately for imported LDraw geometry. A single immutable sample revision supplies placements, inventory and instruction membership. All displayed assembly subsets and exported quantities derive from that revision. Uploaded photos remain temporary browser-local previews and are never associated with the sample as generated output. Generation remains visibly unavailable until a real adapter and validation pipeline exist. Accounts, persistent storage, external providers and pricing remain deferred. The fixture checks cover occupied-grid collisions, full footprint support, one final vertical-connection component, matching inventory and exactly-once step coverage. Initial instruction layers may be loose before subsequent layers join them. These checks do not establish catalog compatibility, insertion feasibility or physical stability.
+
+### Browser-local LDraw inspection boundary
+
+Product F7 adds a separate `ImportedRevision` graph in `site/lib/ldraw/`, without converting arbitrary LDraw coordinates into the solver’s validated stud/plate grid. Exact LDU affine transforms, effective colors, stable placement IDs and root-authored step membership drive all imported views and inventory. Nested model transforms and inherited colors are composed; nested callouts and ROTSTEP camera orientation remain unsupported and disclosed.
+
+Before rendering, parse and bound the complete dependency graph, reject cycles, invalid references, singular/nonfinite transforms and missing geometry, then pack resolved files for the pinned Three.js LDrawLoader. The synthetic root references flattened leaf parts; one root child per placement is required and checked. Renderer callbacks alone are not evidence of completeness. Internal primitives/subparts are geometry dependencies, never extra inventory pieces. Explicit root matrices preserve affine placement; shared geometry is released when its imported revision is replaced.
+
+The browser reads the local file and keeps it in session memory. `/api/ldraw-part` accepts only constrained `.dat` names and requests fixed paths on `https://library.ldraw.org/library/official/`; it accepts no arbitrary URL or user file body. Responses are size-bounded and cacheable; unavailable libraries fail imports. Official color configuration is bundled with source attribution. Imported custom part blocks stay browser-local. No provider keys, persistence or paid service is added. Existing owner-private Sites access is preserved; the navigation label does not confer an application role.
+
+Executable limits in `lib/ldraw/model.ts` bound input size, placements, dependency depth/count/bytes, expanded geometry and import duration. STEP/ROTSTEP boundaries are not generated when absent: the UI displays the required missing-step popup and leaves the full model available. Files with unsupported texture/data/model-level primitive semantics fail rather than displaying incomplete success. Inspection does not validate collisions, connections, catalog color legality, insertion feasibility or physical stability, and does not advance solver release gates.
+
 ## Current MVP architecture decision
 
-The immediate implementation target is a local, deterministic `OBJ`/`STL`-to-brick converter. It proves mesh-to-buildable-assembly before image reconstruction or web development. Its source mesh is test input, not the final artifact; the validated placement list is the source of truth for the exported model, inventory, preview and placement order.
+The immediate implementation target is a local, deterministic `OBJ`/`STL`-to-brick converter. It proves mesh-to-buildable-assembly before image reconstruction or production web integration. Its source mesh is test input, not the final artifact; the validated placement list is the source of truth for the exported model, inventory, preview and placement order.
 
 Use LDraw as the initial geometry and interchange foundation. Build a versioned local catalog containing only a curated set of common rectangular bricks and plates, with each entry's geometry, footprint, height, legal orientations, connector locations, supported colors and provenance. Do not search the complete LEGO catalog in the first solver: that expands the search space without proving the core method.
 
@@ -62,7 +78,7 @@ Planning basis: installed Sites building/hosting guidance inspected on 2026-09-1
 
 Proposed split: Sites serves the UI and lightweight authenticated API; an external asynchronous service performs reconstruction and expensive brick fitting. Do not assume Sites supplies GPU execution, an arbitrary Python server, or unlimited background processing. Prove an authenticated submit/status/result round trip before integrating the inference service in P2. If the founders require every component to run solely inside Sites, treat that as an additional constraint requiring a feasibility decision.
 
-Use the Sites manifest and migration files as the eventual deployment source of truth; keep secrets in managed runtime values. Keep GitHub as the partners' canonical collaboration repository. If Sites requires a separate source remote, name and manage it explicitly without replacing GitHub origin, and publish only a reviewed revision. Source synchronization and deployment are not configured by these documents.
+Use the Sites manifest and migration files as the eventual deployment source of truth; keep secrets in managed runtime values. Keep GitHub as the partners' canonical collaboration repository. If Sites requires a separate source remote, name and manage it explicitly without replacing GitHub origin, and publish only a reviewed revision. The UI source remains under `site/` in the GitHub feature branch. Sites publication uses a separate source snapshot rooted at that directory, with a per-command credential; it does not replace GitHub origin or publish the repository’s internal reference assets. Recreate that snapshot from the reviewed `site/` source for each publication.
 
 ## Processing flow
 
