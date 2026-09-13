@@ -8,6 +8,37 @@ Hosting on ChatGPT Sites is a confirmed founder preference. The architecture bel
 
 The core artifact is a structured assembly of real parts, each with a position, orientation and color. A generated image or a surface mesh is an intermediate representation, not the deliverable. Derive all three user outputs from the same validated model revision. Keep probabilistic reconstruction separate from deterministic catalog, geometry and inventory validation.
 
+## Current MVP architecture decision
+
+The immediate implementation target is a local, deterministic `OBJ`/`STL`-to-brick converter. It proves mesh-to-buildable-assembly before image reconstruction or web development. Its source mesh is test input, not the final artifact; the validated placement list is the source of truth for the exported model, inventory, preview and placement order.
+
+Use LDraw as the initial geometry and interchange foundation. Build a versioned local catalog containing only a curated set of common rectangular bricks and plates, with each entry's geometry, footprint, height, legal orientations, connector locations, supported colors and provenance. Do not search the complete LEGO catalog in the first solver: that expands the search space without proving the core method.
+
+BrickLink and Rebrickable are enrichment sources for explicit identifier mappings, color validity, availability and later pricing. They are not the canonical geometry source. BrickLink Studio is the external compatibility baseline: import generated LDraw files there for visual inspection, parts-list comparison and manual instruction experiments. The MVP does not depend on extracting Studio's internal library or automating its desktop interface.
+
+### MVP pipeline
+
+1. **Ingest:** load one triangulated `OBJ` or `STL`; validate that it is non-empty, finite and suitable for voxelization.
+2. **Normalize:** repair only safe mesh defects, choose an upright axis, center the mesh and scale its longest requested dimension to studs. Record every transform.
+3. **Discretize:** voxelize on an anisotropic grid of one stud horizontally by one plate vertically. Evaluate a small set of target sizes rather than assuming one scale preserves the object's identity.
+4. **Create target:** retain occupied cells and optional surface-color samples. For the first implementation, allow solid output; hollowing is an optimization only after connectivity is reliable.
+5. **Fit parts:** begin with 1-by-1 coverage, then merge cells into allowed larger bricks and plates. Prefer fewer common parts, staggered seams and overlap between adjacent layers. Use greedy merging as a baseline and beam search or randomized restarts only when measurements justify them.
+6. **Repair:** build a base-up connection graph, reject collisions and floating components, rotate or split weak seams, and add concealed supports where allowed.
+7. **Sequence:** order placements bottom-up and reject steps that require a later part to pass through existing geometry. Advanced subassemblies are outside the first implementation.
+8. **Validate and export:** emit the canonical placement model, LDraw `.ldr` or `.mpd`, bill of materials, preview, placement sequence and machine-readable validation report. Import release candidates into BrickLink Studio and physically build representative outputs.
+
+### Initial solver objective and hard constraints
+
+Optimize a weighted score over shape coverage, silhouette difference from reference views, part count, unique part-color lots, weak seams and unsupported detail. Keep the weights versioned with each result so comparisons are meaningful.
+
+The following are hard failures: unknown catalog part or color, disallowed orientation, placement collision, disconnected or floating component, unsupported placement under the declared MVP rules, bill-of-material mismatch, malformed LDraw export or blocked bottom-up insertion. A candidate that fails a hard constraint may be retained for diagnostics but cannot be labelled successful.
+
+### MVP outputs and reproducibility
+
+Each run records the input checksum, normalized transform, grid dimensions, target size, catalog version, allowed palette, algorithm version, objective weights and random seed. The canonical placement file uses integer stud/plate coordinates and stable part identifiers. The bill of materials and LDraw export are derived from this file rather than calculated independently.
+
+The MVP command-line and on-disk schemas belong in executable code once scaffolded. Avoid freezing a CLI syntax in this planning document before the implementation exists.
+
 ## Provisional stack
 
 These are starting choices to evaluate, not claims of compatibility or installed dependencies. Verify current primary documentation and licensing when adopting them.
@@ -23,17 +54,19 @@ These are starting choices to evaluate, not claims of compatibility or installed
 | Quality | TypeScript test runner, Python tests, browser end-to-end tests | Verify contracts, geometry and complete user journeys; select tools with the actual scaffold. |
 | Delivery | GitHub pull requests and CI; ChatGPT Sites for web hosting | Preserve the partner GitHub workflow; resolve Sites source/deployment integration during setup. |
 
-Image-to-3D provider, authentication approach, catalog source, queue product and GPU hosting remain open. Evaluate reconstruction adapters on the agreed benchmark, data retention, licensing, export access, latency and total cost. The engineering agents' language models are separate from this runtime provider decision.
+Image-to-3D provider, authentication approach, queue product and GPU hosting remain open for the later photo-based product. LDraw is confirmed as the MVP geometry/interchange foundation; broader catalog coverage and external identifier mappings still require validation. Evaluate reconstruction adapters on the agreed benchmark, data retention, licensing, export access, latency and total cost. The engineering agents' language models are separate from this runtime provider decision.
 
 ### Sites deployment boundary
 
 Planning basis: installed Sites building/hosting guidance inspected on 2026-09-13. It describes a Cloudflare Workers-compatible server build, logical D1/R2 bindings and HTTP-based access to external services; raw TCP connections are unsupported. Re-read the applicable Sites guidance at implementation because platform capabilities may change.
 
-Proposed split: Sites serves the UI and lightweight authenticated API; an external asynchronous service performs reconstruction and expensive brick fitting. Do not assume Sites supplies GPU execution, an arbitrary Python server, or unlimited background processing. Prove an authenticated submit/status/result round trip in P0 before choosing an inference service. If the founders require every component to run solely inside Sites, treat that as an additional constraint requiring a feasibility decision.
+Proposed split: Sites serves the UI and lightweight authenticated API; an external asynchronous service performs reconstruction and expensive brick fitting. Do not assume Sites supplies GPU execution, an arbitrary Python server, or unlimited background processing. Prove an authenticated submit/status/result round trip before integrating the inference service in P2. If the founders require every component to run solely inside Sites, treat that as an additional constraint requiring a feasibility decision.
 
 Use the Sites manifest and migration files as the eventual deployment source of truth; keep secrets in managed runtime values. Keep GitHub as the partners' canonical collaboration repository. If Sites requires a separate source remote, name and manage it explicitly without replacing GitHub origin, and publish only a reviewed revision. Source synchronization and deployment are not configured by these documents.
 
 ## Processing flow
+
+The flow below describes the later photo-based product. The current MVP implements the mesh-to-assembly subset defined above; it begins at normalization and discretization rather than image upload or reconstruction.
 
 1. Validate uploads, strip unnecessary metadata, normalize images, record checksums and establish object framing.
 2. Reconstruct approximate geometry and appearance using one or more images; record uncertain or inferred regions.
@@ -94,7 +127,9 @@ Keep a known-good fixture path available for development without paid generation
 
 ## Parts sourcing and export
 
-Evaluate catalog geometry and supplier mappings for coverage, licensing and part/color correctness before use. Start with a machine-readable inventory export and readable parts table. Add marketplace-specific formats only after validating their schemas and identifier mappings. Live price and stock lookups are optional adapters with region, currency, timestamp and missing-data states; missing prices are not zero. Replacement parts require regenerating and revalidating the assembly, not just editing the shopping list.
+Use LDraw geometry and its license/provenance metadata to build the versioned local MVP catalog. Start with approximately 8–12 common rectangular brick and plate families and expand only after benchmark evidence identifies a useful gap. Generate stud and anti-stud connector definitions analytically for this restricted set; evaluate richer connector metadata separately before broadening the catalog.
+
+Maintain explicit mappings between internal catalog IDs, LDraw filenames, BrickLink IDs and Rebrickable IDs. Verify mappings and part-color combinations rather than assuming numbering systems agree. Start with a machine-readable inventory export and readable parts table. Add BrickLink-compatible wanted-list export only after validating its current format and terms. Live price and stock lookups are optional later adapters with region, currency, timestamp and missing-data states; missing prices are not zero. Replacement parts require regenerating and revalidating the assembly, not just editing the shopping list.
 
 ## Operational requirements
 
@@ -106,4 +141,4 @@ Record job/revision correlation IDs, stage timing, failure categories and per-re
 
 Use valid and deliberately invalid fixtures for catalog, collision, connection, inventory and instruction tests. Test retry/cancellation races and authorization boundaries. Exercise upload-to-instructions flows in the browser, then physically assemble representative results before claiming buildability.
 
-Record important choices as short decisions: ID, status, context, choice, alternatives, consequences, evidence and revisit trigger. Initial proposed decisions: A1 canonical revision as source of truth; A2 asynchronous generation; A3 restricted initial catalog; A4 provider adapters; A5 provisional stack above. Keep these here until separate decision records are warranted. Update contracts and their tests in the same PR as contract changes.
+Record important choices as short decisions: ID, status, context, choice, alternatives, consequences, evidence and revisit trigger. Accepted for the current MVP: A1 canonical revision as source of truth; A3 restricted LDraw-based initial catalog; A6 local mesh-to-brick conversion before image reconstruction. Still proposed for the later product: A2 asynchronous generation; A4 provider adapters; A5 provisional stack above. Keep these here until separate decision records are warranted. Update contracts and their tests in the same PR as contract changes.

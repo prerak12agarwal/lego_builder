@@ -8,6 +8,14 @@ A user photographs an item, generates a LEGO-brick interpretation, inspects it i
 
 The confirmed audience is nostalgic adults who enjoy LEGO but cannot design models from scratch. The first release supports a limited set of simple objects from a few images. Help users succeed through guided photo capture, useful defaults and approachable instructions; do not assume knowledge of brick identifiers or modeling tools. Exact object categories and fidelity targets remain open in Roadmap Q1–Q2. Product success means a user can obtain and assemble a recognizable model, with clear limitations and manageable effort. A visually appealing preview alone is insufficient.
 
+## Current MVP boundary
+
+The confirmed immediate milestone is a developer-facing 3D-model converter, not the web app. Given one clean `OBJ` or `STL` model of a simple real-world object, it produces a LEGO-brick interpretation made only from an approved catalog of real parts. The result must include an LDraw model and an exact bill of materials and must open correctly in BrickLink Studio.
+
+For this milestone, a simple object is one solid, static, mostly upright form without thin articulated parts, moving mechanisms or large unsupported overhangs. Start with controlled fixtures such as a bottle, vase, simple toy or simplified animal form. The source model is assumed to have already resolved the ambiguity of photographs; image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the browser experience are outside this milestone.
+
+The MVP is successful when a developer can run the same input and settings and receive a recognizable, catalog-valid, connected assembly that can be built from the bottom up. A good-looking render by itself is not success.
+
 ## Pages and user journey
 
 Routes below describe conceptual screens, not frozen URL paths.
@@ -26,6 +34,23 @@ Routes below describe conceptual screens, not frozen URL paths.
 Model, Parts and Instructions may be tabs in a shared project workspace rather than disconnected pages. Keep project name, revision and validation state visible across all three. Accounts/access screens depend on Roadmap Q6; public sharing and checkout are not initial requirements.
 
 ## Feature acceptance criteria
+
+### F0 — 3D model to brick assembly MVP
+
+- Accept a valid `OBJ` or `STL` mesh, a target longest dimension in studs and a supported palette selection. Reject unreadable, empty or structurally unsuitable meshes with a useful reason.
+- Normalize the input orientation and scale, then discretize it on a grid whose horizontal unit is one stud and vertical unit is one plate. Keep the chosen scale and transform in the output metadata.
+- Use only parts, colors and orientations present in the versioned MVP catalog. The initial catalog is restricted to common rectangular bricks and plates; slopes, Technic elements, flexible parts and arbitrary-angle or sideways construction are deferred.
+- Produce a connected assembly with no collisions, floating parts or unsupported placements under the MVP rules. Stagger weak seams where possible and produce a valid bottom-up placement order.
+- Export an LDraw `.ldr` or `.mpd` file, an exact machine-readable bill of materials grouped by part and color, a preview and a validation report. Inventory totals must equal the exported placements.
+- Import every release candidate into BrickLink Studio without missing-part or malformed-model errors. Physically build a small representative sample before describing the converter as producing buildable models.
+- Compare candidates at more than one target size when useful and report resemblance, part count, unique lots, validation failures, runtime and any manual repairs. Do not hide failed candidates.
+
+### F0 non-goals
+
+- No photo upload or image-to-3D reconstruction.
+- No web interface, user accounts, saved projects or background-job system.
+- No promise to support every LEGO part, color, object or advanced construction technique.
+- No live pricing, stock lookup, automatic purchasing or polished consumer instructions.
 
 ### F1 — Photo input and configuration
 
