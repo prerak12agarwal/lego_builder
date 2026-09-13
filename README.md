@@ -6,7 +6,7 @@ Turn photos of an item into an interactive LEGO-brick model, a matching parts li
 
 The LEGO conversion MVP accepts a clean `OBJ` or `STL` file and aims to produce a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. The separately approved [image reconstruction pilot](reconstruction-site/README.md) implements photo upload, fal TRELLIS generation, neutral 3D preview, and GLB/OBJ downloads. A mesh preview does not establish LEGO conversion or buildability. See the Roadmap for the independent workstream and unchanged converter release gates.
 
-The independently approved [Sites UI preview](site/README.md) provides connected Model, Parts and Instructions views using clearly labeled sample data, plus browser-local LDraw inspection. It remains a separate application from the reconstruction pilot; integrating these user flows is future work.
+The [integration workspace](reconstruction-site/README.md) connects real photo reconstruction, saved converter handoffs and LDraw model/parts/instruction inspection in one application. Prerak's converter execution is deferred: a ready mesh waits for the converter, while the owner can supply an LDraw file through the documented result interface to test the receiving side. A manually supplied result does not establish image conversion or buildability. The original [Sites UI preview](site/README.md) remains available as a separate sample-driven design prototype.
 
 Start with the project documents:
 

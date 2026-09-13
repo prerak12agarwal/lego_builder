@@ -22,3 +22,24 @@ export const jobs = sqliteTable("reconstruction_jobs", {
   index("owner_job_time").on(table.owner, table.createdAt),
   index("job_time").on(table.createdAt),
 ]);
+
+export const conversionRequests = sqliteTable("conversion_requests", {
+  id: text("id").primaryKey(),
+  sourceJobId: text("source_job_id").notNull(),
+  owner: text("owner").notNull(),
+  requestKey: text("request_key").notNull(),
+  settings: text("settings").notNull(),
+  settingsHash: text("settings_hash").notNull(),
+  sourceObjSha256: text("source_obj_sha256").notNull(),
+  state: text("state").notNull(),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+  lease: text("lease"),
+  leaseUntil: integer("lease_until").notNull().default(0),
+  ldrHash: text("ldr_hash"),
+  revisionHash: text("revision_hash"),
+  result: text("result"),
+}, (table) => [
+  uniqueIndex("conversion_request_key").on(table.owner, table.requestKey),
+  index("conversion_owner_source").on(table.owner, table.sourceJobId),
+]);

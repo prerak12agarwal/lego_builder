@@ -7,7 +7,7 @@ import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from "@/
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 import { validateImageInput } from "@/core/src/image";
 import { ACTIVE_STATES, LIMITS, type JobView } from "@/lib/limits";
-import ModelViewer from "./model-viewer";
+import { PipelineWorkspace } from "@/components/pipeline-workspace";
 
 type Config = { configured: boolean; latest: JobView | null; latestReady: JobView | null };
 const stageText: Record<string, [string, string]> = {
@@ -41,6 +41,7 @@ export default function Workspace() {
   const [busy, setBusy] = useState(false);
   const [pendingRequest, setPendingRequest] = useState<string | null>(null);
   const [previousReady, setPreviousReady] = useState<string | null>(null);
+  const [hasLdrResult, setHasLdrResult] = useState(false);
   const active = Boolean(job && ACTIVE_STATES.includes(job.state));
   const ready = job?.state === "ready";
 
@@ -78,8 +79,10 @@ export default function Workspace() {
   }, [job?.id, job?.state]);
 
   function selectJob(value: JobView) {
-    setJob(value); setPendingRequest(null);
-    history.replaceState(null, "", `/?job=${encodeURIComponent(value.id)}`);
+    setJob(value); setPendingRequest(null); setPhoto(null); setInput(null); setFilename(""); setHasLdrResult(false);
+    const conversion = new URLSearchParams(location.search).get("conversion");
+    const sameJob = new URLSearchParams(location.search).get("job") === value.id;
+    history.replaceState(null, "", `/?job=${encodeURIComponent(value.id)}${sameJob && conversion ? `&conversion=${encodeURIComponent(conversion)}` : ""}`);
   }
   async function choose(file?: File) {
     if (!file || active || busy || pendingRequest) return;
@@ -134,9 +137,10 @@ export default function Workspace() {
   const displayedPhoto = photo ?? (job && job.state !== "deleted" ? `/api/jobs/${job.id}/files/source` : null);
   const stage = stageText[job?.state ?? ""];
   return <div className="workshop">
-    <header className="app-header"><a className="brand" href="/"><Box size={28}/><span>LEGO <b>Builder</b></span></a><span className="header-tag">IMAGE TO 3D · PILOT</span></header>
+    <header className="app-header"><a className="brand" href="/"><Box size={28}/><span>LEGO <b>Builder</b></span></a><span className="header-tag">BUILD WORKSPACE</span></header>
     <main className="workbench">
-      <div className="page-heading"><div><p className="eyebrow">RECONSTRUCTION WORKBENCH</p><h1>Turn your photo into a 3D model.</h1><p className="muted">One object. A new shape to explore.</p></div><span className="step-pill">01 / RECONSTRUCT</span></div>
+      <div className="page-heading"><div><p className="eyebrow">PHOTO TO BUILD</p><h1>Build from your photo.</h1><p className="muted">Reconstruct the shape and keep it ready for LEGO conversion.</p></div><span className="step-pill">INTEGRATION PREVIEW</span></div>
+      <ol className="pipeline-stages" aria-label="Build pipeline"><li className={job || photo ? "stage-done" : "stage-current"}><span>1</span><div><strong>Reference photo</strong><small>{job || photo ? "Photo selected" : "Choose an image"}</small></div></li><li className={ready ? "stage-done" : active ? "stage-current" : ""}><span>2</span><div><strong>3D reconstruction</strong><small>{ready ? "Mesh saved" : active ? "TRELLIS processing" : "Generate with TRELLIS"}</small></div></li><li><span>3</span><div><strong>LEGO conversion</strong><small>{hasLdrResult ? "Result supplied manually" : "Converter not connected"}</small></div></li><li className={hasLdrResult ? "stage-current" : ""}><span>4</span><div><strong>Model & steps</strong><small>{hasLdrResult ? "LDraw received for inspection" : "Ready to receive LDraw"}</small></div></li></ol>
       <div className="work-grid">
         <aside className="input-panel">
           <div className="panel-title"><span className="number">1</span><h2>Your reference</h2></div>
@@ -149,7 +153,7 @@ export default function Workspace() {
             try { const r = await fetch(`/api/jobs/${job.id}/files/source`); if (!r.ok) throw new Error("The saved photo is unavailable."); await choose(new File([await r.blob()], "saved-photo.png", { type: "image/png" })); } catch (e) { setError(message(e)); }
           }}>Use saved photo</Button>}
           <div className="photo-tips"><h3>A good starting photo</h3><p><Check/> One object, fully in view</p><p><Check/> A clear, simple background</p><p><Check/> Even light and a useful angle</p></div>
-          <div className="mode-card"><Box size={21}/><div><strong>Shape first</strong><p>A neutral model with GLB and OBJ downloads.</p></div></div>
+          <div className="mode-card"><Box size={21}/><div><strong>Saved at every stage</strong><p>Your reconstructed mesh stays available for the converter handoff.</p></div></div>
           {signedOut ? <Button asChild className="generate-button"><a href={signInPath} target="_top">Sign in with ChatGPT</a></Button> : <Button className="generate-button" onClick={() => void generate()} disabled={!input || !config?.configured || active || busy || Boolean(pendingRequest)}>{busy ? "Preparing…" : "Generate 3D model"}{busy ? <LoaderCircle className="spinner"/> : <ArrowRight size={18}/>}</Button>}
           <p className="setup-note">{signedOut ? "Sign in to keep your models private and recover saved jobs." : !config ? "Connecting to your workspace…" : !config.configured ? "Generation needs to be configured by the site owner." : `Powered by TRELLIS. Up to ${LIMITS.dailyPerUser} submissions per person per day in this pilot.`}</p>
           <p className="privacy-note">Generate sends your resized photo to fal. Saved photos and models stay in your private workspace until removed. Provider output expiration is requested after 24 hours.</p>
@@ -157,13 +161,13 @@ export default function Workspace() {
           {error && <p role="alert" className="error-note">{error}</p>}
         </aside>
         <section className="model-panel" aria-label="3D model workspace">
-          <div className="viewer-header"><div><span className="number">2</span><h2>Your 3D model</h2></div><span className="viewer-label">{ready ? "READY TO EXPLORE" : "PERSPECTIVE VIEW"}</span></div>
-          {ready && job ? <ModelViewer key={job.id} id={job.id}/> : <div className="empty-stage"><Empty><EmptyHeader><EmptyMedia><span className="stage-icon">{active && job?.state !== "unknown" ? <LoaderCircle size={38} className="spinner"/> : <Box size={38} strokeWidth={1.25}/>}</span></EmptyMedia><EmptyTitle>{stage?.[0] ?? "A new perspective awaits."}</EmptyTitle><EmptyDescription>{stage?.[1] ?? "Your generated model will appear here. Rotate it and inspect its shape."}</EmptyDescription></EmptyHeader></Empty></div>}
+          <div className="viewer-header"><div><span className="number">2</span><h2>Model workspace</h2></div><span className="viewer-label">{ready ? "SAVED MESH" : "PERSPECTIVE VIEW"}</span></div>
+          {ready && job ? <PipelineWorkspace key={job.id} job={job} onResultAvailable={setHasLdrResult}/> : <div className="empty-stage"><Empty><EmptyHeader><EmptyMedia><span className="stage-icon">{active && job?.state !== "unknown" ? <LoaderCircle size={38} className="spinner"/> : <Box size={38} strokeWidth={1.25}/>}</span></EmptyMedia><EmptyTitle>{stage?.[0] ?? "Your model starts with a photo"}</EmptyTitle><EmptyDescription>{stage?.[1] ?? "Choose one clear photo, then generate its 3D shape. Your mesh and converter handoff will be saved here."}</EmptyDescription></EmptyHeader></Empty></div>}
           {job && <div className="job-details" aria-live="polite">
             {ready ? <><div className="model-summary"><strong>{job.triangles?.toLocaleString()} triangles</strong><span>Physical scale unknown · LEGO compatibility unchecked</span>{job.bounds && <span>Bounds: {job.bounds.max.map((v, i) => (v - job.bounds!.min[i]).toPrecision(3)).join(" × ")} model units</span>}</div><div className="download-row">{["glb", "obj", "manifest"].map(kind => <Button asChild variant={kind === "glb" ? "default" : "outline"} key={kind}><a href={`/api/jobs/${job.id}/files/${kind}`} download><Download size={16}/>{kind === "manifest" ? "Model details" : `Download ${kind.toUpperCase()}`}</a></Button>)}</div></> : <p>{job.message ?? (active ? "Keep this page open to collect the result, or return through this job link promptly." : "Choose another photo to make a new model.")}</p>}
             <div className="job-actions"><a href={`/?job=${job.id}`}>Saved job link</a><AlertDialog><AlertDialogTrigger asChild><Button variant="ghost" disabled={busy}><Trash2 size={15}/>Remove job</Button></AlertDialogTrigger><AlertDialogContent><AlertDialogHeader><AlertDialogTitle>Remove this job and its files?</AlertDialogTitle><AlertDialogDescription>This removes your saved photo and downloads from this workspace. An active provider request may still finish and be charged. Provider copies follow fal’s retention settings. If submission is uncertain, check your fal history first.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Keep job</AlertDialogCancel><AlertDialogAction onClick={() => void remove()}>Remove job</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog></div>
           </div>}
-          <div className="viewer-footer"><span><RotateCcw size={16}/> Drag to rotate · Scroll to zoom · Arrow keys pan</span><span>Geometry preview</span></div>
+          <div className="viewer-footer"><span><RotateCcw size={16}/> Drag to rotate · Scroll to zoom</span><span>Inspection workspace</span></div>
         </section>
       </div>
       {previousReady && previousReady !== job?.id && <p className="previous-model"><a href={`/?job=${previousReady}`}>Open your previous completed model</a></p>}
