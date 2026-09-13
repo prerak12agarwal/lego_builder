@@ -163,6 +163,16 @@ R2 supplies spatial composition and a possible dark backdrop; R7 supplies object
 
 Review the first implementation against R2 and R7 together: consistent three-quarter staging, tactile forms, soft grounding shadows, restrained blue hierarchy, readable controls and a dominant user model. Confirm the start/upload, viewer, parts and instruction experiences remain easy to use on desktop and mobile. Treat extra glow, city scenery, elaborate glass effects or pastel room styling as secondary inspiration, not mandatory additions. This is a design review checklist, not evidence of a completed UI.
 
+### Generated concept mockups
+
+The following AI-generated screens translate the approved reference direction into a connected journey. They are discussion artifacts, not implemented UI or pixel-perfect requirements:
+
+- [Upload and complexity](references/mockups/upload-and-complexity.png)
+- [Interactive model workspace](references/mockups/model-workspace.png)
+- [Build instructions](references/mockups/build-instructions.png)
+
+Use them to evaluate hierarchy, staging, novice guidance, and consistency across the journey. Product acceptance criteria and subsequent founder decisions take precedence where a mockup differs.
+
 | Decision | Status | Direction / evidence |
 | --- | --- | --- |
 | D1 — Three connected outputs | Confirmed | User request: interactive model, parts list, instructions |
