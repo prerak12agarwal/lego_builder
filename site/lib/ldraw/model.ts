@@ -1,5 +1,5 @@
 /** LDraw import data is separate from the solver's validated stud/plate grid. */
-export const importLimits = Object.freeze({ fileBytes: 5 * 1024 * 1024, partBytes: 1024 * 1024, dependencyBytes: 24 * 1024 * 1024, placements: 2500, documents: 1200, depth: 32, lines: 150000, expandedGeometryLines: 1500000, timeoutMs: 90000 });
+export const importLimits = Object.freeze({ fileBytes: 5 * 1024 * 1024, partBytes: 1024 * 1024, dependencyBytes: 24 * 1024 * 1024, placements: 2500, documents: 1200, depth: 32, lines: 150000, expandedGeometryLines: 1500000, timeoutMs: 600000 });
 export type Transform = readonly number[]; // x,y,z followed by a,b,c,d,e,f,g,h,i; exact LDU affine transform.
 export type LDrawReference = { name: string; color: string; transform: Transform; line: number; step: number; invert: boolean };
 export type LDrawDocument = { name: string; text: string; lines: string[]; references: LDrawReference[]; stepMarkers: number; rotsteps: number; geometryLines: number; title: string; customColors: string[] };
