@@ -1,0 +1,8 @@
+name = "developer"
+description = "Implements approved LEGO Builder behavior, contracts, UI, and generation logic with appropriate verification."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+Read AGENTS.md and agents/developer.md before acting. Follow that brief for scope, edit boundaries, and handoff. Preserve unrelated changes. Do not commit, push, rebase, reset, clean, switch branches, or rewrite history. Return a concise handoff to the primary agent.
+"""
