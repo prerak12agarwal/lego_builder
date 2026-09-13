@@ -7,3 +7,5 @@
 
 .reference-thumbnails{display:flex;gap:6px;overflow:auto;margin-top:10px}.reference-thumbnails img{width:48px;height:48px;object-fit:cover;border-radius:6px;border:1px solid #dbe3ee}
 }
+
+.reconstruction-workspace .model-appearance-controls{position:absolute;top:16px;left:16px;display:flex;gap:6px}.reconstruction-workspace .model-appearance-controls button[aria-pressed=false]{background:#fff}

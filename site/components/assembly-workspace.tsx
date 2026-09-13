@@ -16,7 +16,7 @@ export type AssemblyTab = "model" | "parts" | "instructions";
 export type SavedAssembly = { url: string; revisionId: string; sha256: string; placements: number; steps: number; hasSteps: boolean };
 
 /** Stored inspection artifacts retain their server identity; no sample or inferred steps. */
-export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab: AssemblyTab }) {
+export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab: AssemblyTab | null }) {
   const transport = useRef<ReturnType<typeof createPartTransport> | null>(null);
   if (!transport.current) transport.current = createPartTransport();
   const [loaded, setLoaded] = useState<LoadedLDraw | null>(null);
@@ -63,6 +63,8 @@ export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab:
     return () => { control.abort(); clearTimeout(timer); if (current) disposeModel(current.group); };
   }, [result.url, result.revisionId, result.sha256, result.placements, result.steps, result.hasSteps, retry]);
 
+  // Keep the revision loaded while releasing inactive WebGL viewers and dialogs.
+  if (tab === null) return null;
   if (error) return <div className="assembly-message" role="alert"><h3>The model could not open</h3><p>{error}</p><p>The saved file is retained. Opening it again does not rerun TRELLIS.</p><Button variant="outline" onClick={() => setRetry(value => value + 1)}><RotateCcw size={16}/> Retry opening model</Button></div>;
   if (!loaded) return <div className="assembly-message" role="status"><span className="ldr-spinner"/><p>{progress}</p></div>;
   const model = loaded.revision;

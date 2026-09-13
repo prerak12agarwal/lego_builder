@@ -133,9 +133,10 @@ test("new color requests pin appearance while legacy replay and results stay imm
   assert.equal((await f.conversions.create(f.parent.owner,f.parent.id,"color-request-legacy",pieceSettings)).id,legacy.id);
   assert.equal(JSON.parse(f.db.conversion(legacy.id).settings as string).colorMode,undefined);
   const current=await f.conversions.create(f.parent.owner,f.parent.id,"color-request-new-1",pieceSettings),handoff=await f.conversions.handoff(f.parent.owner,f.parent.id,current.id);
-  assert.equal(handoff.schemaVersion,2);assert.equal(handoff.request.settings.sourceGlbSha256,glbHash);assert.equal(handoff.request.settings.colorMode,"source");
+  assert.equal(handoff.request.settings.paletteVersion,"source-solid-palette-v2");assert.equal(handoff.schemaVersion,2);assert.equal(handoff.request.settings.sourceGlbSha256,glbHash);assert.equal(handoff.request.settings.colorMode,"source");
   await assert.rejects(result(f,current.id),/source colors/);
-  const output={schemaVersion:2 as const,sourceObjSha256:f.parent.obj,sourceGlbSha256:glbHash,settingsSha256:current.settings_hash,ldr:ldr.replaceAll("1 16 ","1 4 ").replaceAll("3001.dat","3004.dat"),colorSummary:{mode:"source" as const,method:"surface-base-color-to-palette-v1" as const,paletteVersion:"source-solid-palette-v1",sourceHasColor:true as const,usedColorCodes:[4],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"] as ["palette-approximation","one-color-per-part","materials-not-reproduced"]}};
+  const output={schemaVersion:2 as const,sourceObjSha256:f.parent.obj,sourceGlbSha256:glbHash,settingsSha256:current.settings_hash,ldr:ldr.replaceAll("1 16 ","1 4 ").replaceAll("3001.dat","3004.dat"),colorSummary:{mode:"source" as const,method:"surface-base-color-to-palette-v1" as const,paletteVersion:"source-solid-palette-v2",sourceHasColor:true as const,usedColorCodes:[4],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"] as ["palette-approximation","one-color-per-part","materials-not-reproduced"]}};
+  await assert.rejects(f.conversions.acceptResult(f.parent.owner,f.parent.id,current.id,{...output,colorSummary:{...output.colorSummary,paletteVersion:"source-solid-palette-v1"}}),/color palette/);
   await f.conversions.acceptResult(f.parent.owner,f.parent.id,current.id,output);
   assert.deepEqual((await f.conversions.handoff(f.parent.owner,f.parent.id,current.id)).request.colorSummary?.usedColorCodes,[4]);
   await assert.rejects(f.conversions.acceptResult(f.parent.owner,f.parent.id,current.id,{...output,sourceGlbSha256:"c".repeat(64)}),/source colors/);
@@ -149,4 +150,16 @@ test("corrupt saved GLB is rejected before contacting the color converter",async
   f.bucket.values.set(`${f.parent.id}/obj`,obj);f.bucket.values.set(`${f.parent.id}/glb`,"corrupted");
   await assert.rejects(configured.run(f.parent.owner,f.parent.id,row.id),/saved colors no longer match/);
   assert.equal(f.db.conversion(row.id).state,"awaiting_converter");
+});
+
+test("replaying an eight-color request keeps its exact settings hash after palette expansion", async () => {
+  const f = await fixture(), glbHash = "b".repeat(64);
+  f.db.database.prepare("UPDATE reconstruction_jobs SET manifest = ? WHERE id = ?").run(JSON.stringify({objSha256:f.parent.obj,glbSha256:glbHash,appearance:{status:"preserved"}}),f.parent.id);
+  const input = {schemaVersion:1 as const,settings:{targetParts:2000,inputUpAxis:"y" as const}};
+  const saved = await f.conversions.create(f.parent.owner,f.parent.id,"old-palette-request",input);
+  const oldSettings = JSON.stringify({colorMode:"source",inputUpAxis:"y",sourceGlbSha256:glbHash,targetParts:2000});
+  const oldHash = await hash(new TextEncoder().encode(oldSettings));
+  f.db.database.prepare("UPDATE conversion_requests SET settings = ?, settings_hash = ? WHERE id = ?").run(oldSettings,oldHash,saved.id);
+  const replay = await f.conversions.create(f.parent.owner,f.parent.id,"old-palette-request",input);
+  assert.equal(replay.id,saved.id); assert.equal(replay.settings_hash,oldHash); assert.equal(replay.settings,oldSettings);
 });
