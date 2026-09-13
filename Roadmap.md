@@ -57,6 +57,8 @@ P1 hardening can begin as the P0 converter stabilizes, but successful fixture co
 
 For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Do not begin photo reconstruction merely because the converter produces attractive previews.
 
+The independent Sites UI track includes founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
+
 ## Quality and release gates
 
 - Every delivered model uses valid part/color combinations from a versioned catalog.

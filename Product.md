@@ -124,6 +124,18 @@ Confirmed: users select complexity with a slider offering no more than five leve
 
 An optional count-only label presentation can reuse the same five presets later; a separate continuous count slider or arbitrary exact-count input is not required for the first version. Preset labels, counts and defaults belong in one versioned application configuration once implemented, not repeated in UI components and documentation.
 
+### F7 — Admin LDraw inspection
+
+Implemented on the independent Sites UI track at the founder’s request. Admin test bench accepts a browser-local `.ldr` or packed `.mpd`, loads real referenced part geometry and exposes Model, Parts and Instructions for that single imported revision. The existing sample remains a separate named workbench.
+
+- Successful import replaces the previous local inspection model; failure or cancellation retains it. Imports survive navigation within this page, but are not saved across reloads. Files are not uploaded to storage; only public dependency names are requested through the official part resolver.
+- Preserve root `STEP` / `ROTSTEP` groups. Each instruction step shows cumulative placements and highlights the new pieces, with previous/next and direct step selection. The final step and parts CSV must match the full imported model exactly.
+- **Founder decision:** if the main model has no step boundaries, show a popup explaining that assembly steps are missing. Full Model and Parts remain available. Do not infer, generate or fabricate assembly order.
+- Packed submodels can be displayed as assemblies in their parent step. Surface that nested instruction callouts and authored camera rotations are not implemented. Omit empty boundaries with an import note.
+- Reject missing dependencies, malformed transforms, unsupported model geometry or exhausted import limits with an actionable message. Never silently substitute sample geometry or accept a partial model.
+- Label imported geometry and order as supplied, with physical buildability unverified. Embedded custom parts are identified; inventory is not a purchasing-validity claim.
+- The current owner-private Site provides the test bench’s access boundary. This is not a separate production administrator role or permission system.
+
 ## UI and interaction principles
 
 Use a model-focused workspace with clear navigation and restrained supporting controls. Proposed desktop layout: large 3D canvas with a contextual panel for configuration, parts or steps. On smaller screens, stack the canvas and active controls while preserving readable part information. Apply the reference direction below; exact page compositions remain proposals until reviewed.
