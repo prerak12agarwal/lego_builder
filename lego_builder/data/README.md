@@ -1,0 +1,23 @@
+# Parts and geometry catalogs
+
+## Exterior conversion library
+
+`parts-library/` contains the complete recursive geometry closure of 29 useful root parts selected from the downloaded [official LDraw library](https://library.ldraw.org/updates). It includes tiles, ordinary bricks/plates, slopes, wedges, brackets, rims and tires, plus the official color configuration and attribution files. The bundled subset is sufficient to render and regenerate the checked examples without a network connection. It is separate from the older rectangular catalog below.
+
+`parts-library/source-manifest.json` records original source URLs, byte hashes, authors and the actual license text for every used root/subpart/primitive. Individual source headers and both the legacy LDraw contributor license and CC BY 4.0 notices are preserved; not every file has the same license. Git preserves upstream bytes.
+
+`vehicle-color-evidence.json` now covers both the vehicle and general exterior strategies. It records only reviewed physical part/color combinations, with BrickLink Known Colors evidence and explicit color/part aliases. Geometry presence or a display color does not establish manufacture. Candidate catalogs embed the exact used evidence and hash that subset, so adding unrelated reviewed parts does not invalidate earlier candidates.
+
+For broad part discovery, `scripts/fetch_ldraw_library.py` downloads and checks the complete official archive into an ignored local cache; `LDrawLibrary.search()` searches its root part titles. The downloaded archive is identified by its recorded checksum because upstream updates it. Adding fitting behavior for another part requires geometry and manufactured-color evidence; connection validation remains a separate engineering concern.
+
+## Established rectangular catalog
+
+`catalog.json` is the versioned solver catalog. Width follows the part's local LDraw X axis, depth follows local Z, and height is in plate units. The twelve families use only opaque Red: LDraw color 4 maps explicitly to BrickLink color 5. Each part's BrickLink **Known Colors** section was inspected on 2026-09-13; its source and observed catalog occurrence count are recorded as evidence of color existence, not stock or pricing. The source color definition is retained as a minimal excerpt and SHA-256, not a full palette copy.
+
+Catalog version `ldraw-rectangular-red-v2` includes 1×3 and 1×4 plates (3623 and 3710) as well as the equivalent bricks. These narrow, one-plate-high spans address a measured fitting gap in thin shape regions where a three-plate-high brick cannot fit. The catalog remains inside the accepted twelve-family maximum. Models generated with the earlier ten-family catalog retain their own catalog version/hash and must be regenerated to use the added parts; the schema is unchanged.
+
+The files in `ldraw/parts/` are unmodified official LDraw definitions. James Jessiman is the author of the brick/plate geometry; `3023.dat` is an official alias by Orion Pobursky pointing to James Jessiman's `3023b.dat`, which is also retained. Individual headers preserve authors and revision histories. These part definitions are licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/). Source URLs, source hashes and attribution are in the catalog and `source-manifest.json`; the upstream [attribution notice](ldraw/CAreadme.txt) is included. No endorsement by these authors, LDraw, LEGO or BrickLink is implied.
+
+This is a provenance subset, **not a complete rendering library**. Subparts and primitives referenced by the root files are not bundled; their immediate filenames are recorded in `root_dependencies`. In particular the 3023 alias is resolved for dimension verification, but the target's subparts are still external. Use a complete official LDraw library or BrickLink Studio to render exported models. The converter uses a deliberately restricted analytic body/connector model and schematic preview; it does not claim to triangulate every referenced primitive or validate arbitrary LEGO geometry.
+
+The original part declarations and directly defined body vertices were checked for local X/Z dimensions and lower body plane: 20 LDU per stud, 24 LDU per brick, 8 LDU per plate. All selected parts use their top body plane as Y=0 and extend downward to positive Y, with studs extending upward. Exporting an upright part therefore places this top plane at the canonical placement's top, rather than at its lower corner. A future part with a different origin or geometry needs its own verified transform and connector definition.

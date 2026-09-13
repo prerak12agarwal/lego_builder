@@ -1,0 +1,111 @@
+{
+  "items": [
+    {
+      "color": 71,
+      "part_id": "2431",
+      "quantity": 158
+    },
+    {
+      "color": 71,
+      "part_id": "26603",
+      "quantity": 4
+    },
+    {
+      "color": 71,
+      "part_id": "3001",
+      "quantity": 89
+    },
+    {
+      "color": 71,
+      "part_id": "3003",
+      "quantity": 5
+    },
+    {
+      "color": 71,
+      "part_id": "3004",
+      "quantity": 108
+    },
+    {
+      "color": 71,
+      "part_id": "3005",
+      "quantity": 359
+    },
+    {
+      "color": 71,
+      "part_id": "3010",
+      "quantity": 393
+    },
+    {
+      "color": 71,
+      "part_id": "3020",
+      "quantity": 154
+    },
+    {
+      "color": 71,
+      "part_id": "3021",
+      "quantity": 20
+    },
+    {
+      "color": 71,
+      "part_id": "3022",
+      "quantity": 15
+    },
+    {
+      "color": 71,
+      "part_id": "3023",
+      "quantity": 100
+    },
+    {
+      "color": 71,
+      "part_id": "3024",
+      "quantity": 105
+    },
+    {
+      "color": 71,
+      "part_id": "3039",
+      "quantity": 35
+    },
+    {
+      "color": 71,
+      "part_id": "3068b",
+      "quantity": 4
+    },
+    {
+      "color": 71,
+      "part_id": "3069b",
+      "quantity": 46
+    },
+    {
+      "color": 71,
+      "part_id": "3070b",
+      "quantity": 42
+    },
+    {
+      "color": 71,
+      "part_id": "3622",
+      "quantity": 79
+    },
+    {
+      "color": 71,
+      "part_id": "3623",
+      "quantity": 45
+    },
+    {
+      "color": 71,
+      "part_id": "3710",
+      "quantity": 219
+    },
+    {
+      "color": 71,
+      "part_id": "63864",
+      "quantity": 14
+    },
+    {
+      "color": 71,
+      "part_id": "87079",
+      "quantity": 69
+    }
+  ],
+  "revision_id": "08983f58d59c2360b06ff0293ef6a60fa04fd0a8d347db3ef9319ea49e789d0c",
+  "total_parts": 2063
+}

@@ -1,0 +1,10 @@
+# Preserve upstream LDraw bytes so provenance checksums survive every checkout.
+/lego_builder/data/ldraw/** -text -whitespace
+/lego_builder/data/parts-library/** -text -whitespace
+
+# Python's CSV writer uses CRLF; retain the benchmark snapshot byte for byte.
+/benchmarks/results/*.csv -text whitespace=cr-at-eol
+
+# Preserve generated evidence bytes and standard CSV record endings.
+/examples/**/*.csv -text whitespace=cr-at-eol
+/benchmarks/fixtures/*.obj -text whitespace=-blank-at-eof

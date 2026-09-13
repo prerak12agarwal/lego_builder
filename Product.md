@@ -10,17 +10,17 @@ The confirmed audience is nostalgic adults who enjoy LEGO but cannot design mode
 
 ## Current MVP boundary
 
-The confirmed immediate milestone is a developer-facing 3D-model converter, not the web app. Given one clean `OBJ` or `STL` model of a simple real-world object, it produces a LEGO-brick interpretation made only from an approved catalog of real parts. The result must include an LDraw model and an exact bill of materials and must open correctly in BrickLink Studio.
+The confirmed immediate milestone is a developer-facing OBJ-to-LEGO converter, not the web app. Its shared workflow accepts an OBJ of an arbitrary subject, extracts the exterior and fits real LEGO parts; it must not require Cybertruck-specific names or substitute a vehicle template for another object. Interior detail is outside the target. The result includes an LDraw model and exact bill of materials. Input acceptance, exterior resemblance and mechanical assembly verification are separate outcomes. The earlier clean OBJ/STL rectangular converter remains available as a regression baseline.
 
-For this milestone, a simple object is one solid, static, mostly upright form without thin articulated parts, moving mechanisms or large unsupported overhangs. Start with controlled fixtures such as a bottle, vase, simple toy or simplified animal form. The source model is assumed to have already resolved the ambiguity of photographs; image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the browser experience are outside this milestone.
+The earlier rectangular baseline targets solid, static, mostly upright forms without large unsupported overhangs. The shared exterior workflow expands input acceptance beyond that baseline; it must report fidelity and unresolved mechanics for thin or disconnected features. The source model supplies the observed geometry. Image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the consumer browser experience remain outside this milestone.
 
-The MVP is successful when a developer can run the same input and settings and receive a recognizable, catalog-valid, connected assembly that can be built from the bottom up. A good-looking render by itself is not success.
+The established rectangular baseline requires repeatable, recognizable, catalog-valid connected assemblies with a valid bottom-up order. The shared exterior workflow can deliver explicitly unverified digital candidates under F0 while mechanical work remains open; export success alone does not meet resemblance or buildability criteria. The independent photo and UI tracks below proceed in parallel and retain their own acceptance gates.
 
 ## Independent Sites UI track
 
 Confirmed founder direction: build the overall consumer interface on a dedicated UI branch in parallel with the converter milestone. The supplied generated mockups are confirmed as the intended design direction: navy navigation, cobalt controls, a pale model stage, and connected Model, Parts and Instructions views. Their sample content and unverified counts are not product facts.
 
-This track uses a visibly labeled hand-authored sample revision. Its rendered placements, parts quantities, exports and step membership must agree. Uploaded photos are temporary browser-session previews; real generation remains unavailable until a genuine adapter and validation pipeline exist. Accounts, durable project storage, pricing and purchasing remain deferred. UI completion does not establish image conversion or physical buildability.
+This UI remains a separate application from the photo reconstruction pilot; merging source does not connect their user flows. This track uses a visibly labeled hand-authored sample revision. Its rendered placements, parts quantities, exports and step membership must agree. Uploaded photos are temporary browser-session previews; real generation remains unavailable until a genuine adapter and validation pipeline exist. Accounts, durable project storage, pricing and purchasing remain deferred. UI completion does not establish image conversion or physical buildability.
 
 Prototype acceptance: usable photo review and configuration; accessible five-stop complexity control with size separate; connected sample viewer, searchable inventory export and directly navigable instructions; keyboard camera controls and a text fallback; readable desktop/mobile layouts. Never connect local photos to the fixture as a generated result or invent generation progress, calibrated piece ranges or prices.
 
@@ -45,19 +45,69 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 
 ### F0 — 3D model to brick assembly MVP
 
+#### Shared OBJ exterior workflow
+
+Confirmed by the founder: OBJ is the input format for the shared workflow. A cat, bottle, vehicle or other subject goes through the same exterior recovery, part fitting and LDraw export boundaries. The Cybertruck is the current design and test case, not a restriction on supported object names.
+
+- Accept nonempty, finite OBJ surface geometry within documented resource limits, including imperfect topology. Do not require an object name, filename, semantic grouping, material file or watertight source.
+- Ignore surfaces enclosed inside the recovered exterior. Adding a fully enclosed interior mesh to a closed test shape must not change its recovered exterior. Preserve the original and report inferred closure, thickness and unresolved openings; do not promise recovery of missing visible information.
+- Generate actual catalog part placements from the supplied geometry, with no substituted sample model. Reuse the same canonical native LDraw representation, library resolution, inventory, preview and export checks across subjects.
+- Resolve a requested approximate piece count through geometry scale and useful part fitting, recording target versus actual count and dimensions. Surface shaping and recognizability matter independently of count. No hidden count padding or external support stand is permitted.
+- Use suitable parts from the broad library through supported fitting strategies. A subject-specific surface optimizer may refine the result when its prerequisites are explicit; the general path must remain usable without it. Geometry-specific optimizers must not imply universal support for every construction technique.
+- Evaluate the shared path on the supplied cat, the Cybertruck, a clearly labeled procedural bottle and a distinct additional shape. Include renamed/ungrouped input and enclosed-interior invariance cases. Record likeness and part-count misses rather than treating file creation as sufficient visual acceptance.
+- A bounded input can produce an approximate digital candidate while assembly checks remain unresolved. Carry those states into every artifact; no render or file export establishes physical buildability. Invalid part IDs, unsupported manufactured colors, malformed transforms and inconsistent artifacts remain hard failures.
+
+#### Established rectangular baseline
+
 - Accept a valid `OBJ` or `STL` mesh, a target longest dimension in studs and a supported palette selection. Reject unreadable, empty or structurally unsuitable meshes with a useful reason.
 - Normalize the input orientation and scale, then discretize it on a grid whose horizontal unit is one stud and vertical unit is one plate. Keep the chosen scale and transform in the output metadata.
-- Use only parts, colors and orientations present in the versioned MVP catalog. The initial catalog is restricted to common rectangular bricks and plates; slopes, Technic elements, flexible parts and arbitrary-angle or sideways construction are deferred.
+- Use only parts, colors and orientations present in the versioned MVP catalog. The general P0 baseline starts with common rectangular bricks and plates; the confirmed Cybertruck vertical slice below adds a curated set of real vehicle, surface-shaping and connection parts without implying universal part support.
 - Produce a connected assembly with no collisions, floating parts or unsupported placements under the MVP rules. Stagger weak seams where possible and produce a valid bottom-up placement order.
+- Keep the assembly shape-derived. Do not add a plinth, stand, support column or other external structure solely to make an otherwise unsupported result pass validation. Reject the attempt with an actionable reason when the discretized target cannot produce a connected, bottom-up assembly under the selected size and catalog.
 - Export an LDraw `.ldr` or `.mpd` file, an exact machine-readable bill of materials grouped by part and color, a preview and a validation report. Inventory totals must equal the exported placements.
 - Import every release candidate into BrickLink Studio without missing-part or malformed-model errors. Physically build a small representative sample before describing the converter as producing buildable models.
 - Compare candidates at more than one target size when useful and report resemblance, part count, unique lots, validation failures, runtime and any manual repairs. Do not hide failed candidates.
+- Given the same mesh, catalog version, palette, target size and solver settings, repeated runs must produce the same canonical placements, bill of materials, placement sequence and validation result. Incidental run metadata may differ.
+
+#### F0 established rectangular benchmark handling
+
+The founder-supplied models in `references/3d-objects/` are the first development benchmark, not a promise that every file is within the supported-object boundary. Run the canonical `OBJ` for the house, cat and airplane through the same public converter path. Also run the house `STL` as a format-parity case; because it represents the same object, it does not count as a fourth benchmark shape.
+
+- Treat the cat as the initial solid-mesh baseline because the supplied geometry is watertight and consistently wound, while recognizing that its tail and limbs still challenge bottom-up placement. Treat the house as an input-quality challenge because the supplied geometry is open and inconsistently wound. Treat the airplane as a boundary challenge because thin wings and unsupported spans may fall outside the initial rectangular-brick catalog. These labels guide evaluation and do not predetermine pass or failure.
+- Preserve the supplied files unchanged. If a mesh needs cleanup, orientation hints or object selection, store the derived input separately and report every intervention; a manually repaired derivative cannot be presented as an automatic conversion of the original.
+- For each source/target-size attempt, record input format, catalog and solver versions, chosen transform and palette, success or rejection reason, resemblance review, part count, unique lots, validator results, runtime and manual intervention. Keep failed attempts in the benchmark report.
+- A successful attempt must produce the complete F0 output set and pass deterministic validation. A supported input that fails conversion is a defect; a structurally unsuitable input must fail with an actionable reason rather than emit a nominally successful model.
+- For the first implementation slice, run every supplied candidate unchanged and exercise at least two target sizes across the set. An end-to-end, no-repair success from the supplied set remains the objective, but do not force unsuitable geometry to pass. If every supplied candidate is rejected, use an explicitly labeled controlled valid fixture to prove the output pipeline and report successful conversion of an original supplied model as still outstanding. This is development evidence only. The broader P0 exit still requires the ten-shape benchmark, BrickLink Studio checks and physical builds in Roadmap.
+- Until Studio import and physical-build evidence exist, describe outputs as engineering prototypes or catalog-validated assemblies. Do not describe them as proven buildable models or release-ready instructions.
+
+#### F0 Cybertruck vertical slice
+
+Confirmed: build an exterior-focused LEGO interpretation from the current `references/3d-objects/cybertruck.obj`, targeting about 2,000 required pieces and an attractive LDraw model. The converter owns source cleanup needed to recover the exterior; the user is not expected to repair the mesh.
+
+- Preserve the original source and create any sanitized or reconstructed exterior as a derived input. Report discarded geometry and repairs. Broken, open or degenerate interior geometry may be ignored; do not claim interior fidelity.
+- Interpret “about 2,000 pieces” as a proposed target band of 1,800–2,200 required parts for this slice. Count only parts that form the visible model or provide useful hidden structure. Do not add hidden fill merely to reach the band. If the strongest design falls outside it, report the exact count and quality tradeoff rather than padding or mislabeling it.
+- Use a versioned Cybertruck catalog drawn from real LEGO-compatible LDraw parts and valid colors. It may include bricks, plates, slopes, wedges, curved slopes, tiles, brackets or other legal connection parts, transparent window elements, light elements, wheels, tires and axles. Each included family must contribute to the exterior treatment, wheel assembly or useful structure; broad catalog access is not a requirement to use arbitrary parts.
+- Match the founder-supplied gray Cybertruck references at minimum from front three-quarter, rear three-quarter and side views. Preserve the long low wedge silhouette; smooth faceted hood, windshield and roof planes; dark continuous window band; open bed profile; large real tires; black angular wheel arches and lower trim; and thin front and rear light bars. Favor clean tiled or sloped surfaces over voxel-like stepping where catalog geometry permits.
+- Interior detail, opening panels, steering, suspension, drivetrain and motorization are outside this slice. The wheels may be static. Hidden internal structure is permitted when it connects and supports the model, stays within the intended vehicle envelope and appears in the canonical placements, bill of materials and sequence.
+- Do not add an external display stand, plinth or shape-changing support. The assembly must remain self-supporting under the applicable checks.
+- Deliver the `.ldr`, exact bill of materials, multi-angle preview and validation report from the same canonical revision. Review exterior resemblance against the reference features above, not piece count alone. BrickLink Studio import remains required before calling the digital artifact compatible; physical-build evidence remains required before calling it proven buildable.
+
+Cybertruck reference translation, approved by the founder in the current task. These are founder-supplied evaluation references with unknown authorship/source; treat them as internal reference material rather than project-created or redistributable artwork:
+
+| ID | Repository reference | View | Accepted cues |
+| --- | --- | --- | --- |
+| C1 | [Front three-quarter](references/cybertruck-exterior/front-three-quarter.png) | Front three-quarter | Shallow pointed hood, broad faceted windshield, dark glazing, crisp silver body planes, black angular front arches, large tires and narrow front lighting |
+| C2 | [Rear three-quarter](references/cybertruck-exterior/rear-three-quarter.png) | Rear three-quarter | Open bed, descending roof/bed rails, full-width red rear light bar, flat tailgate, black rear bumper and angular rear arches |
+| C3 | [Side](references/cybertruck-exterior/side.png) | Side | Low continuous wedge profile, long dark window band, straight beltline, balanced axle placement, large tires and restrained silver/black color blocking |
 
 ### F0 non-goals
+
+These exclusions apply to the local converter milestone; the separately approved F1 photo pilot and independent Sites UI track retain their own scope.
 
 - No photo upload or image-to-3D reconstruction.
 - No web interface, user accounts, saved projects or background-job system.
 - No promise to support every LEGO part, color, object or advanced construction technique.
+- No universal guarantee that messy meshes or other vehicle categories can be reconstructed automatically because this Cybertruck slice succeeds.
 - No live pricing, stock lookup, automatic purchasing or polished consumer instructions.
 
 ### F1 — Photo input and configuration

@@ -1,6 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+outputs/
+build/
+dist/
 .DS_Store
 ~$*.docx
-__pycache__/
 *.py[cod]
 .env*
 !.env.example
