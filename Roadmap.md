@@ -38,7 +38,7 @@ Confirmed: the team will first build and evaluate a local converter from a clean
 
 The milestone outputs are a validated canonical placement model, LDraw `.ldr` or `.mpd` export, exact bill of materials, preview, bottom-up placement sequence and validation report. LDraw is the working geometry/interchange foundation; a restricted local catalog is used during solving; BrickLink Studio is the compatibility and inspection baseline. BrickLink/Rebrickable mappings and live sourcing are enrichment work, not prerequisites for the first successful conversion.
 
-Photo reconstruction and the consumer web app remain outside this milestone. A separately gated upstream prototype may proceed without claiming that P0 has passed. Full account management, project-library UX, pricing and automated purchasing remain deferred; the upstream workstream may retain private jobs and results as required for secure processing and recovery. This preserves the long-term product promise without weakening the mesh-to-brick exit gate.
+Photo reconstruction and the consumer web app remain outside this milestone. A separately gated upstream prototype and the founder-approved independent Sites UI track may proceed without claiming that P0 has passed. The UI track uses explicitly labeled sample data and does not satisfy P0–P4 exit gates. Full account management, project-library UX, pricing and automated purchasing remain deferred; the upstream workstream may retain private jobs and results as required for secure processing and recovery. This preserves the long-term product promise without weakening the mesh-to-brick exit gate.
 
 Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick editing, collaborative editing inside the app, marketplace checkout, and photorealistic accuracy. Collaboration between the two developers is required now; multiplayer product features are a separate choice.
 
@@ -72,6 +72,8 @@ Current implementation status: source exists for normalized single-image upload,
 One local live bottle run completed through browser upload, fal, stored ready state, neutral preview, refresh recovery and authenticated downloads in 64.966 seconds. Download hashes matched the manifest and the downloaded `GLB` reproduced the `OBJ` exactly. This is one observation, not a median or general quality claim. Twenty-five synthetic checks, type checking and the production build also passed. See [the bottle smoke test](reconstruction-site/test/live-evidence.md). Version 1 of the owner-private [pilot site](https://lego-builder-image-to-3d.dragonjjk.chatgpt.site) published successfully. Hosted inference and identity/storage, repeated latency, broader object quality, provider retention guarantees and converter suitability remain open.
 
 This workstream may prototype the upstream portion of P2 while P0/P1 milestones and their buildability gates remain valid. It does not satisfy P2 or P3 exit evidence by itself and must not imply LEGO conversion, parts, instructions, structural validity, or physical buildability. Hosted evidence, representative quality, cost, verified privacy/retention behavior, timeout, and measured latency targets remain gates before production integration. Product F1 defines the approved MVP journey and criteria.
+
+The independent Sites UI track includes founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
 
 ## Quality and release gates
 

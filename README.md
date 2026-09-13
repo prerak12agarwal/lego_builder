@@ -6,11 +6,14 @@ Turn photos of an item into an interactive LEGO-brick model, a matching parts li
 
 The LEGO conversion MVP accepts a clean `OBJ` or `STL` file and aims to produce a buildable model made from real catalog parts. It must export an LDraw model and an exact bill of materials that can be inspected in BrickLink Studio. The separately approved [image reconstruction pilot](reconstruction-site/README.md) implements photo upload, fal TRELLIS generation, neutral 3D preview, and GLB/OBJ downloads. A mesh preview does not establish LEGO conversion or buildability. See the Roadmap for the independent workstream and unchanged converter release gates.
 
+The independently approved [Sites UI preview](site/README.md) provides connected Model, Parts and Instructions views using clearly labeled sample data, plus browser-local LDraw inspection. It remains a separate application from the reconstruction pilot; integrating these user flows is future work.
+
 Start with the project documents:
 
 - [Roadmap.md](Roadmap.md): context, delivery phases, release gates and open direction.
 - [Architecture.md](Architecture.md): proposed stack, system design and engineering contracts.
 - [Product.md](Product.md): features, pages, UX and reference-led design decisions.
+- [site/README.md](site/README.md): UI preview, development commands and publication boundary.
 - [AGENTS.md](AGENTS.md): Product, Architect, Developer and QA roles and collaboration rules.
 - [research/image_to_brick_model_research.docx](research/image_to_brick_model_research.docx): research behind the selected conversion approach and tool choices.
 - [agents/](agents/): detailed role briefs; runnable project configurations live in `.codex/agents/`.
