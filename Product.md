@@ -41,9 +41,22 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 - Normalize the input orientation and scale, then discretize it on a grid whose horizontal unit is one stud and vertical unit is one plate. Keep the chosen scale and transform in the output metadata.
 - Use only parts, colors and orientations present in the versioned MVP catalog. The initial catalog is restricted to common rectangular bricks and plates; slopes, Technic elements, flexible parts and arbitrary-angle or sideways construction are deferred.
 - Produce a connected assembly with no collisions, floating parts or unsupported placements under the MVP rules. Stagger weak seams where possible and produce a valid bottom-up placement order.
+- Keep the assembly shape-derived. Do not add a plinth, stand, support column or other external structure solely to make an otherwise unsupported result pass validation. Reject the attempt with an actionable reason when the discretized target cannot produce a connected, bottom-up assembly under the selected size and catalog.
 - Export an LDraw `.ldr` or `.mpd` file, an exact machine-readable bill of materials grouped by part and color, a preview and a validation report. Inventory totals must equal the exported placements.
 - Import every release candidate into BrickLink Studio without missing-part or malformed-model errors. Physically build a small representative sample before describing the converter as producing buildable models.
 - Compare candidates at more than one target size when useful and report resemblance, part count, unique lots, validation failures, runtime and any manual repairs. Do not hide failed candidates.
+- Given the same mesh, catalog version, palette, target size and solver settings, repeated runs must produce the same canonical placements, bill of materials, placement sequence and validation result. Incidental run metadata may differ.
+
+#### F0 sample benchmark handling
+
+The founder-supplied models in `references/3d-objects/` are the first development benchmark, not a promise that every file is within the supported-object boundary. Run the canonical `OBJ` for the house, cat and airplane through the same public converter path. Also run the house `STL` as a format-parity case; because it represents the same object, it does not count as a fourth benchmark shape.
+
+- Treat the cat as the initial solid-mesh baseline because the supplied geometry is watertight and consistently wound, while recognizing that its tail and limbs still challenge bottom-up placement. Treat the house as an input-quality challenge because the supplied geometry is open and inconsistently wound. Treat the airplane as a boundary challenge because thin wings and unsupported spans may fall outside the initial rectangular-brick catalog. These labels guide evaluation and do not predetermine pass or failure.
+- Preserve the supplied files unchanged. If a mesh needs cleanup, orientation hints or object selection, store the derived input separately and report every intervention; a manually repaired derivative cannot be presented as an automatic conversion of the original.
+- For each source/target-size attempt, record input format, catalog and solver versions, chosen transform and palette, success or rejection reason, resemblance review, part count, unique lots, validator results, runtime and manual intervention. Keep failed attempts in the benchmark report.
+- A successful attempt must produce the complete F0 output set and pass deterministic validation. A supported input that fails conversion is a defect; a structurally unsuitable input must fail with an actionable reason rather than emit a nominally successful model.
+- For the first implementation slice, run every supplied candidate unchanged and exercise at least two target sizes across the set. An end-to-end, no-repair success from the supplied set remains the objective, but do not force unsuitable geometry to pass. If every supplied candidate is rejected, use an explicitly labeled controlled valid fixture to prove the output pipeline and report successful conversion of an original supplied model as still outstanding. This is development evidence only. The broader P0 exit still requires the ten-shape benchmark, BrickLink Studio checks and physical builds in Roadmap.
+- Until Studio import and physical-build evidence exist, describe outputs as engineering prototypes or catalog-validated assemblies. Do not describe them as proven buildable models or release-ready instructions.
 
 ### F0 non-goals
 

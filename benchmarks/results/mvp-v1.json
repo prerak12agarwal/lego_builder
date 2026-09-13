@@ -1,0 +1,2149 @@
+{
+  "algorithm_version": "greedy-stagger-v1",
+  "alternate_format_cases": 1,
+  "cases": [
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-cat",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 5,
+      "parts": 29,
+      "passed": true,
+      "report": "supplied-cat-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "760588cf1ca345fb293016fc1faf92c6849a67f9fcbfa5f2efbe64c1abe2f82a",
+      "runtime_seconds": 0.8063,
+      "single_stud_supported_parts": 2,
+      "size": 8,
+      "source_sha256": "0de7714a0f30f7bc735a5419e0ceb5f7d2cb12eabcf017a80d0a9cc797e057de",
+      "source_to_grid_matrix": [
+        [
+          0.13139892220034066,
+          0.0,
+          0.0,
+          0.8248698740048584
+        ],
+        [
+          0.0,
+          0.13139892220034066,
+          0.0,
+          2.9243355731374616
+        ],
+        [
+          0.0,
+          0.0,
+          0.32849730550085166,
+          -0.0017410357191545139
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 5,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-cat",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-cat-12/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.8025,
+      "single_stud_supported_parts": null,
+      "size": 12,
+      "source_sha256": "0de7714a0f30f7bc735a5419e0ceb5f7d2cb12eabcf017a80d0a9cc797e057de",
+      "source_to_grid_matrix": [
+        [
+          0.197098383300511,
+          0.0,
+          0.0,
+          1.2373048110072877
+        ],
+        [
+          0.0,
+          0.197098383300511,
+          0.0,
+          4.386503359706193
+        ],
+        [
+          0.0,
+          0.0,
+          0.4927459582512775,
+          -0.002611553578731771
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-cat",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-cat-16/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.8209,
+      "single_stud_supported_parts": null,
+      "size": 16,
+      "source_sha256": "0de7714a0f30f7bc735a5419e0ceb5f7d2cb12eabcf017a80d0a9cc797e057de",
+      "source_to_grid_matrix": [
+        [
+          0.2627978444006813,
+          0.0,
+          0.0,
+          1.649739748009717
+        ],
+        [
+          0.0,
+          0.2627978444006813,
+          0.0,
+          5.848671146274923
+        ],
+        [
+          0.0,
+          0.0,
+          0.6569946110017033,
+          -0.0034820714383090277
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-cat",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-cat-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.8836,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "0de7714a0f30f7bc735a5419e0ceb5f7d2cb12eabcf017a80d0a9cc797e057de",
+      "source_to_grid_matrix": [
+        [
+          0.394196766601022,
+          0.0,
+          0.0,
+          2.4746096220145755
+        ],
+        [
+          0.0,
+          0.394196766601022,
+          0.0,
+          8.773006719412386
+        ],
+        [
+          0.0,
+          0.0,
+          0.985491916502555,
+          -0.005223107157463542
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-airplane",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-airplane-8/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 1.9472,
+      "single_stud_supported_parts": null,
+      "size": 8,
+      "source_sha256": "f682b80659503adc5d2d5daf4a9ea920a7f7b19db72db6e9bffaf16e9c6f314c",
+      "source_to_grid_matrix": [
+        [
+          0.002563811012773291,
+          0.0,
+          0.0,
+          4.524804166500553
+        ],
+        [
+          0.0,
+          0.002563811012773291,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.006409527531933227,
+          1.080543148490678
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-airplane",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 12,
+      "parts": 43,
+      "passed": true,
+      "report": "supplied-airplane-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "96c29113083b24bbccf0d582f8468b24cd2a085199bcfadbe5de1481ca10abef",
+      "runtime_seconds": 1.9467,
+      "single_stud_supported_parts": 7,
+      "size": 12,
+      "source_sha256": "f682b80659503adc5d2d5daf4a9ea920a7f7b19db72db6e9bffaf16e9c6f314c",
+      "source_to_grid_matrix": [
+        [
+          0.0038457165191599363,
+          0.0,
+          0.0,
+          6.787206249750829
+        ],
+        [
+          0.0,
+          0.0038457165191599363,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.00961429129789984,
+          1.620814722736017
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-airplane",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-airplane-16/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 1.9561,
+      "single_stud_supported_parts": null,
+      "size": 16,
+      "source_sha256": "f682b80659503adc5d2d5daf4a9ea920a7f7b19db72db6e9bffaf16e9c6f314c",
+      "source_to_grid_matrix": [
+        [
+          0.005127622025546582,
+          0.0,
+          0.0,
+          9.049608333001107
+        ],
+        [
+          0.0,
+          0.005127622025546582,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.012819055063866455,
+          2.161086296981356
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-airplane",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-airplane-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 1.985,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "f682b80659503adc5d2d5daf4a9ea920a7f7b19db72db6e9bffaf16e9c6f314c",
+      "source_to_grid_matrix": [
+        [
+          0.007691433038319873,
+          0.0,
+          0.0,
+          13.574412499501658
+        ],
+        [
+          0.0,
+          0.007691433038319873,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.01922858259579968,
+          3.241629445472034
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-8/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.2238,
+      "single_stud_supported_parts": null,
+      "size": 8,
+      "source_sha256": "c02592525dd1222da0183f27d75859106ef09f54be12e1d11333f696f4334cb3",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-12/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.2318,
+      "single_stud_supported_parts": null,
+      "size": 12,
+      "source_sha256": "c02592525dd1222da0183f27d75859106ef09f54be12e1d11333f696f4334cb3",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-16/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.2325,
+      "single_stud_supported_parts": null,
+      "size": 16,
+      "source_sha256": "c02592525dd1222da0183f27d75859106ef09f54be12e1d11333f696f4334cb3",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "obj",
+      "kind": "founder-supplied OBJ",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.2304,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "c02592525dd1222da0183f27d75859106ef09f54be12e1d11333f696f4334cb3",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house-stl-parity",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "stl",
+      "kind": "alternate encoding, not an independent shape",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-stl-parity-8/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.1159,
+      "single_stud_supported_parts": null,
+      "size": 8,
+      "source_sha256": "49beb796c1a3653d1ce37f25409944252a687929fb1bd4626cd99d6ba9b4a313",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house-stl-parity",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "stl",
+      "kind": "alternate encoding, not an independent shape",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-stl-parity-12/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.1112,
+      "single_stud_supported_parts": null,
+      "size": 12,
+      "source_sha256": "49beb796c1a3653d1ce37f25409944252a687929fb1bd4626cd99d6ba9b4a313",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house-stl-parity",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "stl",
+      "kind": "alternate encoding, not an independent shape",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-stl-parity-16/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.11,
+      "single_stud_supported_parts": null,
+      "size": 16,
+      "source_sha256": "49beb796c1a3653d1ce37f25409944252a687929fb1bd4626cd99d6ba9b4a313",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "supplied-house-stl-parity",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "degenerate_mesh",
+      "input_format": "stl",
+      "kind": "alternate encoding, not an independent shape",
+      "manual_repairs": 0,
+      "normalization_status": "not_reached",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "supplied-house-stl-parity-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.1084,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "49beb796c1a3653d1ce37f25409944252a687929fb1bd4626cd99d6ba9b4a313",
+      "source_to_grid_matrix": null,
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cube",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 88,
+      "passed": true,
+      "report": "procedural-cube-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "1e0d3b03abae4d170c969373d4dd3bf7d8e5dd541f8ad06ba094f6ec1a054131",
+      "runtime_seconds": 0.0359,
+      "single_stud_supported_parts": 4,
+      "size": 8,
+      "source_sha256": "50b9e8efbe1596750bb066f22880c7b73adfdd139a8c2457fc351931a2b7390c",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          10.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cube",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 220,
+      "passed": true,
+      "report": "procedural-cube-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "6de606b468968373de3485e4837620ae8717dcfea4a6cfcd7e9c4c244691fec2",
+      "runtime_seconds": 0.1053,
+      "single_stud_supported_parts": 5,
+      "size": 12,
+      "source_sha256": "50b9e8efbe1596750bb066f22880c7b73adfdd139a8c2457fc351931a2b7390c",
+      "source_to_grid_matrix": [
+        [
+          1.5,
+          0.0,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          1.5,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.75,
+          15.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cube",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 529,
+      "passed": true,
+      "report": "procedural-cube-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "a0c2910e847de059e7869dc868e1cfe6f5ae585e6462c5279d55a975072a9780",
+      "runtime_seconds": 0.2665,
+      "single_stud_supported_parts": 7,
+      "size": 16,
+      "source_sha256": "50b9e8efbe1596750bb066f22880c7b73adfdd139a8c2457fc351931a2b7390c",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          20.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cube",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 1597,
+      "passed": true,
+      "report": "procedural-cube-24/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "5255d0350f7dfae460b759b39d585fccacb6a4062c2837cdac503c844ee74363",
+      "runtime_seconds": 0.9427,
+      "single_stud_supported_parts": 10,
+      "size": 24,
+      "source_sha256": "50b9e8efbe1596750bb066f22880c7b73adfdd139a8c2457fc351931a2b7390c",
+      "source_to_grid_matrix": [
+        [
+          3.0,
+          0.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          3.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          0.0,
+          7.5,
+          30.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-tower",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 24,
+      "passed": true,
+      "report": "procedural-tower-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "155d6688695954c9a6bb409b0753b96e8d619b70070c7de711d3855a29503465",
+      "runtime_seconds": 0.0054,
+      "single_stud_supported_parts": 0,
+      "size": 8,
+      "source_sha256": "894f8f100e9defbe070a29d83cf768711d191b8dfcac67844904b8776f439339",
+      "source_to_grid_matrix": [
+        [
+          0.6666666666666666,
+          0.0,
+          0.0,
+          1.3333333333333333
+        ],
+        [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          1.3333333333333333
+        ],
+        [
+          0.0,
+          0.0,
+          1.6666666666666665,
+          10.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-tower",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 20,
+      "passed": true,
+      "report": "procedural-tower-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "c3824d36bbb51282de77504750c6ec1518d138de2222e1add6a32a2cf2bcc5b8",
+      "runtime_seconds": 0.0109,
+      "single_stud_supported_parts": 0,
+      "size": 12,
+      "source_sha256": "894f8f100e9defbe070a29d83cf768711d191b8dfcac67844904b8776f439339",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          2.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          2.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          15.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 1,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-tower",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 105,
+      "passed": true,
+      "report": "procedural-tower-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "63fe5b336a4470b93c4f374e7cd0a22434d5336f64b06df854e36c96381ad530",
+      "runtime_seconds": 0.0318,
+      "single_stud_supported_parts": 28,
+      "size": 16,
+      "source_sha256": "894f8f100e9defbe070a29d83cf768711d191b8dfcac67844904b8776f439339",
+      "source_to_grid_matrix": [
+        [
+          1.3333333333333333,
+          0.0,
+          0.0,
+          2.6666666666666665
+        ],
+        [
+          0.0,
+          1.3333333333333333,
+          0.0,
+          2.6666666666666665
+        ],
+        [
+          0.0,
+          0.0,
+          3.333333333333333,
+          20.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 7,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-tower",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 220,
+      "passed": true,
+      "report": "procedural-tower-24/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "bd6f3a1e7fe7142fe3667dd33288fc80f8f72868c6d9d372ca80197d3c230114",
+      "runtime_seconds": 0.0869,
+      "single_stud_supported_parts": 10,
+      "size": 24,
+      "source_sha256": "894f8f100e9defbe070a29d83cf768711d191b8dfcac67844904b8776f439339",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          30.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-sphere",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "procedural-sphere-8/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.0787,
+      "single_stud_supported_parts": null,
+      "size": 8,
+      "source_sha256": "d3f119d6eaa294d2fa5493bb22937b1b9ad825b7e07bc2179f257347f32301e1",
+      "source_to_grid_matrix": [
+        [
+          0.6666666666666666,
+          0.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.6666666666666665,
+          10.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-sphere",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 71,
+      "parts": 575,
+      "passed": true,
+      "report": "procedural-sphere-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "268e87ae3257d0b25c1c6cdbf3af924c26448811ab2f07302eeeef20a57cb410",
+      "runtime_seconds": 0.3102,
+      "single_stud_supported_parts": 96,
+      "size": 12,
+      "source_sha256": "d3f119d6eaa294d2fa5493bb22937b1b9ad825b7e07bc2179f257347f32301e1",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          15.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-sphere",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "procedural-sphere-16/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.5705,
+      "single_stud_supported_parts": null,
+      "size": 16,
+      "source_sha256": "d3f119d6eaa294d2fa5493bb22937b1b9ad825b7e07bc2179f257347f32301e1",
+      "source_to_grid_matrix": [
+        [
+          1.3333333333333333,
+          0.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          1.3333333333333333,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.333333333333333,
+          20.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-sphere",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "procedural-sphere-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 1.9959,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "d3f119d6eaa294d2fa5493bb22937b1b9ad825b7e07bc2179f257347f32301e1",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          30.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cylinder",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 102,
+      "passed": true,
+      "report": "procedural-cylinder-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "f611743954a6d44efd6d27e47082acb2c35b317a8c55f1d89a34226764b82254",
+      "runtime_seconds": 0.0376,
+      "single_stud_supported_parts": 17,
+      "size": 8,
+      "source_sha256": "ff931dfa6269b92cd8bcc01be8cf109a50e4210088340e907c63c3eca7b6d2a6",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          10.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 9,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cylinder",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 235,
+      "passed": true,
+      "report": "procedural-cylinder-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "afff9fe0e01104b938501e1a134bc5304b198e91d22a84600d578a7b6a850d1e",
+      "runtime_seconds": 0.1016,
+      "single_stud_supported_parts": 35,
+      "size": 12,
+      "source_sha256": "ff931dfa6269b92cd8bcc01be8cf109a50e4210088340e907c63c3eca7b6d2a6",
+      "source_to_grid_matrix": [
+        [
+          1.5,
+          0.0,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          1.5,
+          0.0,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.75,
+          15.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cylinder",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 556,
+      "passed": true,
+      "report": "procedural-cylinder-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "bf81116f577e8f88d49a87e8c2a4afc3b166508ec9a0d7f8cc2022692920684e",
+      "runtime_seconds": 0.2525,
+      "single_stud_supported_parts": 58,
+      "size": 16,
+      "source_sha256": "ff931dfa6269b92cd8bcc01be8cf109a50e4210088340e907c63c3eca7b6d2a6",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          8.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          20.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-cylinder",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 1661,
+      "passed": true,
+      "report": "procedural-cylinder-24/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "8e04932797d6bfd52eeb31bad80cfa5bac6960065830b3b5e73a9b5e3d4bae13",
+      "runtime_seconds": 0.8099,
+      "single_stud_supported_parts": 178,
+      "size": 24,
+      "source_sha256": "ff931dfa6269b92cd8bcc01be8cf109a50e4210088340e907c63c3eca7b6d2a6",
+      "source_to_grid_matrix": [
+        [
+          3.0,
+          0.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          3.0,
+          0.0,
+          12.0
+        ],
+        [
+          0.0,
+          0.0,
+          7.5,
+          30.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-steps",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 14,
+      "passed": true,
+      "report": "procedural-steps-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "2cc2551754ab526a27532f2144a7a1316133b5f18f21706fa131c340ac5198eb",
+      "runtime_seconds": 0.0185,
+      "single_stud_supported_parts": 0,
+      "size": 8,
+      "source_sha256": "037bf8798cf0d2647b349b3795746505798fef453de000db86444b57d968f2f9",
+      "source_to_grid_matrix": [
+        [
+          0.6666666666666666,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.6666666666666665,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 4,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-steps",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 44,
+      "passed": true,
+      "report": "procedural-steps-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "c3b2fb7c39f6cb6057e46b6af76800c61b6bb7550d3ae5149ed73ba67d007056",
+      "runtime_seconds": 0.0319,
+      "single_stud_supported_parts": 2,
+      "size": 12,
+      "source_sha256": "037bf8798cf0d2647b349b3795746505798fef453de000db86444b57d968f2f9",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 8,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-steps",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 90,
+      "passed": true,
+      "report": "procedural-steps-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "efe5ab35ef4b2b5e54478461380608a93ebcf68137b305027731a4c8094e3f69",
+      "runtime_seconds": 0.0488,
+      "single_stud_supported_parts": 3,
+      "size": 16,
+      "source_sha256": "037bf8798cf0d2647b349b3795746505798fef453de000db86444b57d968f2f9",
+      "source_to_grid_matrix": [
+        [
+          1.3333333333333333,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.3333333333333333,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.333333333333333,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 10,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-steps",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 270,
+      "passed": true,
+      "report": "procedural-steps-24/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "fe13fa65173a4a7bba125e77bb5f6b1ce2755150b3d44e7029f73b950e7e3941",
+      "runtime_seconds": 0.1517,
+      "single_stud_supported_parts": 11,
+      "size": 24,
+      "source_sha256": "037bf8798cf0d2647b349b3795746505798fef453de000db86444b57d968f2f9",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 10,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-arch",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 2,
+      "parts": 46,
+      "passed": true,
+      "report": "procedural-arch-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "6c81b928fb910ddf24917904eb1004e0c3c0f74d4d4da94e3938e965e00e7d8a",
+      "runtime_seconds": 0.0236,
+      "single_stud_supported_parts": 1,
+      "size": 8,
+      "source_sha256": "6dc4fd107cbb7b90e3004402527a76ffb5a13e7c480b74e1dfb65a668b6ff988",
+      "source_to_grid_matrix": [
+        [
+          0.6666666666666666,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.6666666666666665,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 6,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-arch",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 3,
+      "parts": 68,
+      "passed": true,
+      "report": "procedural-arch-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "49f390a3769c5dcd3a7e27aa4016090de621cde808c5260ae088518f716e2583",
+      "runtime_seconds": 0.0418,
+      "single_stud_supported_parts": 0,
+      "size": 12,
+      "source_sha256": "6dc4fd107cbb7b90e3004402527a76ffb5a13e7c480b74e1dfb65a668b6ff988",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 2,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-arch",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 6,
+      "parts": 212,
+      "passed": true,
+      "report": "procedural-arch-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "17859a6c2c9e5ca519fd7d8c9eb8ede40ce73ff7b6f570ac09268ef901957902",
+      "runtime_seconds": 0.1575,
+      "single_stud_supported_parts": 20,
+      "size": 16,
+      "source_sha256": "6dc4fd107cbb7b90e3004402527a76ffb5a13e7c480b74e1dfb65a668b6ff988",
+      "source_to_grid_matrix": [
+        [
+          1.3333333333333333,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.3333333333333333,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.333333333333333,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 5,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-arch",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "no_valid_assembly",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": null,
+      "parts": null,
+      "passed": false,
+      "report": "procedural-arch-24/validation.json",
+      "resemblance_review": "not_reached_no_valid_assembly",
+      "revision_id": null,
+      "runtime_seconds": 0.3174,
+      "single_stud_supported_parts": null,
+      "size": 24,
+      "source_sha256": "6dc4fd107cbb7b90e3004402527a76ffb5a13e7c480b74e1dfb65a668b6ff988",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": null,
+      "voxel_iou": null,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-pyramid",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 44,
+      "passed": true,
+      "report": "procedural-pyramid-8/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "4d965779aab93f1a84af4f4d4b6ec0c0d7a47b47655d28de647dddce8c56ec39",
+      "runtime_seconds": 0.035,
+      "single_stud_supported_parts": 9,
+      "size": 8,
+      "source_sha256": "6c37e9f64dc976953c1bd2296b0b9f2c7c99c18b0b2e6155de4eb92ae73631f5",
+      "source_to_grid_matrix": [
+        [
+          0.6666666666666666,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.6666666666666666,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.6666666666666665,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 9,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-pyramid",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 113,
+      "passed": true,
+      "report": "procedural-pyramid-12/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "2013a0b89ccb41b7ba3271498c4d1be1bfb2f169e79999551489f651040ef85f",
+      "runtime_seconds": 0.0737,
+      "single_stud_supported_parts": 7,
+      "size": 12,
+      "source_sha256": "6c37e9f64dc976953c1bd2296b0b9f2c7c99c18b0b2e6155de4eb92ae73631f5",
+      "source_to_grid_matrix": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          2.5,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-pyramid",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 228,
+      "passed": true,
+      "report": "procedural-pyramid-16/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "15be00a949b90efb7ce6d3b89127dd4b645d8976166c3d20fea2b687764fba42",
+      "runtime_seconds": 0.1112,
+      "single_stud_supported_parts": 16,
+      "size": 16,
+      "source_sha256": "6c37e9f64dc976953c1bd2296b0b9f2c7c99c18b0b2e6155de4eb92ae73631f5",
+      "source_to_grid_matrix": [
+        [
+          1.3333333333333333,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          1.3333333333333333,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          3.333333333333333,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    },
+    {
+      "algorithm_version": "greedy-stagger-v1",
+      "allowed_palette": [
+        4
+      ],
+      "case": "procedural-pyramid",
+      "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+      "catalog_version": "ldraw-rectangular-red-v2",
+      "errors": "",
+      "input_format": "obj",
+      "kind": "procedural clean fixture",
+      "manual_repairs": 0,
+      "normalization_status": "completed",
+      "partially_supported_parts": 0,
+      "parts": 638,
+      "passed": true,
+      "report": "procedural-pyramid-24/validation.json",
+      "resemblance_review": "pending_manual_review",
+      "revision_id": "f7c440b9ad98433c306840a89559f76c71925e11511e8cb1cc83654a7d7a025c",
+      "runtime_seconds": 0.3246,
+      "single_stud_supported_parts": 24,
+      "size": 24,
+      "source_sha256": "6c37e9f64dc976953c1bd2296b0b9f2c7c99c18b0b2e6155de4eb92ae73631f5",
+      "source_to_grid_matrix": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "unique_lots": 12,
+      "voxel_iou": 1.0,
+      "voxelizer": "triangle-box-sat-solid-fill-v1"
+    }
+  ],
+  "catalog_sha256": "597c5945c87a707ae4b0cc6c81c9b130fee6b46a840bc736e72c08e92ef6b012",
+  "catalog_version": "ldraw-rectangular-red-v2",
+  "complete": true,
+  "distinct_shapes": 10,
+  "manual_resemblance_review": "pending; voxel IoU is not a source-shape resemblance score",
+  "passed_candidates": 26,
+  "physical_build_verified": false,
+  "studio_import_verified": false,
+  "supplied_obj_success": true,
+  "total_candidates": 44,
+  "voxelizer": "triangle-box-sat-solid-fill-v1"
+}

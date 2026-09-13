@@ -1,0 +1,466 @@
+{
+  "version": "ldraw-rectangular-red-v2",
+  "schema_version": 1,
+  "colors": {
+    "4": {
+      "name": "Red",
+      "hex": "#B40000",
+      "edge": "#333333",
+      "bricklink_id": 5,
+      "source_url": "https://library.ldraw.org/library/official/LDConfig.ldr",
+      "source_sha256": "0178cd14fba46acb9df049c835e60e223b134d178f7e928ace0be1dfbe78895d",
+      "source_entry": "0 !COLOUR Red                                                   CODE     4   VALUE #B40000   EDGE #333333"
+    }
+  },
+  "geometry_scope": "Analytic axis-aligned rectangular body and stud/mating planes; root .dat files retained for provenance. Recursive render geometry is not bundled.",
+  "parts": [
+    {
+      "id": "3005",
+      "name": "Brick 1 x 1",
+      "width": 1,
+      "depth": 1,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3005.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3005.dat",
+      "sha256": "f86e5f3aed432cab8f5dffcf2e41a9f2ee8c3bd4dcad1732da9630837849a4f8",
+      "source_path": "ldraw/parts/3005.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2022-05",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3005",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1028,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3005s01.dat"
+      ]
+    },
+    {
+      "id": "3004",
+      "name": "Brick 1 x 2",
+      "width": 2,
+      "depth": 1,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3004.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3004.dat",
+      "sha256": "e1caee3b32175393c9d6ea176a47f8869173a01d03a451e1cfe10d09167c0203",
+      "source_path": "ldraw/parts/3004.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2022-05",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3004",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1500,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3004s01.dat"
+      ]
+    },
+    {
+      "id": "3622",
+      "name": "Brick 1 x 3",
+      "width": 3,
+      "depth": 1,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3622.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3622.dat",
+      "sha256": "9317bcec4fbcddbd38ed3972d25ea95d685101904f3ed86c7e769a9f356245d8",
+      "source_path": "ldraw/parts/3622.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2004-02",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3622",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3622",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 554,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3622s01.dat"
+      ]
+    },
+    {
+      "id": "3010",
+      "name": "Brick 1 x 4",
+      "width": 4,
+      "depth": 1,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3010.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3010.dat",
+      "sha256": "7d1cb3082199042666045d92388b3b3ab697f969268e87a6c001f80f92a2e0b2",
+      "source_path": "ldraw/parts/3010.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2025-09",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3010",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3010",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 991,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3010s01.dat"
+      ]
+    },
+    {
+      "id": "3003",
+      "name": "Brick 2 x 2",
+      "width": 2,
+      "depth": 2,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3003.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3003.dat",
+      "sha256": "aed0ccd750126a58d38b012a4e8b16c172896339547c120ef67b69e1386f490d",
+      "source_path": "ldraw/parts/3003.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2022-05",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3003",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3003",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 900,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3003s01.dat"
+      ]
+    },
+    {
+      "id": "3001",
+      "name": "Brick 2 x 4",
+      "width": 4,
+      "depth": 2,
+      "height": 3,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3001.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3001.dat",
+      "sha256": "70968cb5e4baa92dc6a1939aca7526b8566a17dbea49da9b91182aa864e412c4",
+      "source_path": "ldraw/parts/3001.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2004-03",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3001",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3001",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1013,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3001s01.dat"
+      ]
+    },
+    {
+      "id": "3024",
+      "name": "Plate 1 x 1",
+      "width": 1,
+      "depth": 1,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3024.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3024.dat",
+      "sha256": "e053af4f232374b0c8da2dc0f9620bedf0576ca43d7c3ceebc6676050ae61da8",
+      "source_path": "ldraw/parts/3024.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2022-05",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3024",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 875,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3024s01.dat"
+      ]
+    },
+    {
+      "id": "3023",
+      "name": "Plate 1 x 2",
+      "width": 2,
+      "depth": 1,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3023.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3023.dat",
+      "sha256": "fa3eeab92b077488bae3dbc0fe974ef3327a77f130776d2965f13d3ebc22ab57",
+      "source_path": "ldraw/parts/3023.dat",
+      "author": "Orion Pobursky [OrionP]",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2024-07",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3023",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3023",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1880,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "3023b.dat"
+      ]
+    },
+    {
+      "id": "3022",
+      "name": "Plate 2 x 2",
+      "width": 2,
+      "depth": 2,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3022.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3022.dat",
+      "sha256": "3cd09bfe626e751ad95eab0ea83e5f3adea81f05d34993a1c4bf432ee386fe25",
+      "source_path": "ldraw/parts/3022.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2002-03",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3022",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3022",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1437,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "box5.dat",
+        "stud.dat",
+        "stud4.dat"
+      ]
+    },
+    {
+      "id": "3020",
+      "name": "Plate 2 x 4",
+      "width": 4,
+      "depth": 2,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3020.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3020.dat",
+      "sha256": "551e433cc4bcfdeeb6e390e509d52ee2e62c90d3eae625ee36928ef32291bb79",
+      "source_path": "ldraw/parts/3020.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2002-03",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3020",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3020",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1381,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "box5.dat",
+        "stud.dat",
+        "stud4.dat"
+      ]
+    },
+    {
+      "id": "3623",
+      "name": "Plate 1 x 3",
+      "width": 3,
+      "depth": 1,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3623.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3623.dat",
+      "sha256": "08f74845fceb4b39976d8ba56c0d59970483b8956cc59eb08e9f01ca579467e2",
+      "source_path": "ldraw/parts/3623.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2017-01",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3623",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3623",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 688,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3623s01.dat"
+      ]
+    },
+    {
+      "id": "3710",
+      "name": "Plate 1 x 4",
+      "width": 4,
+      "depth": 1,
+      "height": 1,
+      "colors": [
+        4
+      ],
+      "orientations": [
+        0,
+        90
+      ],
+      "ldraw_file": "3710.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3710.dat",
+      "sha256": "1a2d17e3e35750ccf02a54c7aee0cf7485c1c8596492746fc798d341399a3a6e",
+      "source_path": "ldraw/parts/3710.dat",
+      "author": "James Jessiman",
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "source_modified": false,
+      "ldraw_release": "Part UPDATE 2023-06",
+      "body_origin": "top-plane center; local Y increases down",
+      "connector_rule": "one top stud and underside mating site at each footprint cell center",
+      "bricklink_id": "3710",
+      "color_evidence": {
+        "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3710",
+        "section": "Known Colors",
+        "color_name": "Red",
+        "bricklink_color_id": 5,
+        "observed_catalog_occurrences": 1191,
+        "verified_on": "2026-09-13"
+      },
+      "root_dependencies": [
+        "s\\3710s01.dat"
+      ]
+    }
+  ]
+}

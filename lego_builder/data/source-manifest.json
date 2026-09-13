@@ -1,0 +1,98 @@
+{
+  "retrieved_on": "2026-09-13",
+  "files": [
+    {
+      "path": "ldraw/CAreadme.txt",
+      "source_url": "https://library.ldraw.org/library/official/CAreadme.txt",
+      "sha256": "c67a824bdab18e646337b5b26f7f039c84b0be71273c0c878e2749e648820497",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3001.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3001.dat",
+      "sha256": "70968cb5e4baa92dc6a1939aca7526b8566a17dbea49da9b91182aa864e412c4",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3003.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3003.dat",
+      "sha256": "aed0ccd750126a58d38b012a4e8b16c172896339547c120ef67b69e1386f490d",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3004.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3004.dat",
+      "sha256": "e1caee3b32175393c9d6ea176a47f8869173a01d03a451e1cfe10d09167c0203",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3005.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3005.dat",
+      "sha256": "f86e5f3aed432cab8f5dffcf2e41a9f2ee8c3bd4dcad1732da9630837849a4f8",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3010.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3010.dat",
+      "sha256": "7d1cb3082199042666045d92388b3b3ab697f969268e87a6c001f80f92a2e0b2",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3020.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3020.dat",
+      "sha256": "551e433cc4bcfdeeb6e390e509d52ee2e62c90d3eae625ee36928ef32291bb79",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3022.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3022.dat",
+      "sha256": "3cd09bfe626e751ad95eab0ea83e5f3adea81f05d34993a1c4bf432ee386fe25",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3023.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3023.dat",
+      "sha256": "fa3eeab92b077488bae3dbc0fe974ef3327a77f130776d2965f13d3ebc22ab57",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3023b.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3023b.dat",
+      "sha256": "42f96ca69f8a0b83a877f4e128e4143ce753d038b1074835edc5aca9a9954fc9",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3024.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3024.dat",
+      "sha256": "e053af4f232374b0c8da2dc0f9620bedf0576ca43d7c3ceebc6676050ae61da8",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3622.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3622.dat",
+      "sha256": "9317bcec4fbcddbd38ed3972d25ea95d685101904f3ed86c7e769a9f356245d8",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3623.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3623.dat",
+      "sha256": "08f74845fceb4b39976d8ba56c0d59970483b8956cc59eb08e9f01ca579467e2",
+      "modified": false
+    },
+    {
+      "path": "ldraw/parts/3710.dat",
+      "source_url": "https://library.ldraw.org/library/official/parts/3710.dat",
+      "sha256": "1a2d17e3e35750ccf02a54c7aee0cf7485c1c8596492746fc798d341399a3a6e",
+      "modified": false
+    }
+  ],
+  "unbundled_palette_source": {
+    "name": "Red",
+    "hex": "#B40000",
+    "edge": "#333333",
+    "bricklink_id": 5,
+    "source_url": "https://library.ldraw.org/library/official/LDConfig.ldr",
+    "source_sha256": "0178cd14fba46acb9df049c835e60e223b134d178f7e928ace0be1dfbe78895d",
+    "source_entry": "0 !COLOUR Red                                                   CODE     4   VALUE #B40000   EDGE #333333"
+  }
+}

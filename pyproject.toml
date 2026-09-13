@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lego-builder"
+version = "0.1.0"
+description = "Deterministic local mesh-to-LEGO research converter"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.4.6", "scipy==1.17.1", "trimesh==5.1.0", "rtree==1.4.1"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[project.scripts]
+lego-builder = "lego_builder.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["lego_builder*"]
+
+[tool.setuptools.package-data]
+lego_builder = ["data/*.json", "data/ldraw/*.dat", "data/ldraw/parts/*.dat", "data/ldraw/*.txt", "data/ldraw/*.ldr", "data/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
