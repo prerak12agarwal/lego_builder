@@ -59,3 +59,15 @@ QA found two retained historical evidence documents that still contained the for
 - The local identity tests replace only platform bindings. They cannot prove that the hosted dispatch strips spoofed `oai-authenticated-user-*` headers; that is a Sites hosting property requiring a hosted check.
 - No full browser sign-in/return, saved-link recovery, cross-account session, touch/accessibility, or production D1/R2 test was run in this narrow review.
 - Opening paid generation to every signed-in user increases legitimate usage exposure by design. The unchanged per-owner and global quotas bound it; billing behavior was not tested.
+
+## Primary agent hosted follow-up
+
+The canonical Workshop was published successfully as version 8 from Site source commit `5b7296dac39583d833f309cf50fbc407bdd62a7f`. Deployment `appgdep_6aa675df309c81918006b10ea2012545` applied environment revision 11, which removes `PILOT_USER_IDS` while preserving the existing fal and converter configuration. The corresponding GitHub implementation commit is `f8b4fd677a4647f35e1f1d860d07d705a3cffc33`.
+
+- Live URL: https://lego-builder-workshop.dragonjjk.chatgpt.site/
+- The signed-in browser opened `/build?new=1` with the photo picker, TRELLIS ready status, converter ready status and owner-specific previous-result link. The old approval error is gone. No image was submitted and no additional paid generation was used.
+- Anonymous shell request: HTTP 200. Anonymous `/api/config`: HTTP 401 with the sign-in message and private/no-store response. A request with synthetic forged identity headers also received HTTP 401.
+- Initial Python urllib requests were blocked with HTTP 403 before useful application evidence; curl checks reached the application and produced the statuses above.
+- The final production build passed. There were no schema, Python processor or legacy Site changes.
+
+Only the existing browser account was available for hosted signed-in validation. Acceptance of unrelated new identities and cross-owner isolation were tested in the real authorization/service code with synthetic platform bindings, not with two live ChatGPT accounts. Existing generation quotas remain unchanged; this change does not promise unlimited generation.
