@@ -1,0 +1,790 @@
+{
+  "schema_version": "vehicle-color-evidence-v1",
+  "reviewed_on": "2026-09-13",
+  "reviewed_bom": {
+    "path": "outputs/cybertruck-exterior-draft-03/bom.csv",
+    "sha256": "bb369186276231bd866decc74205b105f4901a76670bc8322fbcc6fe67d6d61a",
+    "lot_count": 45
+  },
+  "method": "Reviewed the physical part catalog Known Colors section and its catalog occurrence counts; did not infer manufacture from LDraw palette membership or wanted-list requests.",
+  "limitations": [
+    "Evidence establishes a cataloged manufactured combination, not seller stock, price, quantity availability, clutch compatibility or buildability.",
+    "Part 3024 evidence comes from its catalog page successfully retrieved earlier in this same session; later refresh encountered temporary daily maintenance.",
+    "Only listed lots have been reviewed. Newly generated part/color combinations require their own evidence."
+  ],
+  "color_mappings": [
+    {
+      "ldraw_color": 0,
+      "ldraw_name": "Black",
+      "bricklink_color_id": 11,
+      "bricklink_name": "Black",
+      "ldraw_source_url": "https://ldraw.org/article/547.html",
+      "bricklink_mapping_url": "https://www.bricklink.com/catalogItemIn.asp?P=24299&colorID=11&in=A"
+    },
+    {
+      "ldraw_color": 36,
+      "ldraw_name": "Trans_Red",
+      "bricklink_color_id": 17,
+      "bricklink_name": "Trans-Red",
+      "ldraw_source_url": "https://ldraw.org/article/547.html",
+      "bricklink_mapping_url": "https://www.bricklink.com/catalogItemIn.asp?P=3024&colorID=17&in=A"
+    },
+    {
+      "ldraw_color": 47,
+      "ldraw_name": "Trans_Clear",
+      "bricklink_color_id": 12,
+      "bricklink_name": "Trans-Clear",
+      "ldraw_source_url": "https://ldraw.org/article/547.html",
+      "bricklink_mapping_url": "https://www.bricklink.com/catalogItemIn.asp?P=3024&colorID=12&in=A"
+    },
+    {
+      "ldraw_color": 71,
+      "ldraw_name": "Light_Bluish_Grey",
+      "bricklink_color_id": 86,
+      "bricklink_name": "Light Bluish Gray",
+      "ldraw_source_url": "https://ldraw.org/article/547.html",
+      "bricklink_mapping_url": "https://www.bricklink.com/catalogItemIn.asp?P=56908&colorID=86&in=A"
+    },
+    {
+      "ldraw_color": 72,
+      "ldraw_name": "Dark_Bluish_Grey",
+      "bricklink_color_id": 85,
+      "bricklink_name": "Dark Bluish Gray",
+      "ldraw_source_url": "https://ldraw.org/article/547.html",
+      "bricklink_mapping_url": "https://www.bricklink.com/catalogItemIn.asp?P=24299&colorID=85&in=A"
+    }
+  ],
+  "part_mappings": [
+    {
+      "ldraw_id": "3068b",
+      "bricklink_id": "3068",
+      "status": "verified_alias",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3068",
+      "evidence": "BrickLink Item No / Alternate Item No explicitly lists the LDraw b-suffix identifier."
+    },
+    {
+      "ldraw_id": "3069b",
+      "bricklink_id": "3069",
+      "status": "verified_alias",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3069",
+      "evidence": "BrickLink Item No / Alternate Item No explicitly lists the LDraw b-suffix identifier."
+    },
+    {
+      "ldraw_id": "3070b",
+      "bricklink_id": "3070",
+      "status": "verified_alias",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3070",
+      "evidence": "BrickLink Item No / Alternate Item No explicitly lists the LDraw b-suffix identifier."
+    }
+  ],
+  "lot_evidence": [
+    {
+      "part_id": "15068",
+      "ldraw_color": 0,
+      "bricklink_part_id": "15068",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=15068",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 678
+    },
+    {
+      "part_id": "24299",
+      "ldraw_color": 71,
+      "bricklink_part_id": "24299",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=24299",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 123
+    },
+    {
+      "part_id": "24307",
+      "ldraw_color": 71,
+      "bricklink_part_id": "24307",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=24307",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 118
+    },
+    {
+      "part_id": "2431",
+      "ldraw_color": 0,
+      "bricklink_part_id": "2431",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=2431",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1232
+    },
+    {
+      "part_id": "2431",
+      "ldraw_color": 71,
+      "bricklink_part_id": "2431",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=2431",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 811
+    },
+    {
+      "part_id": "26603",
+      "ldraw_color": 0,
+      "bricklink_part_id": "26603",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=26603",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 347
+    },
+    {
+      "part_id": "26603",
+      "ldraw_color": 71,
+      "bricklink_part_id": "26603",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=26603",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 246
+    },
+    {
+      "part_id": "26603",
+      "ldraw_color": 72,
+      "bricklink_part_id": "26603",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=26603",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 167
+    },
+    {
+      "part_id": "3004",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3004",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 677
+    },
+    {
+      "part_id": "3010",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3010",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3010",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1200
+    },
+    {
+      "part_id": "3020",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3020",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3020",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 2334
+    },
+    {
+      "part_id": "3020",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3020",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3020",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1345
+    },
+    {
+      "part_id": "3021",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3021",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3021",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1870
+    },
+    {
+      "part_id": "3021",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3021",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3021",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1133
+    },
+    {
+      "part_id": "3022",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3022",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3022",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 2326
+    },
+    {
+      "part_id": "3022",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3022",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3022",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1243
+    },
+    {
+      "part_id": "3023",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3023",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3023",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 2823
+    },
+    {
+      "part_id": "3023",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3023",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3023",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1409
+    },
+    {
+      "part_id": "3024",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3024",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1410
+    },
+    {
+      "part_id": "3024",
+      "ldraw_color": 36,
+      "bricklink_part_id": "3024",
+      "bricklink_color_id": 17,
+      "color_name": "Trans-Red",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 651
+    },
+    {
+      "part_id": "3024",
+      "ldraw_color": 47,
+      "bricklink_part_id": "3024",
+      "bricklink_color_id": 12,
+      "color_name": "Trans-Clear",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 384
+    },
+    {
+      "part_id": "3024",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3024",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 685
+    },
+    {
+      "part_id": "3039",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3039",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3039",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 457
+    },
+    {
+      "part_id": "3068b",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3068",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3068",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 985
+    },
+    {
+      "part_id": "3068b",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3068",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3068",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 634
+    },
+    {
+      "part_id": "3068b",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3068",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3068",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 541
+    },
+    {
+      "part_id": "3069b",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3069",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3069",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1398
+    },
+    {
+      "part_id": "3069b",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3069",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3069",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 902
+    },
+    {
+      "part_id": "3069b",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3069",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3069",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 731
+    },
+    {
+      "part_id": "3070b",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3070",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3070",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 849
+    },
+    {
+      "part_id": "3070b",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3070",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3070",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 601
+    },
+    {
+      "part_id": "3070b",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3070",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3070",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 486
+    },
+    {
+      "part_id": "3623",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3623",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3623",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1347
+    },
+    {
+      "part_id": "3623",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3623",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3623",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 746
+    },
+    {
+      "part_id": "3710",
+      "ldraw_color": 0,
+      "bricklink_part_id": "3710",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3710",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 2105
+    },
+    {
+      "part_id": "3710",
+      "ldraw_color": 72,
+      "bricklink_part_id": "3710",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3710",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1189
+    },
+    {
+      "part_id": "56908",
+      "ldraw_color": 72,
+      "bricklink_part_id": "56908",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "not_verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=56908",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": null,
+      "note": "Requested color absent from reviewed Known Colors and current sale lots; absence is not proof it has never existed. Use the verified light bluish gray or black replacement."
+    },
+    {
+      "part_id": "61480",
+      "ldraw_color": 0,
+      "bricklink_part_id": "61480",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=61480",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 14
+    },
+    {
+      "part_id": "63864",
+      "ldraw_color": 0,
+      "bricklink_part_id": "63864",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=63864",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 532
+    },
+    {
+      "part_id": "63864",
+      "ldraw_color": 71,
+      "bricklink_part_id": "63864",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=63864",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 483
+    },
+    {
+      "part_id": "63864",
+      "ldraw_color": 72,
+      "bricklink_part_id": "63864",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=63864",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 345
+    },
+    {
+      "part_id": "87079",
+      "ldraw_color": 0,
+      "bricklink_part_id": "87079",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=87079",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 770
+    },
+    {
+      "part_id": "87079",
+      "ldraw_color": 71,
+      "bricklink_part_id": "87079",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=87079",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 611
+    },
+    {
+      "part_id": "87079",
+      "ldraw_color": 72,
+      "bricklink_part_id": "87079",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=87079",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 414
+    },
+    {
+      "part_id": "99781",
+      "ldraw_color": 72,
+      "bricklink_part_id": "99781",
+      "bricklink_color_id": 85,
+      "color_name": "Dark Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=99781",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 261
+    },
+    {
+      "part_id": "56908",
+      "ldraw_color": 71,
+      "bricklink_part_id": "56908",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=56908",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 23
+    },
+    {
+      "part_id": "56908",
+      "ldraw_color": 0,
+      "bricklink_part_id": "56908",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=56908",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 24
+    },
+    {
+      "part_id": "45982",
+      "ldraw_color": 0,
+      "bricklink_part_id": "45982",
+      "bricklink_color_id": 11,
+      "color_name": "Black",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=45982",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 16,
+      "compatible_rim": "56908",
+      "compatibility_evidence": "Catalog explicitly lists wheel56908 in compatible wheels."
+    },
+    {
+      "part_id": "3001",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3001",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3001",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 642
+    },
+    {
+      "part_id": "3003",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3003",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3003",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 722
+    },
+    {
+      "part_id": "3004",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3004",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 933
+    },
+    {
+      "part_id": "3005",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3005",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 784
+    },
+    {
+      "part_id": "3010",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3010",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3010",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 677
+    },
+    {
+      "part_id": "3020",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3020",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3020",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1453
+    },
+    {
+      "part_id": "3021",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3021",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3021",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1105
+    },
+    {
+      "part_id": "3022",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3022",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3022",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1350
+    },
+    {
+      "part_id": "3023",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3023",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3023",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1749
+    },
+    {
+      "part_id": "3024",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3024",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024&C=86",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 934
+    },
+    {
+      "part_id": "3622",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3622",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3622",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 505
+    },
+    {
+      "part_id": "3623",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3623",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3623",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 844
+    },
+    {
+      "part_id": "3710",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3710",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3710",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 1316
+    },
+    {
+      "part_id": "3039",
+      "ldraw_color": 71,
+      "bricklink_part_id": "3039",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3039",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 367
+    },
+    {
+      "part_id": "85984",
+      "ldraw_color": 71,
+      "bricklink_part_id": "85984",
+      "bricklink_color_id": 86,
+      "color_name": "Light Bluish Gray",
+      "status": "verified",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=85984",
+      "section": "Known Colors",
+      "observed_catalog_occurrences": 626
+    }
+  ],
+  "compatibility_evidence": [
+    {
+      "parts": [
+        "56908",
+        "61480"
+      ],
+      "status": "catalog_compatible",
+      "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=56908",
+      "section": "This Wheel fits with the following Wheel, Tire & Tread",
+      "note": "Listed tire 61480 fits wheel 56908; this does not verify the generated axle attachment or transforms."
+    }
+  ]
+}

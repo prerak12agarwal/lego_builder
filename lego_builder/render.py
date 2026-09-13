@@ -17,7 +17,7 @@ import numpy as np
 
 from .ldraw_library import LDrawError
 
-RENDERER_VERSION = "ldraw-webgl-instanced-v1"
+RENDERER_VERSION = "ldraw-webgl-instanced-v2"
 
 
 def _packed(values):
@@ -45,6 +45,13 @@ def preview_data(model, library):
         raise LDrawError("Renderer expects between 1 and 10,000 placements")
     if not isinstance(model.get("revision_id"), str):
         raise LDrawError("Renderer requires a canonical revision ID")
+    from .assembly import revision
+    try:
+        expected_revision = revision(model)
+    except (TypeError, ValueError) as exc:
+        raise LDrawError("Renderer cannot compute the canonical revision") from exc
+    if model["revision_id"] != expected_revision:
+        raise LDrawError("Renderer rejected a stale canonical revision")
     lots = defaultdict(list)
     ids = set()
     for placement in placements:
@@ -123,9 +130,10 @@ def preview_data(model, library):
                             "Transparent parts use approximate group-order alpha blending; no optical refraction simulation."]}
 
 
-def write_preview(model, library, output_path, title="LEGO exterior study"):
+def write_preview(model, library, output_path, title=None):
     data = preview_data(model, library)
     sources = library.manifest(p["part_id"] for p in model["placements"])
+    sources.pop("library_root", None)
     authors = sorted({item["author"] for item in sources["sources"].values() if item.get("author")})
     licenses = sorted({item["license"] for item in sources["sources"].values() if item.get("license")})
     data["provenance"] = sources
@@ -136,7 +144,7 @@ def write_preview(model, library, output_path, title="LEGO exterior study"):
         swatches.append(f"<li><span style='background:rgb({rgb})'></span>{html.escape(color['name'])}<b>{color['quantity']}</b></li>")
     palette = "".join(swatches)
 
-    page = _HTML.replace("__TITLE__", html.escape(title)).replace("__COUNT__", f"{data['stats']['instances']:,}").replace("__LOTS__", str(data["stats"]["part_color_lots"]))
+    page = _HTML.replace("__TITLE__", html.escape(title or model.get("name", "LEGO exterior study"))).replace("__COUNT__", f"{data['stats']['instances']:,}").replace("__LOTS__", str(data["stats"]["part_color_lots"]))
     page = page.replace("__REVISION__", html.escape(model["revision_id"])).replace("__PALETTE__", palette)
     page = page.replace("__ATTRIBUTION__", html.escape("; ".join(authors) + ". " + "; ".join(licenses)))
     page = page.replace("__DATA__", safe_json)
@@ -167,7 +175,7 @@ out vec3 vNormal;out vec3 vWorld;out vec4 vColor;
 void main(){vec4 world=instanceMatrix*vec4(position,1.0);vWorld=world.xyz;vNormal=mat3(instanceMatrix)*normal;vColor=color;gl_Position=viewProjection*world;}`;
 const fs=`#version 300 es
 precision highp float;in vec3 vNormal;in vec3 vWorld;in vec4 vColor;uniform bool edgePass;uniform vec3 eye;out vec4 outColor;
-void main(){if(edgePass){outColor=vec4(vColor.rgb*.64,vColor.a*.65);return;}vec3 n=normalize(vNormal);if(!gl_FrontFacing)n=-n;vec3 light=normalize(vec3(-.5,-1.0,.65));float diffuse=max(dot(n,light),0.0);float fill=max(dot(n,normalize(vec3(.8,-.1,-.3))),0.0);float brightness=.52+.38*diffuse+.12*fill;vec3 viewDirection=normalize(eye-vWorld);vec3 halfVector=normalize(light+viewDirection);float spec=pow(max(dot(n,halfVector),0.0),70.0)*.12;vec3 rgb=vColor.rgb*brightness+vec3(spec);outColor=vec4(rgb,vColor.a);}`;
+void main(){if(edgePass){outColor=vec4(vColor.rgb*.64,vColor.a*.30);return;}vec3 n=normalize(vNormal);if(!gl_FrontFacing)n=-n;vec3 light=normalize(vec3(-.5,-1.0,.65));float diffuse=max(dot(n,light),0.0);float fill=max(dot(n,normalize(vec3(.8,-.1,-.3))),0.0);float brightness=.74+.32*diffuse+.12*fill;vec3 viewDirection=normalize(eye-vWorld);vec3 halfVector=normalize(light+viewDirection);float spec=pow(max(dot(n,halfVector),0.0),70.0)*.12;vec3 rgb=vColor.rgb*brightness+vec3(spec);outColor=vec4(rgb,vColor.a);}`;
 function shader(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
 const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vs));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
 const vpLoc=gl.getUniformLocation(program,'viewProjection'),edgeLoc=gl.getUniformLocation(program,'edgePass'),eyeLoc=gl.getUniformLocation(program,'eye');

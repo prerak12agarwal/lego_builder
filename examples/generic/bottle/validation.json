@@ -1,0 +1,51 @@
+{
+  "artifact_checks_passed": true,
+  "catalog_checks": "passed",
+  "errors": [],
+  "limitations": [
+    "Digital exterior reconstruction; part connections and assembly need engineering review",
+    "Manufactured part/color evidence is bound to the catalog; seller stock and quantity availability are not verified",
+    "Sequence groups are an assembly index, not validated instructions"
+  ],
+  "max_output_parts": 10000,
+  "mechanical_checks": {
+    "clutch_engagement": "not_evaluated",
+    "collision": "not_evaluated",
+    "connectivity": "not_evaluated",
+    "insertion_order": "not_evaluated",
+    "physical_build": "not_evaluated",
+    "stability": "not_evaluated"
+  },
+  "preview": {
+    "bounds_ldu": [
+      [
+        -200.0,
+        -1068.0,
+        -200.0
+      ],
+      [
+        200.0,
+        0.0,
+        200.0
+      ]
+    ],
+    "html_bytes": 130001,
+    "instanced_triangles": 242776,
+    "instances": 1984,
+    "part_color_lots": 17,
+    "renderer_version": "ldraw-webgl-instanced-v2",
+    "revision_id": "b9f4e669a7ef4cb1e2a75f2d0df13e9509cc4cbc66063692cea4a10dc858d5f8",
+    "unique_triangles": 4576,
+    "warnings": []
+  },
+  "revision_id": "b9f4e669a7ef4cb1e2a75f2d0df13e9509cc4cbc66063692cea4a10dc858d5f8",
+  "status": "digital_candidate",
+  "studio_import": "not_evaluated",
+  "target_band": [
+    1800,
+    2200
+  ],
+  "target_band_met": true,
+  "target_parts": 2000,
+  "total_parts": 1984
+}

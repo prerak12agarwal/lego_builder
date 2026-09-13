@@ -8,6 +8,7 @@ import zlib
 import numpy as np
 import pytest
 
+from lego_builder.assembly import revision
 from lego_builder.ldraw_library import LDrawError, LDrawLibrary
 from lego_builder.render import preview_data, write_preview
 
@@ -29,9 +30,11 @@ def dat(root, name, commands):
 
 
 def model(part="test", color=71, count=1):
-    return {"schema_version": "lego-builder-ldraw-model-v1", "revision_id": "example-revision",
-            "placements": [{"id": f"p{i}", "part_id": part, "color": color,
-                            "position_ldu": [i*20, 0, 0], "rotation": [1,0,0,0,1,0,0,0,1]} for i in range(count)]}
+    value = {"schema_version": "lego-builder-ldraw-model-v1",
+             "placements": [{"id": f"p{i}", "part_id": part, "color": color,
+                             "position_ldu": [i*20, 0, 0], "rotation": [1,0,0,0,1,0,0,0,1]} for i in range(count)]}
+    value["revision_id"] = revision(value)
+    return value
 
 
 def test_nested_row_major_transform_alias_and_color_inheritance(root):
@@ -159,7 +162,22 @@ def test_renderer_rejects_reflections_and_wrong_schema(root):
     dat(root,"parts/test.dat","3 16 0 0 0 1 0 0 0 1 0")
     library=LDrawLibrary(root)
     source=model();source['placements'][0]['rotation'][0]=-1
+    source['revision_id']=revision(source)
     with pytest.raises(LDrawError,match="proper rigid"):
         preview_data(source,library)
     with pytest.raises(LDrawError,match="schema"):
         preview_data({"schema_version":"wrong"},library)
+
+
+@pytest.mark.parametrize("mutation", ["missing", "catalog", "placement"])
+def test_renderer_requires_revision_of_all_canonical_content(root, mutation):
+    dat(root,"parts/test.dat","3 16 0 0 0 1 0 0 0 1 0")
+    source=model()
+    if mutation=="missing":
+        del source["revision_id"]
+    elif mutation=="catalog":
+        source["catalog"]={"sha256":"changed"}
+    else:
+        source["placements"][0]["color"]=4
+    with pytest.raises(LDrawError,match="revision"):
+        preview_data(source,LDrawLibrary(root))

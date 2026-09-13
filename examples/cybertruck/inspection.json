@@ -1,0 +1,38 @@
+{
+  "artifact_sha256": {
+    "bom.csv": "c7c9a4dd1d15d198d337c7cd6e3fd0ec1c15c132cf8b0fe497041a505d5a4321",
+    "bom.json": "8f3e67d8525791770a3c50299fc4312456d033e6219e6b177fb05a33e76692e9",
+    "front-three-quarter.png": "60155af318d54eeaa71100756b91ce33d961b0bdce56c2da8fa568aa5c2af6bf",
+    "model.json": "5ea82e47534486cf3160b0bb0cfdae6805ee90d84b3818d06238cab589a912cb",
+    "model.ldr": "a7f02ab1c59eb08a51b39c32040d5f212240911ef2377d6ff16036528f2aa82a",
+    "preview.html": "126770f0340c1ffb45ad4db47eb6cf8d347f533857ec228501a417dc2db6f14b",
+    "rear-three-quarter.png": "1dbd689305741668e838fc59a5630149423c4de8c84abdf558a6ab96e9a0f0f6",
+    "sequence.json": "63602c80145c7db9bdbfa0d73a98081316ff662a2b2704df3721e0995ef6ff45",
+    "side.png": "af03fe3a869ce2056ee5bed701f6116604e6e375555881236c3b911838488edb",
+    "studio-import.png": "f5211633b0392f2695c22453e460401851698e3af3b7f7e41b07c38ce4d5ecc9",
+    "validation.json": "2e7ddfcb76475c2b0ccc8431508fc9b43c4d1551417e21f4a558fc959dfe1f82"
+  },
+  "manual_studio_import": {
+    "application": "BrickLink Studio 2.26.8",
+    "exact_file": "model.ldr",
+    "missing_part_dialog_observed": false,
+    "observed_total_parts": 2069,
+    "scope": "Compatibility and count only; no collision or connection check",
+    "status": "completed"
+  },
+  "manual_visual_review": {
+    "limitations": [
+      "Visible panel seams and gaps near upper rails and arches",
+      "Mechanical validity and assembly remain unevaluated",
+      "Source-specific panel fitter; general converter is separately benchmarked"
+    ],
+    "status": "digital_candidate_with_approximate_panel_continuity",
+    "views": [
+      "front-three-quarter.png",
+      "side.png",
+      "rear-three-quarter.png"
+    ]
+  },
+  "revision_id": "f172ee1f380d411589f1aedcdfc46fee58170d5df7f238ab1273fb0cd4c12751",
+  "source_sha256": "7c147bef624baf9c278da9d8701c6f7fb8b13438cc2b7d6c37f68c316f12436a"
+}

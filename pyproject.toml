@@ -19,7 +19,7 @@ lego-builder = "lego_builder.cli:main"
 include = ["lego_builder*"]
 
 [tool.setuptools.package-data]
-lego_builder = ["data/*.json", "data/ldraw/*.dat", "data/ldraw/parts/*.dat", "data/ldraw/*.txt", "data/ldraw/*.ldr", "data/*.md"]
+lego_builder = ["data/*.json", "data/ldraw/*.dat", "data/ldraw/parts/*.dat", "data/ldraw/*.txt", "data/ldraw/*.ldr", "data/*.md", "data/parts-library/*.json", "data/parts-library/*.txt", "data/parts-library/*.ldr", "data/parts-library/parts/*.dat", "data/parts-library/parts/s/*.dat", "data/parts-library/p/*.dat", "data/parts-library/p/48/*.dat", "data/parts-library/p/8/*.dat"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

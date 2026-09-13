@@ -1,4 +1,16 @@
-# Curated rectangular catalog
+# Parts and geometry catalogs
+
+## Exterior conversion library
+
+`parts-library/` contains the complete recursive geometry closure of 29 useful root parts selected from the downloaded [official LDraw library](https://library.ldraw.org/updates). It includes tiles, ordinary bricks/plates, slopes, wedges, brackets, rims and tires, plus the official color configuration and attribution files. The bundled subset is sufficient to render and regenerate the checked examples without a network connection. It is separate from the older rectangular catalog below.
+
+`parts-library/source-manifest.json` records original source URLs, byte hashes, authors and the actual license text for every used root/subpart/primitive. Individual source headers and both the legacy LDraw contributor license and CC BY 4.0 notices are preserved; not every file has the same license. Git preserves upstream bytes.
+
+`vehicle-color-evidence.json` now covers both the vehicle and general exterior strategies. It records only reviewed physical part/color combinations, with BrickLink Known Colors evidence and explicit color/part aliases. Geometry presence or a display color does not establish manufacture. Candidate catalogs embed the exact used evidence and hash that subset, so adding unrelated reviewed parts does not invalidate earlier candidates.
+
+For broad part discovery, `scripts/fetch_ldraw_library.py` downloads and checks the complete official archive into an ignored local cache; `LDrawLibrary.search()` searches its root part titles. The downloaded archive is identified by its recorded checksum because upstream updates it. Adding fitting behavior for another part requires geometry and manufactured-color evidence; connection validation remains a separate engineering concern.
+
+## Established rectangular catalog
 
 `catalog.json` is the versioned solver catalog. Width follows the part's local LDraw X axis, depth follows local Z, and height is in plate units. The twelve families use only opaque Red: LDraw color 4 maps explicitly to BrickLink color 5. Each part's BrickLink **Known Colors** section was inspected on 2026-09-13; its source and observed catalog occurrence count are recorded as evidence of color existence, not stock or pricing. The source color definition is retained as a minimal excerpt and SHA-256, not a full palette copy.
 

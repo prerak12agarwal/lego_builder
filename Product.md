@@ -10,9 +10,9 @@ The confirmed audience is nostalgic adults who enjoy LEGO but cannot design mode
 
 ## Current MVP boundary
 
-The confirmed immediate milestone is a developer-facing 3D-model converter, not the web app. Given one clean `OBJ` or `STL` model of a simple real-world object, it produces a LEGO-brick interpretation made only from an approved catalog of real parts. The result must include an LDraw model and an exact bill of materials and must open correctly in BrickLink Studio.
+The confirmed immediate milestone is a developer-facing OBJ-to-LEGO converter, not the web app. Its shared workflow accepts an OBJ of an arbitrary subject, extracts the exterior and fits real LEGO parts; it must not require Cybertruck-specific names or substitute a vehicle template for another object. Interior detail is outside the target. The result includes an LDraw model and exact bill of materials. Input acceptance, exterior resemblance and mechanical assembly verification are separate outcomes. The earlier clean OBJ/STL rectangular converter remains available as a regression baseline.
 
-For this milestone, a simple object is one solid, static, mostly upright form without thin articulated parts, moving mechanisms or large unsupported overhangs. Start with controlled fixtures such as a bottle, vase, simple toy or simplified animal form. The source model is assumed to have already resolved the ambiguity of photographs; image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the browser experience are outside this milestone.
+The earlier rectangular baseline targets solid, static, mostly upright forms without large unsupported overhangs. The shared exterior workflow expands input acceptance beyond that baseline; it must report fidelity and unresolved mechanics for thin or disconnected features. The source model supplies the observed geometry. Image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the consumer browser experience remain outside this milestone.
 
 The MVP is successful when a developer can run the same input and settings and receive a recognizable, catalog-valid, connected assembly that can be built from the bottom up. A good-looking render by itself is not success.
 
@@ -36,6 +36,20 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 ## Feature acceptance criteria
 
 ### F0 — 3D model to brick assembly MVP
+
+#### Shared OBJ exterior workflow
+
+Confirmed by the founder: OBJ is the input format for the shared workflow. A cat, bottle, vehicle or other subject goes through the same exterior recovery, part fitting and LDraw export boundaries. The Cybertruck is the current design and test case, not a restriction on supported object names.
+
+- Accept nonempty, finite OBJ surface geometry within documented resource limits, including imperfect topology. Do not require an object name, filename, semantic grouping, material file or watertight source.
+- Ignore surfaces enclosed inside the recovered exterior. Adding a fully enclosed interior mesh to a closed test shape must not change its recovered exterior. Preserve the original and report inferred closure, thickness and unresolved openings; do not promise recovery of missing visible information.
+- Generate actual catalog part placements from the supplied geometry, with no substituted sample model. Reuse the same canonical native LDraw representation, library resolution, inventory, preview and export checks across subjects.
+- Resolve a requested approximate piece count through geometry scale and useful part fitting, recording target versus actual count and dimensions. Surface shaping and recognizability matter independently of count. No hidden count padding or external support stand is permitted.
+- Use suitable parts from the broad library through supported fitting strategies. A subject-specific surface optimizer may refine the result when its prerequisites are explicit; the general path must remain usable without it. Geometry-specific optimizers must not imply universal support for every construction technique.
+- Evaluate the shared path on the supplied cat, the Cybertruck, a clearly labeled procedural bottle and a distinct additional shape. Include renamed/ungrouped input and enclosed-interior invariance cases. Record likeness and part-count misses rather than treating file creation as sufficient visual acceptance.
+- A bounded input can produce an approximate digital candidate while assembly checks remain unresolved. Carry those states into every artifact; no render or file export establishes physical buildability. Invalid part IDs, unsupported manufactured colors, malformed transforms and inconsistent artifacts remain hard failures.
+
+#### Established rectangular baseline
 
 - Accept a valid `OBJ` or `STL` mesh, a target longest dimension in studs and a supported palette selection. Reject unreadable, empty or structurally unsuitable meshes with a useful reason.
 - Normalize the input orientation and scale, then discretize it on a grid whose horizontal unit is one stud and vertical unit is one plate. Keep the chosen scale and transform in the output metadata.
