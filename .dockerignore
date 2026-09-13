@@ -1,0 +1,6 @@
+**
+!pyproject.toml
+!lego_builder/
+!lego_builder/**
+lego_builder/**/__pycache__/
+lego_builder/**/*.pyc

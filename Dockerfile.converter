@@ -1,0 +1,10 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY pyproject.toml ./
+COPY lego_builder ./lego_builder
+RUN pip install --no-cache-dir . && useradd --create-home converter
+USER converter
+ENV PORT=8080 PYTHONUNBUFFERED=1
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s CMD python -c "import os, urllib.request; urllib.request.urlopen('http://127.0.0.1:' + os.environ.get('PORT', '8080') + '/health', timeout=3).read()"
+CMD ["python", "-m", "lego_builder.service"]

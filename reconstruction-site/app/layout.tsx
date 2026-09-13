@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./workbench.css";
+import "./pipeline.css";
 
 export const metadata: Metadata = {
-  title: "LEGO Builder — Image to 3D",
-  description: "Turn a photo into a 3D shape, inspect it and export its geometry.",
+  title: "LEGO Builder — Build Workspace",
+  description: "Reconstruct a photo, save its converter handoff, and inspect returned LEGO models, parts and assembly steps.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

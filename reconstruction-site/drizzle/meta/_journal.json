@@ -8,6 +8,13 @@
       "when": 1789276714077,
       "tag": "0000_same_gunslinger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789280866924,
+      "tag": "0002_magical_slyde",
+      "breakpoints": true
     }
   ]
 }
