@@ -40,6 +40,8 @@ The milestone outputs are a validated canonical placement model, LDraw `.ldr` or
 
 The first development slice uses the supplied house, cat and airplane meshes in `references/3d-objects/`. The cat is the solid-mesh baseline, although its tail and limbs still challenge bottom-up placement. The house probes open or inconsistently wound input, while the airplane probes thin sections and spans near or beyond the immediate support boundary. The house `OBJ` and `STL` are one shape used to check input-format parity. Product F0 defines how successes, rejections, derived inputs and manual repairs are reported. These three shapes start the benchmark; they do not replace the ten-shape P0 exit set.
 
+Confirmed focused deliverable: use the current Cybertruck OBJ and founder-supplied gray Cybertruck images to produce an attractive exterior-focused `.ldr` targeting about 2,000 required pieces. The team owns deriving a usable exterior from the messy source and may ignore broken interior geometry. This slice expands its versioned catalog to useful real vehicle and surface-shaping parts, including slopes, wedges, tiles, transparent window elements, wheels and tires. Hidden structure may support the model inside its intended envelope; external stands remain excluded. Product F0 owns the exact reference cues and piece-count interpretation.
+
 Defer photo reconstruction, the consumer web app, accounts, persistence, pricing and automated purchasing until this milestone passes its exit gate. This changes delivery order, not the long-term product promise.
 
 Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick editing, collaborative editing inside the app, marketplace checkout, and photorealistic accuracy. The immediate converter is shape-only: it does not add stands, plinths or external support structures to rescue unsupported geometry. Collaboration between the two developers is required now; multiplayer product features are a separate choice.
@@ -60,6 +62,8 @@ P1 hardening can begin as the P0 converter stabilizes, but successful fixture co
 For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Do not begin photo reconstruction merely because the converter produces attractive previews.
 
 The first implementation handoff may be called an engineering prototype after it reports outcomes for all supplied candidates, exercises at least two target sizes across the set, and proves the output pipeline end to end without manual repair. Prefer an original supplied mesh for that proof. If all supplied originals are correctly rejected as unsuitable, an explicitly labeled controlled valid fixture may prove the pipeline while conversion of a supplied original remains an unmet objective. It is not the P0 exit or evidence of proven buildability until the full benchmark, Studio-import and physical-build gates pass.
+
+The Cybertruck vertical slice is a focused design and pipeline target within P0. It does not establish general automatic recovery for arbitrary broken meshes or universal support for vehicles and the full LEGO catalog. Its immediate artifact may be reviewed as a digital concept after LDraw, inventory and validator checks; buildability claims still wait for Studio-import and physical-build evidence.
 
 ## Quality and release gates
 

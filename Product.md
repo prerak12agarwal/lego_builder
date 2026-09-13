@@ -39,7 +39,7 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 
 - Accept a valid `OBJ` or `STL` mesh, a target longest dimension in studs and a supported palette selection. Reject unreadable, empty or structurally unsuitable meshes with a useful reason.
 - Normalize the input orientation and scale, then discretize it on a grid whose horizontal unit is one stud and vertical unit is one plate. Keep the chosen scale and transform in the output metadata.
-- Use only parts, colors and orientations present in the versioned MVP catalog. The initial catalog is restricted to common rectangular bricks and plates; slopes, Technic elements, flexible parts and arbitrary-angle or sideways construction are deferred.
+- Use only parts, colors and orientations present in the versioned MVP catalog. The general P0 baseline starts with common rectangular bricks and plates; the confirmed Cybertruck vertical slice below adds a curated set of real vehicle, surface-shaping and connection parts without implying universal part support.
 - Produce a connected assembly with no collisions, floating parts or unsupported placements under the MVP rules. Stagger weak seams where possible and produce a valid bottom-up placement order.
 - Keep the assembly shape-derived. Do not add a plinth, stand, support column or other external structure solely to make an otherwise unsupported result pass validation. Reject the attempt with an actionable reason when the discretized target cannot produce a connected, bottom-up assembly under the selected size and catalog.
 - Export an LDraw `.ldr` or `.mpd` file, an exact machine-readable bill of materials grouped by part and color, a preview and a validation report. Inventory totals must equal the exported placements.
@@ -58,11 +58,32 @@ The founder-supplied models in `references/3d-objects/` are the first developmen
 - For the first implementation slice, run every supplied candidate unchanged and exercise at least two target sizes across the set. An end-to-end, no-repair success from the supplied set remains the objective, but do not force unsuitable geometry to pass. If every supplied candidate is rejected, use an explicitly labeled controlled valid fixture to prove the output pipeline and report successful conversion of an original supplied model as still outstanding. This is development evidence only. The broader P0 exit still requires the ten-shape benchmark, BrickLink Studio checks and physical builds in Roadmap.
 - Until Studio import and physical-build evidence exist, describe outputs as engineering prototypes or catalog-validated assemblies. Do not describe them as proven buildable models or release-ready instructions.
 
+#### F0 Cybertruck vertical slice
+
+Confirmed: build an exterior-focused LEGO interpretation from the current `references/3d-objects/cybertruck.obj`, targeting about 2,000 required pieces and an attractive LDraw model. The converter owns source cleanup needed to recover the exterior; the user is not expected to repair the mesh.
+
+- Preserve the original source and create any sanitized or reconstructed exterior as a derived input. Report discarded geometry and repairs. Broken, open or degenerate interior geometry may be ignored; do not claim interior fidelity.
+- Interpret “about 2,000 pieces” as a proposed target band of 1,800–2,200 required parts for this slice. Count only parts that form the visible model or provide useful hidden structure. Do not add hidden fill merely to reach the band. If the strongest design falls outside it, report the exact count and quality tradeoff rather than padding or mislabeling it.
+- Use a versioned Cybertruck catalog drawn from real LEGO-compatible LDraw parts and valid colors. It may include bricks, plates, slopes, wedges, curved slopes, tiles, brackets or other legal connection parts, transparent window elements, light elements, wheels, tires and axles. Each included family must contribute to the exterior treatment, wheel assembly or useful structure; broad catalog access is not a requirement to use arbitrary parts.
+- Match the founder-supplied gray Cybertruck references at minimum from front three-quarter, rear three-quarter and side views. Preserve the long low wedge silhouette; smooth faceted hood, windshield and roof planes; dark continuous window band; open bed profile; large real tires; black angular wheel arches and lower trim; and thin front and rear light bars. Favor clean tiled or sloped surfaces over voxel-like stepping where catalog geometry permits.
+- Interior detail, opening panels, steering, suspension, drivetrain and motorization are outside this slice. The wheels may be static. Hidden internal structure is permitted when it connects and supports the model, stays within the intended vehicle envelope and appears in the canonical placements, bill of materials and sequence.
+- Do not add an external display stand, plinth or shape-changing support. The assembly must remain self-supporting under the applicable checks.
+- Deliver the `.ldr`, exact bill of materials, multi-angle preview and validation report from the same canonical revision. Review exterior resemblance against the reference features above, not piece count alone. BrickLink Studio import remains required before calling the digital artifact compatible; physical-build evidence remains required before calling it proven buildable.
+
+Cybertruck reference translation, approved by the founder in the current task. These are founder-supplied evaluation references with unknown authorship/source; treat them as internal reference material rather than project-created or redistributable artwork:
+
+| ID | Repository reference | View | Accepted cues |
+| --- | --- | --- | --- |
+| C1 | [Front three-quarter](references/cybertruck-exterior/front-three-quarter.png) | Front three-quarter | Shallow pointed hood, broad faceted windshield, dark glazing, crisp silver body planes, black angular front arches, large tires and narrow front lighting |
+| C2 | [Rear three-quarter](references/cybertruck-exterior/rear-three-quarter.png) | Rear three-quarter | Open bed, descending roof/bed rails, full-width red rear light bar, flat tailgate, black rear bumper and angular rear arches |
+| C3 | [Side](references/cybertruck-exterior/side.png) | Side | Low continuous wedge profile, long dark window band, straight beltline, balanced axle placement, large tires and restrained silver/black color blocking |
+
 ### F0 non-goals
 
 - No photo upload or image-to-3D reconstruction.
 - No web interface, user accounts, saved projects or background-job system.
 - No promise to support every LEGO part, color, object or advanced construction technique.
+- No universal guarantee that messy meshes or other vehicle categories can be reconstructed automatically because this Cybertruck slice succeeds.
 - No live pricing, stock lookup, automatic purchasing or polished consumer instructions.
 
 ### F1 — Photo input and configuration
