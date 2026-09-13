@@ -523,14 +523,7 @@ p {
   color: #8fa8ca;
   margin-top: 12px
 }
-.side-explainer {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  color: #9fb3d0;
-  margin-bottom: 18px;
-  font-size: 14px
-}
+
 .side-bottom {
   margin: 25px 14px 10px;
   border-top: 1px solid #294060;
