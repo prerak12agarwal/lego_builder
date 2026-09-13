@@ -38,7 +38,7 @@ Confirmed: the team will first build and evaluate a local converter from a clean
 
 The milestone outputs are a validated canonical placement model, LDraw `.ldr` or `.mpd` export, exact bill of materials, preview, bottom-up placement sequence and validation report. LDraw is the working geometry/interchange foundation; a restricted local catalog is used during solving; BrickLink Studio is the compatibility and inspection baseline. BrickLink/Rebrickable mappings and live sourcing are enrichment work, not prerequisites for the first successful conversion.
 
-Defer photo reconstruction, the consumer web app, accounts, persistence, pricing and automated purchasing until this milestone passes its exit gate. This changes delivery order, not the long-term product promise.
+Photo reconstruction and the consumer web app remain outside this milestone. A separately gated upstream prototype may proceed without claiming that P0 has passed. Full account management, project-library UX, pricing and automated purchasing remain deferred; the upstream workstream may retain private jobs and results as required for secure processing and recovery. This preserves the long-term product promise without weakening the mesh-to-brick exit gate.
 
 Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick editing, collaborative editing inside the app, marketplace checkout, and photorealistic accuracy. Collaboration between the two developers is required now; multiplayer product features are a separate choice.
 
@@ -55,7 +55,15 @@ Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick 
 
 P1 hardening can begin as the P0 converter stabilizes, but successful fixture conversion is not evidence of image conversion. Product UI exploration can proceed independently of the reconstruction provider. Later phases depend on validated earlier contracts.
 
-For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Do not begin photo reconstruction merely because the converter produces attractive previews.
+For the immediate milestone, implementation order is: catalog and canonical placement schema; mesh normalization and voxelization; simple layer-based fitter; inventory and LDraw export; collision/connectivity/seam checks; placement sequence; benchmark harness; Studio imports and physical builds. Attractive previews from either workstream do not count as converter evidence.
+
+### Proposed accelerated photo-to-mesh workstream
+
+Confirmed direction: the first image-stage output is an ordinary reconstructed 3D mesh intended for the existing mesh-to-LEGO converter, not a finished LEGO model. Both fast delivery of this slice and fast user-visible generation matter. No numeric generation target has been measured or approved yet.
+
+Proposed scope is a narrow upload → real generation → interactive mesh preview → reusable artifact handoff. Start with one clear photo as the quickest honest baseline. Offer additional views only if the selected provider genuinely uses multiview input. A successful result must be the user's returned mesh, downloadable in a format targeted by the F0 input contract and designed for later reuse without another reconstruction request; actual converter compatibility requires validation. Failures, uncertain hidden geometry, and provider limitations remain visible. Minimum private ownership plus job and artifact storage may support secure processing and recovery, while full account management, project-library UX, and cross-device continuity remain outside this slice.
+
+This workstream may prototype the upstream portion of P2 while P0/P1 milestones and their buildability gates remain valid. It does not satisfy P2 or P3 exit evidence by itself and must not imply LEGO conversion, parts, instructions, structural validity, or physical buildability. Provider selection, cost, privacy/retention behavior, formats, timeout, and measured latency targets remain approval gates before production integration. Product F1 defines the proposed journey and criteria.
 
 ## Quality and release gates
 
@@ -72,10 +80,10 @@ For the immediate milestone, implementation order is: catalog and canonical plac
 | ID | Open decision | Working proposal | Resolve before |
 | --- | --- | --- | --- |
 | Q1 | Fidelity expectation; audience resolved | Confirmed: nostalgic adults unable to design from scratch. Proposed: recognizable stylized builds | Set the mesh benchmark target for P0; finalize the consumer promise before P2 exit |
-| Q2 | Exact categories/photo count; general scope resolved | Confirmed: limited simple objects from a few images | P2 benchmark selection |
-| Q3 | Inference provider/budget; hosting resolved | Confirmed: ChatGPT Sites. External generation approach and spending remain open | Paid integration/deployment |
+| Q2 | Exact categories/photo count; general scope resolved | Confirmed long-term: limited simple objects from a few images. Proposed accelerated baseline: one clear photo; add views only with genuine provider multiview support | P2 benchmark selection |
+| Q3 | Inference provider/budget; hosting resolved | Confirmed: ChatGPT Sites and a reusable ordinary mesh as the image-stage output. Proposed: benchmark Meshy T2 first for geometry-only generation and direct mesh export; no provider is approved. Output format, privacy/retention terms, and spending remain open | Paid integration/deployment |
 | Q4 | Part universe and purchasing region | Immediate MVP: versioned LDraw-based catalog of approximately 8–12 common rectangular brick/plate families; exact part/color inventory first. Region remains open | Catalog expansion or sourcing integration |
-| Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | P0 exit for converter limits; P3 for slider ranges |
+| Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Confirmed: optimize for both delivery speed and user-visible generation speed. Proposed benchmark question: can the chosen baseline reach a median of 60 seconds or less from upload start to usable viewer, with slower jobs reported separately? This is unmeasured and not a release promise. Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | Provider selection for image latency; P0 exit for converter limits; P3 for slider ranges |
 | Q6 | Accounts and business model | Private projects; defer billing and public gallery | Persistence and launch scope |
 | Q7 | Exact theme, typography and brand; references received | Product's reference register and design translation own the direction; R2 and R7 are the founder's favorites | Visual implementation |
 

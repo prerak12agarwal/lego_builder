@@ -60,6 +60,31 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 - Present model dimensions with units. Explain that smaller models lose detail and piece limits can affect resemblance.
 - Publish supported file, size and piece limits from application configuration, not duplicated hard-coded copy.
 
+#### Proposed branch slice — photo to reusable mesh
+
+Confirmed for the accelerated image workstream: build a focused web flow that turns user-supplied images into an ordinary reconstructed 3D mesh intended for the F0 LEGO converter. This is an upstream input stage, not a finished LEGO result. Fast delivery and fast user-visible generation are both goals; numeric latency targets remain open until a real provider is benchmarked.
+
+The proposed minimum journey is upload → generate → inspect → reuse:
+
+1. The user chooses one clear photo of a single object. The upload surface previews the selected image, explains the quick-baseline constraints, and lets the user replace or remove it before generation.
+2. Generate starts real reconstruction and shows only provider-backed states such as uploading, queued, reconstructing, preparing preview, failed, and ready. The user can retry a failed attempt without selecting the image again while that input remains available.
+3. Ready opens an interactive mesh preview with orbit, zoom, pan, fit-to-view, and camera reset. It identifies the result as an approximate reconstructed mesh and exposes obvious warnings such as missing or uncertain hidden surfaces.
+4. The successful mesh is preserved as a reusable artifact with its source association and generation status. The user can download it in a format targeted by the F0 input contract. The later LEGO conversion step should consume that same artifact rather than reconstructing the image again, once compatibility has been validated.
+
+Acceptance criteria for this proposed slice:
+
+- A supported image starts a real image-to-3D request and either returns a renderable mesh artifact or a truthful failure; samples, static models, and decorative renders never appear as successful user generation.
+- The quick baseline accepts one photo. Additional views appear only if the selected provider supports genuine multiview reconstruction; otherwise the interface does not imply that extra uploads influence the result.
+- Before generation, guidance asks for one isolated, fully visible, well-lit object on a plain or uncluttered background. Unsupported files and configured size limits produce actionable errors before paid processing begins.
+- Progress text reflects known job state and does not claim a percentage or stage the provider cannot report. After refresh or close and reopen, the same authorized user can return through the job link to the current result or failure state within the configured retention window.
+- The ready state renders the returned mesh itself and provides its format, approximate bounds when available, and a download/reuse action. Proposed handoff is a prepared geometry-only `OBJ` plus manifest, with a `GLB` available for the browser preview. The same artifact identifier is reserved for downstream converter handoff; converter eligibility is reported separately and is not claimed until that ingest path is validated.
+- The first preview may use neutral shading to make geometry legible. Preserve the source photo association and available color metadata for later work, but do not claim texture or color fidelity in this geometry-first slice.
+- Mouse, touch, and keyboard users can reach upload, generate, retry, download/reuse, fit-to-view, and reset controls. Essential status and limitations are available as text outside the 3D canvas, and reduced-motion preferences are respected.
+- A failed or unusable result retains the input when possible and recommends a concrete recovery action: use a clearer background, include the whole object, improve lighting, simplify the subject, or retry a provider failure.
+- Generated meshes are described as approximate geometry. They carry no catalog validity, structural stability, parts, instructions, or buildability claim until the separate F0 converter and its validators succeed.
+
+Proposed non-goals for this branch slice are LEGO brick fitting, parts lists, assembly instructions, new account-management UI, a project-library experience, manual mesh editing, texture generation, color-fidelity claims, arbitrary-object guarantees, provider-specific advanced controls, live pricing, and purchasing. Existing Sites identity plus minimum private job and artifact storage are in scope for secure generation and recovery. Provider choice, upload retention/deletion policy, supported output format, input limits, generation timeout, and acceptable latency/cost thresholds require architecture evidence and founder approval before production integration.
+
 ### F2 — Generation and recovery
 
 - Show meaningful stages and allow the user to leave and resume a saved job.
