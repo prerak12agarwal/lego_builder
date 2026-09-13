@@ -3,8 +3,9 @@ import assert from "node:assert/strict";
 import { DatabaseSync, type SQLInputValue } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { deflateSync } from "node:zlib";
-import { Jobs } from "../lib/jobs.ts";
-import { HttpError } from "../lib/http.ts";
+import { Jobs, publicJob } from "../lib/jobs.ts";
+import { HttpError, hash } from "../lib/http.ts";
+import { validateGlbAndExportObj } from "../core/src/glb.ts";
 
 class Statement {
   private values: unknown[] = [];
@@ -89,6 +90,18 @@ function fixtureGlb() {
   data.setUint32(12,json.length,true); data.setUint32(16,0x4e4f534a,true); out.set(json,20);
   data.setUint32(20+json.length,binary.length,true); data.setUint32(24+json.length,0x004e4942,true); out.set(binary,28+json.length);
   return out;
+}
+
+function glb(json: unknown, binary: Uint8Array) {
+  let text = new TextEncoder().encode(JSON.stringify(json)); text = new Uint8Array([...text, ...Array((4 - text.length % 4) % 4).fill(0x20)]);
+  const padded = new Uint8Array([...binary, ...Array((4 - binary.length % 4) % 4).fill(0)]), out = new Uint8Array(28 + text.length + padded.length), view = new DataView(out.buffer);
+  view.setUint32(0, 0x46546c67, true); view.setUint32(4, 2, true); view.setUint32(8, out.length, true); view.setUint32(12, text.length, true); view.setUint32(16, 0x4e4f534a, true); out.set(text, 20); view.setUint32(20 + text.length, padded.length, true); view.setUint32(24 + text.length, 0x004e4942, true); out.set(padded, 28 + text.length); return out;
+}
+
+function texturedGlb(image = png()) {
+  const positions = new Float32Array([0,0,0,1,0,0,0,1,0]), indices = new Uint16Array([0,1,2]), uv = new Float32Array([0,0,1,0,0,1]);
+  const binary = new Uint8Array(68 + image.length); binary.set(new Uint8Array(positions.buffer)); binary.set(new Uint8Array(indices.buffer), 36); binary.set(new Uint8Array(uv.buffer), 44); binary.set(image, 68);
+  return glb({ asset:{version:"2.0"}, buffers:[{byteLength:binary.length}], bufferViews:[{buffer:0,byteOffset:0,byteLength:36},{buffer:0,byteOffset:36,byteLength:6},{buffer:0,byteOffset:44,byteLength:24},{buffer:0,byteOffset:68,byteLength:image.length}], accessors:[{bufferView:0,componentType:5126,count:3,type:"VEC3"},{bufferView:1,componentType:5123,count:3,type:"SCALAR"},{bufferView:2,componentType:5126,count:3,type:"VEC2"}], images:[{bufferView:3,mimeType:"image/png"}], textures:[{source:0}], materials:[{pbrMetallicRoughness:{baseColorTexture:{index:0}}}], meshes:[{primitives:[{attributes:{POSITION:0,TEXCOORD_0:2},indices:1,material:0}]}], nodes:[{mesh:0}], scenes:[{nodes:[0]}], scene:0 }, binary);
 }
 
 function setup(fetcher: typeof fetch) {
@@ -301,4 +314,41 @@ test("another owner cannot read, delete, or download a job", async () => {
   await assert.rejects(() => jobs.artifact("owner-b", id, "glb"), (error: unknown) => error instanceof HttpError && error.status === 404);
   assert.equal(db.row(id).state, "ready");
   assert.equal(bucket.values.has(`${id}/glb`), true);
+});
+
+test("collection preserves checked texture bytes and reopens without another provider submission", async () => {
+  const model = texturedGlb(), sourceTexture = png(); let providerCalls = 0;
+  const { db, bucket, jobs } = setup(async input => {
+    const url = String(input);
+    if (url.endsWith("/status")) { providerCalls++; return Response.json({ status: "COMPLETED" }); }
+    if (url.endsWith("/requests/task-1")) { providerCalls++; return Response.json({ model_mesh: { url: "https://cdn.fal.media/model.glb" } }); }
+    if (url === "https://cdn.fal.media/model.glb") { providerCalls++; return new Response(model); }
+    throw Error(`unexpected ${url}`);
+  });
+  const id = db.insert({}); bucket.values.set(`${id}/source`, png());
+  assert.equal((await jobs.refresh("owner-a", id)).state, "ready");
+  const manifest = JSON.parse(String(bucket.values.get(`${id}/manifest`)));
+  const saved = bucket.values.get(`${id}/glb`) as Uint8Array, obj = bucket.values.get(`${id}/obj`) as string;
+  assert.equal(manifest.glbSha256, await hash(saved)); assert.equal(manifest.objSha256, await hash(new TextEncoder().encode(obj)));
+  assert.equal(manifest.appearance.status, "preserved"); assert.ok(saved.some((value, index) => sourceTexture.length <= saved.length - index && sourceTexture.every((byte, offset) => saved[index + offset] === byte)));
+  assert.equal(validateGlbAndExportObj(saved).obj, obj);
+  assert.equal((await jobs.refresh("owner-a", id)).state, "ready");
+  await jobs.artifact("owner-a", id, "glb"); assert.equal(providerCalls, 3);
+  assert.equal(publicJob(db.row(id) as never).appearance, "preserved");
+  assert.equal(publicJob({ ...db.row(id), manifest: null } as never).appearance, "legacy");
+  assert.equal((await jobs.get("owner-a", id)).state, "ready"); assert.equal(db.row(id).manifest !== null, true);
+});
+
+test("corrupt embedded PNG fails collection before publishing any ready artifact", async () => {
+  const bad = png(); bad[45] ^= 0xff; const model = texturedGlb(bad);
+  const { db, bucket, jobs } = setup(async input => {
+    const url = String(input);
+    if (url.endsWith("/status")) return Response.json({ status: "COMPLETED" });
+    if (url.endsWith("/requests/task-1")) return Response.json({ model_mesh: { url: "https://cdn.fal.media/model.glb" } });
+    if (url === "https://cdn.fal.media/model.glb") return new Response(model);
+    throw Error(`unexpected ${url}`);
+  });
+  const id = db.insert({}); bucket.values.set(`${id}/source`, png());
+  assert.equal((await jobs.refresh("owner-a", id)).state, "failed");
+  assert.equal(bucket.values.has(`${id}/glb`), false); assert.equal(bucket.values.has(`${id}/obj`), false); assert.equal(bucket.values.has(`${id}/manifest`), false);
 });

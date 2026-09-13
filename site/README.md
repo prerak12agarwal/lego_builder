@@ -9,6 +9,8 @@ The canonical workshop combines the original public sample and local LDraw test 
 
 The photo pipeline uses the existing fal-hosted TRELLIS adapter, private GLB/OBJ/manifest storage, and authenticated Python converter. It returns actual LDraw for inspection. Converter-authored steps appear as draft instructions with unverified assembly order and buildability; the browser never invents missing steps. The old `reconstruction-site/` deployment and its data remain separate and unchanged. No history is copied between Sites; their authenticated user IDs differ.
 
+New Workshop results preserve supported TRELLIS materials, embedded textures and vertex colors in the private GLB preview and download. The geometry-only OBJ still supplies the LEGO converter. Collection validates the selected scene and its resources, including bounded PNG inflation, before publishing a ready result. Missing appearance receives neutral shading; invalid textures cause a visible failure. Older saved geometry-only jobs remain readable and are never automatically regenerated to recover color. See [color preservation QA](../docs/qa-trellis-color.md) for verification scope and limits.
+
 ## Runtime and private access
 
 The public shell and Admin importer need no sign-in. Every model API checks trusted Sites identity and record ownership; every signed-in user can use their own private workflow. `GET /api/session` reveals only the signed-in caller's Site-specific ID; it does not grant access. Never use a workspace account ID or the old Site's identity as the new Site ID.

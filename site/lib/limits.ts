@@ -13,4 +13,5 @@ export type JobView = {
   id: string; state: string; createdAt: number; updatedAt: number;
   message: string | null; triangles: number | null;
   bounds: { min: number[]; max: number[] } | null;
+  appearance: "preserved" | "absent" | "legacy";
 };
