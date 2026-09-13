@@ -8,7 +8,7 @@ Canonical image/OBJ/LDraw workspace: https://lego-builder-workshop.dragonjjk.cha
 
 Legacy private pilot (retains its existing jobs): https://lego-builder-image-to-3d.dragonjjk.chatgpt.site/
 
-The workshop source now combines the public sample workbench and local LDraw importer with the private image/OBJ/LDraw workflow at `/build`. New workshop jobs use its own DB/BUCKET; legacy pilot jobs remain on the old Site. Generation requires sign-in and an explicit server-side pilot allowlist. The hosted image-to-OBJ-to-LDraw run and rollout details are recorded in [Workshop publication evidence](workshop-publication.md). GitHub merges do not deploy Sites or the converter automatically.
+The workshop source now combines the public sample workbench and local LDraw importer with the private image/OBJ/LDraw workflow at `/build`. New workshop jobs use its own DB/BUCKET; legacy pilot jobs remain on the old Site. Every signed-in ChatGPT user can run the workflow; each job and file remains private to its owner. The hosted image-to-OBJ-to-LDraw run and rollout details are recorded in [Workshop publication evidence](workshop-publication.md). GitHub merges do not deploy Sites or the converter automatically.
 
 ## Repository components
 
@@ -20,9 +20,9 @@ The workshop source now combines the public sample workbench and local LDraw imp
 ## Runtime configuration
 
 1. Deploy `Dockerfile.converter` from the repository root to a Python/Docker host with HTTPS ingress. Set a strong secret `CONVERTER_TOKEN`. The process binds `PORT` (default 8080); `/health` must return 200. Do not paste secrets into GitHub.
-2. Publish the current `site/` source using the workshop's existing Sites project. Enable its `DB`/`BUCKET` bindings and configure `FAL_KEY` plus the intended owner's Site-specific `PILOT_USER_IDS`. Preserve the legacy Site and saved data. Apply outstanding migrations through the established migration mechanism; do not recreate/reset the database. Required migrations are recorded in `site/drizzle/meta/_journal.json`.
+2. Publish the current `site/` source using the workshop's existing Sites project. Enable its `DB`/`BUCKET` bindings and configure the server-only `FAL_KEY`. Preserve the legacy Site and saved data. Apply outstanding migrations through the established migration mechanism; do not recreate/reset the database. Required migrations are recorded in `site/drizzle/meta/_journal.json`.
 3. Set server-only Sites variables `CONVERTER_URL=https://<converter-host>/convert` and `CONVERTER_TOKEN` to the same secret. These must never use `NEXT_PUBLIC_` names. `RECONSTRUCTION_PROVIDER=fal` and `FAL_KEY` remain the existing image-generation settings.
-4. Keep the workshop public. Approved pilot operators must be explicitly enrolled through server-managed `PILOT_USER_IDS`; public access or sign-in alone must not grant paid generation access.
+4. Keep the workshop public. Every signed-in ChatGPT user may generate and convert their own models; anonymous requests remain unauthorized. No pilot enrollment variable is required. Preserve the existing per-user and site-wide quotas, owner checks and Origin checks.
 5. Run one real image through reconstruction, click Convert to LEGO, download the returned LDR and confirm the Model and Parts views open. Reopening the saved request should preserve the same result. Confirm the converter-authored draft steps, per-step parts and full final-step count. The browser never invents missing steps; physical buildability remains unverified.
 
 Container commands, from the repository root:
