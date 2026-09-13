@@ -1,8 +1,11 @@
+import {bundledParts} from './bundled-parts.ts';
 import {officialCandidates} from './library-path.ts';
 import {importLimits} from './model.ts';
 export type PublicPartCache={match:(key:Request)=>Promise<Response|undefined>;put:(key:Request,response:Response)=>Promise<unknown>};
 export async function servePart(request:Request,upstreamFetch:typeof fetch=fetch,cache?:PublicPartCache):Promise<Response>{
   let paths:string[];try{paths=officialCandidates(new URL(request.url).searchParams.get('file')??'');}catch{return Response.json({error:'Invalid official part name.'},{status:400});}
+  if(request.signal.aborted)return Response.json({error:'Import cancelled.'},{status:499,headers:{'Cache-Control':'no-store'}});
+  for(const path of paths){if(bundledParts[path])return Response.json({path,text:bundledParts[path]},{headers:{'Cache-Control':'public, max-age=86400','X-LDraw-Cache':'HIT','X-Content-Type-Options':'nosniff'}});}
   let contacted=false;
   const error=(message:string,status:number,retry?:string)=>Response.json({error:message},{status,headers:{'Cache-Control':'no-store',...(retry?{'Retry-After':retry}:{})}});
   for(const path of paths){

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./reconstruction.css";
 export const metadata: Metadata = {
     title: "LEGO Builder — Your brick workshop",
-    description: "Explore your brick workshop: plan a project, inspect a sample model, and follow its parts and assembly steps.",
+    description: "Turn an object photo into a 3D mesh, convert it to LEGO, and inspect the brick model, parts and authored steps.",
     icons: {
         icon: "/favicon.svg",
         shortcut: "/favicon.svg",

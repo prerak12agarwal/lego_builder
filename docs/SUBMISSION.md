@@ -4,23 +4,25 @@ GitHub repository: https://github.com/prerak12agarwal/lego_builder
 
 Public Workshop demo: https://lego-builder-workshop.dragonjjk.chatgpt.site/
 
-Unified image/OBJ/LDraw workspace: https://lego-builder-image-to-3d.dragonjjk.chatgpt.site/
+Canonical image/OBJ/LDraw workspace: https://lego-builder-workshop.dragonjjk.chatgpt.site/build
 
-The Workshop is the public sample workbench and LDraw import tool. The partner reports the unified workspace is published privately. Its latest Python-service connection must be published/configured before claiming a hosted automatic image-to-LEGO run. GitHub merges do not deploy Sites. This account could open the public Workshop but could not access either Sites project's publishing controls.
+Legacy private pilot (retains its existing jobs): https://lego-builder-image-to-3d.dragonjjk.chatgpt.site/
+
+The workshop source now combines the public sample workbench and local LDraw importer with the private image/OBJ/LDraw workflow at `/build`. New workshop jobs use its own DB/BUCKET; legacy pilot jobs remain on the old Site. Generation requires sign-in and an explicit server-side pilot allowlist. Deployment/configuration and a real hosted run must be verified separately; GitHub merges do not deploy Sites.
 
 ## Repository components
 
-- `reconstruction-site/`: unified photo reconstruction, saved OBJ, conversion request, Python service call, stored LDraw, model/parts inspection. Uses the existing fal integration, D1 and R2.
+- `reconstruction-site/`: retained legacy pilot and earlier regression/live evidence.
 - `lego_builder/`: real general OBJ exterior converter and authenticated HTTP adapter.
-- `site/`: original public Workshop and independent LDraw import test bench, including the partner's rate-limit reliability fix.
+- `site/`: canonical workshop, private photo reconstruction and saved OBJ, converter requests/results, model/parts/steps, public sample and independent LDraw importer.
 - `examples/cybertruck/model.ldr`: verified digital candidate, 2,069 pieces. `examples/generic/` records four geometry-only inputs.
 
 ## Final publication checklist for the Site owner
 
 1. Deploy `Dockerfile.converter` from the repository root to a Python/Docker host with HTTPS ingress. Set a strong secret `CONVERTER_TOKEN`. The process binds `PORT` (default 8080); `/health` must return 200. Do not paste secrets into GitHub.
-2. Publish the current `reconstruction-site/` source using its existing Sites project. Preserve its `DB`/`BUCKET` bindings, existing `FAL_KEY`, authentication and saved data. Apply outstanding migrations through the established migration mechanism; do not recreate/reset the database. Required migrations are recorded in `reconstruction-site/drizzle/meta/_journal.json`.
+2. Publish the current `site/` source using the workshop's existing Sites project. Enable its `DB`/`BUCKET` bindings and configure `FAL_KEY` plus the intended owner's Site-specific `PILOT_USER_IDS`. Preserve the legacy Site and saved data. Apply outstanding migrations through the established migration mechanism; do not recreate/reset the database. Required migrations are recorded in `site/drizzle/meta/_journal.json`.
 3. Set server-only Sites variables `CONVERTER_URL=https://<converter-host>/convert` and `CONVERTER_TOKEN` to the same secret. These must never use `NEXT_PUBLIC_` names. `RECONSTRUCTION_PROVIDER=fal` and `FAL_KEY` remain the existing image-generation settings.
-4. Give judges access to the unified Site if it remains private. Do not assume the public Workshop's audience applies to the separate reconstruction Site.
+4. Keep the workshop public. Approved pilot operators must be explicitly enrolled through server-managed `PILOT_USER_IDS`; public access or sign-in alone must not grant paid generation access.
 5. Run one real image through reconstruction, click Convert to LEGO, download the returned LDR and confirm the Model and Parts views open. Reopening the saved request should preserve the same result. No authored steps are invented; physical buildability remains unverified.
 
 Container commands, from the repository root:

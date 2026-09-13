@@ -4,6 +4,7 @@ __pycache__/
 *.egg-info/
 outputs/
 build/
+!site/app/build/
 dist/
 .DS_Store
 ~$*.docx

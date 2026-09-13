@@ -6,7 +6,7 @@ Owner: Product. Purpose: user-facing behavior, feature acceptance and design dir
 
 A user photographs an item, generates a LEGO-brick interpretation, inspects it in 3D, obtains an exact parts list and follows instructions to build that same model. The three outputs must agree. Photos cannot establish every hidden surface; communicate approximation and let the user judge the result before buying parts.
 
-The confirmed audience is nostalgic adults who enjoy LEGO but cannot design models from scratch. The first release supports a limited set of simple objects from a few images. Help users succeed through guided photo capture, useful defaults and approachable instructions; do not assume knowledge of brick identifiers or modeling tools. Exact object categories and fidelity targets remain open in Roadmap Q1–Q2. Product success means a user can obtain and assemble a recognizable model, with clear limitations and manageable effort. A visually appealing preview alone is insufficient.
+The confirmed audience is nostalgic adults who enjoy LEGO but cannot design models from scratch. The immediate unified release supports a limited set of simple objects from one clear image; multiple-image reconstruction is later scope. Help users succeed through guided photo capture, useful defaults and approachable instructions; do not assume knowledge of brick identifiers or modeling tools. Exact object categories and fidelity targets remain open in Roadmap Q1–Q2. Product success means a user can obtain and assemble a recognizable model, with clear limitations and manageable effort. A visually appealing preview alone is insufficient.
 
 ## Current MVP boundary
 
@@ -14,15 +14,17 @@ The confirmed immediate milestone is a developer-facing OBJ-to-LEGO converter, n
 
 The earlier rectangular baseline targets solid, static, mostly upright forms without large unsupported overhangs. The shared exterior workflow expands input acceptance beyond that baseline; it must report fidelity and unresolved mechanics for thin or disconnected features. The source model supplies the observed geometry. Image capture, image-to-3D reconstruction, accounts, persistence, purchasing and the consumer browser experience remain outside this milestone.
 
-The established rectangular baseline requires repeatable, recognizable, catalog-valid connected assemblies with a valid bottom-up order. The shared exterior workflow can deliver explicitly unverified digital candidates under F0 while mechanical work remains open; export success alone does not meet resemblance or buildability criteria. The independent photo and UI tracks below proceed in parallel and retain their own acceptance gates.
+The established rectangular baseline requires repeatable, recognizable, catalog-valid connected assemblies with a valid bottom-up order. The shared exterior workflow can deliver explicitly unverified digital candidates under F0 while mechanical work remains open; export success alone does not meet resemblance or buildability criteria. The photo, conversion and consumer-interface work retain separate evidence gates while being combined into one workshop journey.
 
-## Independent Sites UI track
+## Unified workshop Site
 
-Confirmed founder direction: build the overall consumer interface on a dedicated UI branch in parallel with the converter milestone. The supplied generated mockups are confirmed as the intended design direction: navy navigation, cobalt controls, a pale model stage, and connected Model, Parts and Instructions views. Their sample content and unverified counts are not product facts.
+Confirmed founder direction: [the original workshop Site](https://lego-builder-workshop.dragonjjk.chatgpt.site/) is the canonical consumer destination. Bring the existing real single-image reconstruction and LEGO-conversion journey from the separate pilot into this Site while preserving the workshop's established visual language: navy navigation, cobalt controls, a pale model stage, and connected Model, Parts and Instructions views. The supplied generated mockups remain the intended design direction; their sample content and unverified counts are not product facts.
 
-This UI remains a separate application from the photo reconstruction pilot; merging source does not connect their user flows. This track uses a visibly labeled hand-authored sample revision. Its rendered placements, parts quantities, exports and step membership must agree. Uploaded photos are temporary browser-session previews; real generation remains unavailable until a genuine adapter and validation pipeline exist. Accounts, durable project storage, pricing and purchasing remain deferred. UI completion does not establish image conversion or physical buildability.
+The public shell, examples, hand-authored sample workbench and browser-local Admin LDraw inspection remain available without sign-in. During the controlled pilot, starting provider-backed generation, accessing private artifacts, resuming a saved job and removing a job require both the Sites identity used to establish ownership and membership in the site-owner-managed pilot allowlist. The sign-in transition returns an approved user to the intended new-project or saved-project context. Provider keys and converter credentials never reach the browser.
 
-Prototype acceptance: usable photo review and configuration; accessible five-stop complexity control with size separate; connected sample viewer, searchable inventory export and directly navigable instructions; keyboard camera controls and a text fallback; readable desktop/mobile layouts. Never connect local photos to the fixture as a generated result or invent generation progress, calibrated piece ranges or prices.
+The hand-authored sample remains a separate named workbench. Its rendered placements, parts quantities, exports and step membership must agree, and it must never appear as the result of a user's photo. The Admin importer remains browser-session-local and keeps its existing behavior under F7. UI completion does not establish image conversion, source resemblance or physical buildability.
+
+The earlier [image-to-3D pilot](https://lego-builder-image-to-3d.dragonjjk.chatgpt.site/) remains available as a legacy application. Consolidation does not migrate, copy or delete its existing jobs or artifacts. New jobs started from the canonical workshop use that Site's owner-checked persistent storage; a legacy pilot job continues to be recovered through the legacy pilot unless a later migration is separately approved and verified.
 
 ## Pages and user journey
 
@@ -31,15 +33,15 @@ Routes below describe conceptual screens, not frozen URL paths.
 | Screen | User needs and primary action | Required states |
 | --- | --- | --- |
 | Welcome / start | Understand supported objects and see clearly labeled examples; start a project | First visit, sample preview, unsupported scope explanation |
-| Projects | Find saved work and resume a particular revision | Empty, loading, populated, failed generation, access denied |
-| New project / photos | Upload one or more views of the same item; review, reorder, label or remove photos | Upload progress, invalid/oversized file, interrupted upload, missing input |
+| Projects | Find private saved jobs and resume the latest durable stage without repeating completed paid work | Signed out, empty, loading, populated, active, failed reconstruction, failed conversion, ready, access denied |
+| New project / photos | Start the real single-image flow; choose, preview, replace or remove one supported photo before generation | Signed out at paid action, upload progress, invalid/oversized file, interrupted upload, missing input |
 | Build configuration | Choose complexity on a stepped slider (F6), review expected piece count and size; generate | Defaults, unavailable level, invalid combination, estimated versus actual quantities/cost |
 | Generation | Understand the current stage and recover if needed | Queued, processing, cancel requested, failed with retry, complete |
 | Model workspace | Rotate, zoom and pan; inspect dimensions, piece count, confidence/validation notes; open parts or instructions | Loading, ready, warnings, draft preview, renderer unavailable |
 | Parts | See exact quantities by part/color and export a shopping list | Filter/search, unavailable mapping, unknown price, export failure |
 | Instructions | Follow one manageable step at a time and resume progress | First step, active step, last step, saved progress, revision mismatch |
 
-Model, Parts and Instructions may be tabs in a shared project workspace rather than disconnected pages. Keep project name, revision and validation state visible across all three. Accounts/access screens depend on Roadmap Q6; public sharing and checkout are not initial requirements.
+Model, Parts and Instructions may be tabs in a shared project workspace rather than disconnected pages. Keep project name, revision and validation state visible across all three. The public shell and local tools do not grant access to private jobs; authenticated project access is limited to the owner. Public sharing and checkout are not initial requirements.
 
 ## Feature acceptance criteria
 
@@ -102,7 +104,7 @@ Cybertruck reference translation, approved by the founder in the current task. T
 
 ### F0 non-goals
 
-These exclusions apply to the local converter milestone; the separately approved F1 photo pilot and independent Sites UI track retain their own scope.
+These exclusions apply to the local converter milestone; the separately approved F1 photo pilot and unified workshop track retain their own scope.
 
 - No photo upload or image-to-3D reconstruction.
 - No web interface, user accounts, saved projects or background-job system.
@@ -112,15 +114,15 @@ These exclusions apply to the local converter milestone; the separately approved
 
 ### F1 — Photo input and configuration
 
-- The long-term product accepts one or more images; the first release guides users to provide a few views. Set the required minimum after reconstruction testing. Show visible previews and actionable validation errors.
-- Explain helpful viewpoints, plain backgrounds and the need to photograph the same item; do not promise that more images always resolve reconstruction errors.
+- The immediate workshop flow accepts exactly one image of one object and shows a visible preview with actionable validation errors. Multiple-image reconstruction is deferred until after the single-image consolidation is complete and separately validated.
+- Explain how to choose one useful angle, keep the full object visible and use a plain background. Do not imply that additional photos affect the current result.
 - Let the user review photos and configuration before starting generation.
 - Present model dimensions with units. Explain that smaller models lose detail and piece limits can affect resemblance.
 - Publish supported file, size and piece limits from application configuration, not duplicated hard-coded copy.
 
-#### Approved quick MVP — photo to reusable mesh
+#### Approved quick MVP — single photo to reusable mesh
 
-Confirmed for the accelerated image workstream: build a focused web flow that turns one user-supplied image into an ordinary reconstructed 3D mesh intended for the F0 LEGO converter. This is an upstream input stage, not a finished LEGO result. Fast delivery and fast user-visible generation are both goals; a numeric latency target remains open pending a representative benchmark.
+Confirmed for the accelerated image workstream: build a focused web flow that turns one user-supplied image into an ordinary reconstructed 3D mesh intended for the F0 LEGO converter. This is the existing functionality being consolidated into the workshop under F8. It is an upstream input stage, not a finished LEGO result. A numeric latency target remains open pending a representative benchmark.
 
 Confirmed provider direction for this MVP: use the fal-hosted original TRELLIS model, `fal-ai/trellis`. Key configuration, funded execution and one successful local bottle inference have been verified. That observation does not establish quality or latency for other objects or hosted operation.
 
@@ -134,7 +136,7 @@ The MVP journey is upload → generate → inspect → reuse:
 Acceptance criteria for this MVP:
 
 - A supported image starts a real image-to-3D request and either returns a renderable mesh artifact or a truthful failure; samples, static models, and decorative renders never appear as successful user generation.
-- The MVP accepts exactly one photo per generation. Genuine multiview input requires a separately validated provider path and later scope; the interface does not imply that additional images influence this result.
+- The MVP accepts exactly one photo per generation. Multiview input is later scope; the interface does not imply that additional images influence this result.
 - Before generation, guidance asks for one isolated, fully visible, well-lit object on a plain or uncluttered background. Unsupported files and configured size limits produce actionable errors before paid processing begins.
 - Progress text reflects known job state and does not claim a percentage or stage the provider cannot report. Jobs and results are private to the authorized user. After refresh or close and reopen, that user can return through the job link within the configured retention window.
 - Pilot recovery is request-driven: provider generation may continue while the site is closed, and reopening the job asks for and stores the latest provider state or result. The pilot does not claim autonomous result collection while nobody is using it. Production readiness still requires reliable server-side completion collection, expiry, and recovery behavior.
@@ -213,7 +215,7 @@ An optional count-only label presentation can reuse the same five presets later;
 
 ### F7 — Admin LDraw inspection
 
-Implemented on the independent Sites UI track at the founder’s request. Admin test bench accepts a browser-local `.ldr` or packed `.mpd`, loads real referenced part geometry and exposes Model, Parts and Instructions for that single imported revision. The existing sample remains a separate named workbench.
+Implemented in the original workshop UI at the founder’s request and retained in the unified Site. Admin test bench accepts a browser-local `.ldr` or packed `.mpd`, loads real referenced part geometry and exposes Model, Parts and Instructions for that single imported revision. The existing sample remains a separate named workbench.
 
 - Successful import replaces the previous local inspection model; failure or cancellation retains it. Imports survive navigation within this page, but are not saved across reloads. Files are not uploaded to storage; only public dependency names are requested through the official part resolver.
 - Preserve root `STEP` / `ROTSTEP` groups. Each instruction step shows cumulative placements and highlights the new pieces, with previous/next and direct step selection. The final step and parts CSV must match the full imported model exactly.
@@ -222,29 +224,34 @@ Implemented on the independent Sites UI track at the founder’s request. Admin 
 - Large imports can wait for the official part library and retry temporary failures, with visible waiting status and cancellation. Public geometry is cached to speed subsequent imports; uploaded models remain session-local.
 - Reject missing dependencies, malformed transforms, unsupported model geometry or exhausted import limits with an actionable message. Never silently substitute sample geometry or accept a partial model.
 - Label imported geometry and order as supplied, with physical buildability unverified. Embedded custom parts are identified; inventory is not a purchasing-validity claim.
-- Founder-approved access: the entire consumer Site and Admin LDraw test bench are public without login. “Admin” is the test-tool label, not an authorization role. Imported files remain browser-session-local; public access does not add account management or durable project storage.
+- Founder-approved access: the consumer shell, sample workbench and Admin LDraw test bench are public without login. “Admin” is the test-tool label, not an authorization role. Imported files remain browser-session-local. Real generation and private project recovery use the authenticated boundary in F8.
 
 ### F8 — Unified image-to-build pipeline
 
-Confirmed founder direction: connect the existing image reconstruction, generic Python OBJ conversion and LDraw workspace into the published workshop. Retain each completed stage and its provenance. A configured converter runs against the real saved OBJ; absent configuration or failed execution leaves the mesh available with a truthful state. The automatic demo extends the implemented manual handoff rather than substituting an uploaded fixture for real conversion.
+Confirmed founder direction: make the original workshop URL the complete consumer solution by connecting its New project and My projects journeys to the existing single-image TRELLIS reconstruction, generic Python OBJ conversion and the LDraw workspace. Retain each completed stage and its provenance. A configured converter runs against the real saved OBJ; absent configuration or failed execution leaves the mesh available with a truthful state. The automatic demo extends the implemented manual handoff rather than substituting an uploaded fixture for real conversion. Multiple-image reconstruction is explicitly deferred until after this single-image workflow is integrated and reviewed.
 
 Acceptance criteria:
 
-- A supported image creates one traceable pipeline job. The interface reports truthful stages for image preparation, TRELLIS reconstruction, awaiting brick conversion, conversion, validation and viewer preparation, and identifies which completed stage failed with an actionable retry path.
-- The real prepared `OBJ` and manifest associated with the successful TRELLIS result are retained as the downstream handoff. The source image, mesh handoff and any later LDraw result remain associated through stable identifiers and integrity metadata; retrying a stage cannot silently mix artifacts from different attempts.
+- Visiting the canonical workshop without signing in exposes the established navigation, visual style, hand-authored sample and browser-local Admin inspection. Selecting New project opens the real one-photo workflow on a same-origin workshop route rather than the former session-only photo mockup. A user is asked to sign in only before starting paid reconstruction or opening owner-private project data, and an approved pilot user returns to the intended context afterward.
+- My projects is the minimum recovery surface for jobs created on the canonical workshop. After sign-in, an approved pilot user can reopen the current/latest job and the prior ready job when one exists, with enough stage and status context to avoid repeating paid work. Opening an item resumes its recorded stage and artifact identities; an empty state leads to New project. This slice does not promise a browsable history or full project-library experience.
+- A supported image creates one traceable pipeline job under the existing per-user and site-wide quotas. The interface reports truthful stages for image preparation, TRELLIS reconstruction, awaiting brick conversion, conversion, validation and viewer preparation, and identifies which completed stage failed with an actionable retry path.
+- The real prepared `OBJ` and manifest associated with the successful TRELLIS result are retained as the downstream handoff. The normalized source image and its checksum, mesh handoff and any later LDraw result remain associated through stable identifiers and integrity metadata; retrying a stage cannot silently mix artifacts from different attempts.
 - When no converter is connected, the ordinary user flow stops in an explicit awaiting-converter state. It preserves the mesh and offers its legitimate preview/download actions, but does not unlock a brick model, parts list or instructions as generated output. An owner-only receiver may exercise those result surfaces with a manually supplied file only when the interface labels it as unverified integration tooling rather than image conversion.
 - The result boundary receives a genuine converter response for the retained mesh without requiring another paid reconstruction. A pipeline result is successful only when that response contains a parseable `.ldr` revision with authored assembly steps and the required validation evidence. A result with missing steps may still be inspected as an incomplete output, using the F7 missing-steps message, but is not presented as a complete build.
 - The model workspace renders the bricks from that `.ldr`, derives its parts inventory from the same revision and preserves every authored `STEP` / `ROTSTEP` group for direct, previous and next navigation. The final step reconstructs the full displayed model and its placement count matches the parts total.
 - Closing or refreshing the site does not create duplicate paid TRELLIS work or lose a recorded successful stage. The authorized user can resume the job within the configured retention window. Awaiting conversion and failed downstream attempts retain the reusable mesh, and a converter retry does not repeat TRELLIS unless the user explicitly starts a new reconstruction.
 - Input, intermediate and result artifacts remain private to the authorized user and follow explicit retention and removal behavior. Provider and converter credentials remain server-side.
+- Every new workshop job and derived conversion request is written through the canonical Site's owner-checked D1/R2 boundary. Job, configuration, file and conversion operations reject users outside the approved pilot allowlist and enforce owner access where a record exists. Browser requests cannot choose an owner, object key, callback URL or converter destination. State-changing requests enforce the authenticated owner and accepted workshop Origin. Public sample and Admin-local activity does not create private server records or invoke a paid provider.
 - The integrated upload, status, model, parts and step controls meet the keyboard, touch, text-fallback and reduced-motion expectations of F1, F3 and F5.
 - Completion of this integration does not by itself establish resemblance, structural stability or physical buildability. F0 validation, BrickLink Studio import, benchmark and physical-build gates remain required for those claims.
 
 Present in the current `reconstruction-site` source: a ready TRELLIS mesh automatically creates and persists an owner-scoped awaiting-converter request; the saved request URL, `OBJ` checksum, settings checksum and handoff document preserve the source/result association; and a later result receiver accepts a matching immutable root `.ldr`. A received file opens in the same consumer workspace with the brick model, derived parts CSV and nonempty authored `STEP` / `ROTSTEP` groups. Missing steps produce a warning and no inferred instructions. A later pending request does not hide the prior saved result. See the [pipeline workspace](reconstruction-site/components/pipeline-workspace.tsx), [result workspace](reconstruction-site/components/assembly-workspace.tsx) and [conversion boundary](reconstruction-site/lib/conversions.ts).
 
+The `site/` source now integrates the real single-image workflow at `/build` within the original workshop shell. New project enters generation; My projects recovers current/latest and prior ready jobs. The sample and Admin tools remain public, while model operations require approved Sites identity and owner checks. Local combined tests, type checking, production build and browser navigation passed; hosted configuration and a real full pipeline run require separate evidence in [workshop integration QA](site/test/workshop-evidence.md).
+
 Approved automatic extension: run the existing generic OBJ converter through a bounded authenticated HTTPS Python service configured only on the Sites server. New requests use approximately 2,000 target pieces with a visible resolved Y-up default; preserve legacy 4–48-stud handoffs without silently changing their settings. The returned source/settings hashes must match, and the result must meet the 2,500-placement and 5 MiB LDraw limits. A generated digital candidate without authored steps remains inspectable but is not a complete instructed build. Deployment, project access and an actual image-derived OBJ-to-LDraw run remain separate acceptance evidence; local manual-receiver tests do not satisfy them.
 
-Integration non-goals are arbitrary-object guarantees, manual mesh or brick editing, live pricing or purchasing, public sharing, and expansion of account or project-library UX. The external authenticated Python boundary reuses the existing converter; no new image provider or paid inference fallback is selected.
+Integration non-goals are arbitrary-object guarantees, manual mesh or brick editing, live pricing or purchasing, public sharing, broad account management, migration of legacy pilot jobs, and removal or redirection of the legacy pilot Site. The external authenticated Python boundary reuses the existing converter; no new image provider, paid inference fallback or spend expansion is selected.
 
 ## UI and interaction principles
 
@@ -308,8 +315,9 @@ Use them to evaluate hierarchy, staging, novice guidance, and consistency across
 | D1 — Three connected outputs | Confirmed | User request: interactive model, parts list, instructions |
 | D2 — Model-focused workspace | Implemented for UI preview | Sample canvas plus contextual controls and connected Model / Parts / Instructions views in [site/](site/) |
 | D3 — Visual identity | References confirmed; execution proposed | R2 and R7 are the founder's primary references. Design translation above owns the interpretation; exact theme, palette tokens and typography remain open |
-| D4 — First-release audience/object scope | Confirmed boundary | Nostalgic adults who cannot design from scratch; limited simple objects from a few images. Roadmap Q1–Q2 owns remaining scope choices |
+| D4 — First-release audience/object scope | Confirmed boundary | Nostalgic adults who cannot design from scratch; immediate consolidation supports limited simple objects from one clear image. Multiple-image reconstruction is deferred. Roadmap Q1–Q2 owns remaining scope choices |
 | D5 — Complexity control | Confirmed control; presets proposed | Stepped slider with up to five levels; F6 owns labels, estimates and behavior |
+| D6 — Canonical consumer Site | Confirmed; implementation pending | The original workshop URL owns the public shell and all new authenticated generation/recovery. The earlier image-to-3D Site remains a legacy store with no migration in this slice |
 
 ## Maintenance
 

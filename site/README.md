@@ -1,25 +1,32 @@
-# LEGO Builder UI preview
+# LEGO Builder workshop
 
-The consumer workbench prototype follows the founder-confirmed mockup direction. Product criteria are in [Product](../Product.md); engineering contracts are in [Architecture](../Architecture.md).
+The canonical workshop combines the original public sample and local LDraw test bench with private single-photo reconstruction and LEGO conversion at `/build`.
 
-Implemented: responsive sample workbench, session-local photo preview/reordering/view labels, five-stop complexity selection and separate size input, model orbit/zoom/pan/reset, searchable parts with CSV export, and eight directly navigable layer steps. Model, parts and instructions derive from one hand-authored 49-placement revision.
+- `/`: hand-authored Little house, matching sample parts/CSV and eight sample steps.
+- `/?view=admin`: browser-local LDraw/MPD inspection, with bounded official part retrieval.
+- `/build?new=1`: new photo upload; an existing active job is recovered before another submission.
+- `/build`: recover the latest saved job and the previous ready result. Saved job and conversion links retain their immutable IDs.
 
-Real conversion, durable project storage, authentication flows, pricing and purchasing are not connected. Photos are never transmitted by this application. Navigation preserves in-memory setup and instruction progress; refresh resets them. Sample part references/colors and physical assembly are not validated for purchasing or construction.
+The photo pipeline uses the existing fal-hosted TRELLIS adapter, private GLB/OBJ/manifest storage, and authenticated Python converter. It returns actual LDraw for inspection; missing authored steps are never invented and buildability is unverified. The old `reconstruction-site/` deployment and its data remain separate and unchanged. No history is copied between Sites; their authenticated user IDs differ.
 
-## Development and verification
+## Runtime and private access
 
-Requires Node.js 22.14 or later for the test command. From this directory, use the actual package scripts:
+The public shell and Admin importer need no sign-in. Every model API checks trusted Sites identity, an explicit server-side `PILOT_USER_IDS` allowlist, and record ownership. Missing allowlist fails closed. `GET /api/session` reveals only the signed-in caller's Site-specific ID for configuration; it does not grant access. Never use a workspace account ID or the old Site's identity as the new Site ID.
 
-- `npm run install:ci` installs the locked dependencies.
-- `npm run dev` starts the local preview; use its printed URL.
-- `npm run typecheck` checks TypeScript.
-- `npm test` checks sample geometry, support, final connectivity, inventory, CSV and instruction coverage, including negative fixtures.
-- `npm run build` builds the Worker-compatible site.
+Enable `DB` and `BUCKET` in the workshop's existing hosting manifest. Apply the migrations recorded in `drizzle/meta/_journal.json`; they create private reconstruction jobs and conversion requests. Do not reset an existing database or copy legacy records.
 
-Use the installed Sites skills to configure the local execution profile before setup/build/preview and to publish. The portable profile is appropriate on this workstation. The ignored `.sites-runtime/` selection and local development authentication never establish production access control.
+Manage server-only `FAL_KEY`, `RECONSTRUCTION_PROVIDER=fal`, `CONVERTER_URL`, `CONVERTER_TOKEN` and `PILOT_USER_IDS` through Sites. Secrets are never in the repository or client bundle. An unavailable converter preserves the saved OBJ and manual handoff. The existing converter's temporary tunnel depends on its running host.
+
+## Local development and checks
+
+Use Node 24. Configure the Sites portable execution profile, then use `npm run install:ci`, `npm run dev`, `npm run typecheck`, `npm test` and `npm run build`. Local `.env.local` may allow `local_seedy` for the starter's loopback-only test sign-in; this value is never a hosted fallback.
+
+For a fresh local database, build and apply the two SQL files with the installed Wrangler CLI using `dist/server/wrangler.json` and `.wrangler/state`. Follow the existing journal and do not replay migrations against existing state.
+
+Tests cover the sample, importer, ownership, quotas, idempotency, immutable source/result links, cleanup races and pilot access. Synthetic fixtures are not a production success path. Live reconstruction and physical buildability require separate evidence.
 
 ## Source and publication
 
-GitHub is the canonical collaboration repository; this directory belongs to `codex/ui-site` and its pull request. Sites requires a separate Git root containing only the app source. Create a clean publication snapshot of this directory, excluding dependencies, local runtime state, `.env` files and generated output from the source commit. Use the existing project ID in `.openai/hosting.json`, commit/push the snapshot with a short-lived Sites credential, and package the build from exactly that source revision. Do not replace GitHub origin, include the parent repository or create another Site.
+GitHub is the collaboration source: use a feature branch and partner-reviewed PR into main. Publish a clean Site-only snapshot to the existing project ID in `.openai/hosting.json`; keep private environment and runtime state out of the source commit/archive. GitHub merges do not deploy Sites.
 
-No D1/R2 bindings or external providers are configured. The retained starter libraries and optional helpers do not imply implemented persistence or account features.
+Product acceptance and contracts live in the parent Product.md, Roadmap.md and Architecture.md. Earlier pilot evidence remains under `reconstruction-site/test/`; workshop integration evidence is under `test/workshop-evidence.md`.
