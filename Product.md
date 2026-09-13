@@ -172,7 +172,7 @@ Implemented on the independent Sites UI track at the founder’s request. Admin 
 - Large imports can wait for the official part library and retry temporary failures, with visible waiting status and cancellation. Public geometry is cached to speed subsequent imports; uploaded models remain session-local.
 - Reject missing dependencies, malformed transforms, unsupported model geometry or exhausted import limits with an actionable message. Never silently substitute sample geometry or accept a partial model.
 - Label imported geometry and order as supplied, with physical buildability unverified. Embedded custom parts are identified; inventory is not a purchasing-validity claim.
-- The current owner-private Site provides the test bench’s access boundary. This is not a separate production administrator role or permission system.
+- Founder-approved access: the entire consumer Site and Admin LDraw test bench are public without login. “Admin” is the test-tool label, not an authorization role. Imported files remain browser-session-local; public access does not add account management or durable project storage.
 
 ## UI and interaction principles
 

@@ -73,7 +73,7 @@ One local live bottle run completed through browser upload, fal, stored ready st
 
 This workstream may prototype the upstream portion of P2 while P0/P1 milestones and their buildability gates remain valid. It does not satisfy P2 or P3 exit evidence by itself and must not imply LEGO conversion, parts, instructions, structural validity, or physical buildability. Hosted evidence, representative quality, cost, verified privacy/retention behavior, timeout, and measured latency targets remain gates before production integration. Product F1 defines the approved MVP journey and criteria.
 
-The independent Sites UI track includes founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
+The independent Sites UI track is public without login, including founder-approved browser-local LDraw inspection (Product F7) to test exported models and their authored steps. This tooling does not satisfy converter, Studio compatibility or physical assembly release gates.
 
 ## Quality and release gates
 
