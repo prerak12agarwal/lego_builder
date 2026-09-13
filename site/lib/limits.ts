@@ -4,7 +4,6 @@ export const LIMITS = {
   normalizedBytes: 6 * 1024 * 1024,
   imageEdge: 1024,
   meshBytes: 16 * 1024 * 1024,
-  dailyPerUser: 5,
   dailyTotal: 20,
   providerMediaSeconds: 86400,
 } as const;

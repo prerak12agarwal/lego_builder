@@ -12,8 +12,8 @@ The 26-color catalog records 557 observed manufactured combinations across the 2
 
 ## Verification
 
-- Site tests: 106 passed; TypeScript checks passed. Tests cover preserved preview texture/factors/alpha, immutable source materials, expanded and legacy palette validation, request-version mismatch rejection and legacy idempotency hashes.
-- Python full pass initially had 136 passing tests and one existing HTTP fixture timeout. Its client allowed three seconds for a real conversion. The specific real-conversion test now allows 60 seconds; production timeouts remain unchanged. The service suite then passed all 11 tests.
+- Site tests: 108 passed; TypeScript checks passed. Tests cover preserved preview texture/factors/alpha, immutable source materials, expanded and legacy palette validation, request-version mismatch rejection and legacy idempotency hashes.
+- Final combined Python suite: 140 passed. The full pass initially had 136 passing tests and one existing HTTP fixture timeout. Its client allowed three seconds for a real conversion. The specific real-conversion test now allows 60 seconds; production timeouts remain unchanged. The service suite then passed all 11 tests.
 - Updated source-color suite: 24 passed, including real worker calls for omitted version, explicit v1 and explicit v2. Generic fitting suite: 19 passed, including actual bundled 15068 geometry in all four yaw orientations and unavailable/mixed-color rejection. Other tests passed in the full run.
 - Supplied candidate publication checks passed. LDR, inventory and draft groups derive from the same placements; the browser loaded 1,902 placements and 74 groups successfully.
 - Local browser used the actual PipelineWorkspace, ModelViewer and AssemblyWorkspace with the supplied model and real locally generated LDR. Clearly labeled fixture responses replaced only private storage/network access. Source Colors and Studio lighting both displayed white, teal and orange regions. The brick viewer displayed corresponding distinct regions; Parts search showed the 97 teal pieces.
@@ -24,3 +24,7 @@ The 26-color catalog records 557 observed manufactured combinations across the 2
 The wider palette still maps shaded texture regions to individual solid colors; gray-blue handles can acquire blue shades. It does not perform photo-to-surface reprojection, exposure correction or texture segmentation. The earlier cat texture contains genuinely dark pixels, so removing preview reflections cannot recover missing light colors. Exact photographic reproduction, hidden-surface fidelity, arbitrary curved/hinged fitting and mechanically validated instructions remain outside this pass.
 
 Independent QA on the combined candidate passed the generic/source suites (43 tests), service suite (11 tests), catalog parity and diff checks. It verified both retained candidates' LDR/BOM totals, revision identities, catalog legality and exactly-once instruction membership. No release-blocking code defect was found in that review; physical assembly and hosted behavior were not claimed by this local review.
+
+## Generation-limit follow-up
+
+The founder also requested removal of the canonical Workshop’s five-generation per-person limit. The owner/day count predicate and UI limit message were removed. The same atomic reservation still enforces the site-wide rolling 20-attempt budget and the existing unique active-job constraint. Added regression checks admit a sixth generation after five completed jobs and allow exactly one of two competing requests for the final site-wide slot. Existing active-job and duplicate-request tests remain. No live paid generation was submitted for testing.

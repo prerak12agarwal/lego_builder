@@ -59,9 +59,8 @@ export class Jobs {
     const row = await this.env.DB.prepare(`INSERT OR IGNORE INTO reconstruction_jobs
       (id, owner, request_key, fingerprint, provider, state, created_at, updated_at)
       SELECT ?, ?, ?, ?, 'fal-ai/trellis', 'submitting', ?, ?
-      WHERE (SELECT COUNT(*) FROM reconstruction_jobs WHERE owner = ? AND created_at > ?) < ?
-        AND (SELECT COUNT(*) FROM reconstruction_jobs WHERE created_at > ?) < ? RETURNING *`)
-      .bind(id, owner, key, fingerprint, now, now, owner, day, LIMITS.dailyPerUser, day, LIMITS.dailyTotal).first<Row>();
+      WHERE (SELECT COUNT(*) FROM reconstruction_jobs WHERE created_at > ?) < ? RETURNING *`)
+      .bind(id, owner, key, fingerprint, now, now, day, LIMITS.dailyTotal).first<Row>();
     if (!row) {
       const raced = await this.findRequest(owner, key);
       if (raced && raced.fingerprint === fingerprint) return raced;

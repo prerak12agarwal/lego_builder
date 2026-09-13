@@ -352,3 +352,23 @@ test("corrupt embedded PNG fails collection before publishing any ready artifact
   assert.equal((await jobs.refresh("owner-a", id)).state, "failed");
   assert.equal(bucket.values.has(`${id}/glb`), false); assert.equal(bucket.values.has(`${id}/obj`), false); assert.equal(bucket.values.has(`${id}/manifest`), false);
 });
+
+test("a sixth generation is allowed after five completed jobs for the same person", async () => {
+  let submissions = 0;
+  const { db, jobs } = setup(async () => { submissions++; return Response.json({ request_id: "task-six" }); });
+  for (let index = 0; index < 5; index++) db.insert({ state: "ready" });
+  const job = await jobs.create("owner-a", "sixth-generation-key", png());
+  assert.equal(job.state, "queued"); assert.equal(submissions, 1);
+  assert.equal(db.database.prepare("SELECT count(*) count FROM reconstruction_jobs WHERE owner = 'owner-a'").get()!.count, 6);
+});
+
+test("removing the per-person quota preserves the atomic twenty-attempt workshop limit", async () => {
+  let submissions = 0;
+  const { db, jobs } = setup(async () => { submissions++; return Response.json({ request_id: "last-slot" }); });
+  for (let index = 0; index < 19; index++) db.insert({ owner: `earlier-${index}`, state: index % 2 ? "deleted" : "failed" });
+  const attempts = await Promise.allSettled([jobs.create("owner-a", "last-workshop-slot-a", png()), jobs.create("owner-b", "last-workshop-slot-b", png())]);
+  assert.equal(attempts.filter(value => value.status === "fulfilled").length, 1);
+  const rejected = attempts.find(value => value.status === "rejected") as PromiseRejectedResult;
+  assert.ok(rejected.reason instanceof HttpError && rejected.reason.status === 429);
+  assert.equal(submissions, 1);
+});
