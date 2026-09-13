@@ -362,10 +362,10 @@ test("a sixth generation is allowed after five completed jobs for the same perso
   assert.equal(db.database.prepare("SELECT count(*) count FROM reconstruction_jobs WHERE owner = 'owner-a'").get()!.count, 6);
 });
 
-test("removing the per-person quota preserves the atomic twenty-attempt workshop limit", async () => {
+test("the workshop admits attempt 100 and atomically rejects attempt 101", async () => {
   let submissions = 0;
   const { db, jobs } = setup(async () => { submissions++; return Response.json({ request_id: "last-slot" }); });
-  for (let index = 0; index < 19; index++) db.insert({ owner: `earlier-${index}`, state: index % 2 ? "deleted" : "failed" });
+  for (let index = 0; index < 99; index++) db.insert({ owner: `earlier-${index}`, state: index % 2 ? "deleted" : "failed" });
   const attempts = await Promise.allSettled([jobs.create("owner-a", "last-workshop-slot-a", png()), jobs.create("owner-b", "last-workshop-slot-b", png())]);
   assert.equal(attempts.filter(value => value.status === "fulfilled").length, 1);
   const rejected = attempts.find(value => value.status === "rejected") as PromiseRejectedResult;

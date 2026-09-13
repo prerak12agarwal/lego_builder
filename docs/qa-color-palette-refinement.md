@@ -28,3 +28,5 @@ Independent QA on the combined candidate passed the generic/source suites (43 te
 ## Generation-limit follow-up
 
 The founder also requested removal of the canonical Workshop’s five-generation per-person limit. The owner/day count predicate and UI limit message were removed. The same atomic reservation still enforces the site-wide rolling 20-attempt budget and the existing unique active-job constraint. Added regression checks admit a sixth generation after five completed jobs and allow exactly one of two competing requests for the final site-wide slot. Existing active-job and duplicate-request tests remain. No live paid generation was submitted for testing.
+
+The subsequent requested site-wide increase changes the canonical Workshop limit from 20 to 100 attempts per rolling 24 hours. The boundary regression now seeds 99 attempts, submits two competing requests and verifies exactly one successful provider dispatch and one 429 rejection. The per-person count limit remains removed.

@@ -4,7 +4,7 @@ export const LIMITS = {
   normalizedBytes: 6 * 1024 * 1024,
   imageEdge: 1024,
   meshBytes: 16 * 1024 * 1024,
-  dailyTotal: 20,
+  dailyTotal: 100,
   providerMediaSeconds: 86400,
 } as const;
 export const ACTIVE_STATES = ["submitting", "queued", "generating", "collecting", "unknown"];
