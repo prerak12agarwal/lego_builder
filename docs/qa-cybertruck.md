@@ -58,3 +58,7 @@ The canonical model now binds the target of 2,000 parts, target band `[1800, 220
 ```
 
 The physical release gate remains open until representative collision/connection review and physical assembly evidence exist. Those missing checks must remain visible rather than inheriting the digital artifact pass.
+
+## Main-branch integration check
+
+The primary integrator merged `origin/main` at `2297247` into the converter checkpoint `b93bab9`, resolving shared documentation without changing either application's source or the tested converter/example bytes. Post-merge checks passed: 94 Python tests, 15 Sites UI tests and 25 reconstruction tests. The generic benchmark implementation hashes still matched every current implementation file. The two web applications remain separate from the local converter; no hosted generation or physical-build check was added by this merge.

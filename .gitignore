@@ -8,3 +8,9 @@ dist/
 .DS_Store
 ~$*.docx
 *.py[cod]
+.env*
+!.env.example
+node_modules/
+
+# Private test uploads
+/references/image_object/

@@ -4,6 +4,8 @@ A local OBJ-to-LEGO research converter. The general workflow extracts an approxi
 
 The outputs are **digital candidates**. Artifact and catalog checks do not establish collision-free connections, stability or physical buildability. General sculptural results are still visibly stepped; uniformly polished results for arbitrary objects remain an engineering goal.
 
+The independent [image reconstruction pilot](reconstruction-site/README.md) provides photo upload, fal TRELLIS reconstruction, neutral 3D preview and GLB/OBJ downloads. The [Sites UI preview](site/README.md) provides Model, Parts and Instructions views with labeled sample data plus browser-local LDraw inspection. Both applications are preserved alongside this local converter; merging their source does not connect the three user flows or establish downstream eligibility for reconstructed meshes. Their READMEs own setup, test and publication commands.
+
 ## Install and convert an OBJ
 
 Requires Python 3.11 or newer. Run from the repository root:
@@ -83,5 +85,7 @@ The [recorded 44-candidate legacy run](benchmarks/results/README.md) produced 26
 - [Architecture](Architecture.md): geometry, schema and pipeline contracts.
 - [AGENTS](AGENTS.md): roles and branch/review policy.
 - [References](references/README.md): source assets and provenance.
+- [Conversion research](research/image_to_brick_model_research.docx): approach and tool choices.
+- [Role briefs](agents/): engineering responsibilities and handoffs.
 
 Keep `main` stable. Work on feature branches and use partner-reviewed pull requests. The primary integrator owns commits and pushes; role agents hand off edits and verification evidence.
