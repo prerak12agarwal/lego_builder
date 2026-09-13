@@ -65,7 +65,7 @@ export default function Workspace() {
     }).catch(e => { if (mounted) {
       const status = (e as { status?: number }).status;
       setSignedOut(status === 401);
-      setError(status === 403 ? "Your account is signed in but is not approved for this pilot yet." : status === 503 ? "The workshop service is temporarily unavailable. Please try again shortly." : message(e));
+      setError(status === 503 ? "The workshop service is temporarily unavailable. Please try again shortly." : message(e));
     } });
     return () => { mounted = false; };
   }, []);
@@ -161,7 +161,7 @@ export default function Workspace() {
           <div className="photo-tips"><h3>A good starting photo</h3><p><Check/> One object, fully in view</p><p><Check/> A clear, simple background</p><p><Check/> Even light and a useful angle</p></div>
           <div className="mode-card"><Box size={21}/><div><strong>Saved at every stage</strong><p>Your reconstructed mesh stays available for the converter handoff.</p></div></div>
           {signedOut ? <Button asChild className="generate-button"><a href={signInPath} target="_top">Sign in with ChatGPT</a></Button> : <Button className="generate-button" onClick={() => void generate()} disabled={!input || !config?.configured || active || busy || Boolean(pendingRequest)}>{busy ? "Preparing…" : "Generate 3D model"}{busy ? <LoaderCircle className="spinner"/> : <ArrowRight size={18}/>}</Button>}
-          <p className="setup-note">{signedOut ? "Sign in to keep your models private and recover saved jobs." : !config && error ? error : !config ? "Connecting to your workspace…" : !config.configured ? "Generation needs to be configured by the site owner." : `Powered by TRELLIS. Up to ${LIMITS.dailyPerUser} submissions per person per day in this pilot.`}</p>
+          <p className="setup-note">{signedOut ? "Sign in to keep your models private and recover saved jobs." : !config && error ? error : !config ? "Connecting to your workspace…" : !config.configured ? "Generation needs to be configured by the site owner." : `Powered by TRELLIS. Up to ${LIMITS.dailyPerUser} submissions per person per day.`}</p>
           <p className="privacy-note">Generate sends your resized photo to fal. Saved photos and models stay in your private workspace until removed. Provider output expiration is requested after 24 hours.</p>
           {pendingRequest && <Button variant="outline" onClick={() => void checkPending()} disabled={busy}>Check saved submission</Button>}
           {error && <p role="alert" className="error-note">{error}</p>}

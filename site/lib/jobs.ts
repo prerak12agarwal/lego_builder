@@ -63,7 +63,7 @@ export class Jobs {
     if (!row) {
       const raced = await this.findRequest(owner, key);
       if (raced && raced.fingerprint === fingerprint) return raced;
-      throw new HttpError(429, "You already have an unresolved generation, or this pilot has reached its daily limit. Reopen your latest job before trying again.");
+      throw new HttpError(429, "You already have an unresolved generation, or the workshop has reached its daily limit. Reopen your latest job before trying again.");
     }
     try { await this.env.BUCKET.put(`${id}/source`, bytes, { httpMetadata: { contentType: "image/png" } }); }
     catch {

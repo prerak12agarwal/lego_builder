@@ -1,5 +1,7 @@
 # Unified workshop independent QA handoff
 
+> Historical report for the original consolidation revision. Its pilot-allowlist statements describe that tested revision and are superseded by the founder-approved all-signed-in policy in Product F8 and the current authorization tests. They are not current deployment requirements. Current access verification is recorded in `docs/qa-signed-in-access.md` at the repository root.
+
 Date: 2026-09-13 (Asia/Singapore)
 
 Tested branch/revision: `codex/unified-workshop`, base `4d67b462bf43cd368e4b3acf21d0a220bc7682da`, with the uncommitted combined implementation present in the shared checkout. QA made no product-source changes. The only QA-authored file is this evidence record.

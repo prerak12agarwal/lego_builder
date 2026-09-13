@@ -11,19 +11,19 @@ The photo pipeline uses the existing fal-hosted TRELLIS adapter, private GLB/OBJ
 
 ## Runtime and private access
 
-The public shell and Admin importer need no sign-in. Every model API checks trusted Sites identity, an explicit server-side `PILOT_USER_IDS` allowlist, and record ownership. Missing allowlist fails closed. `GET /api/session` reveals only the signed-in caller's Site-specific ID for configuration; it does not grant access. Never use a workspace account ID or the old Site's identity as the new Site ID.
+The public shell and Admin importer need no sign-in. Every model API checks trusted Sites identity and record ownership; every signed-in user can use their own private workflow. `GET /api/session` reveals only the signed-in caller's Site-specific ID; it does not grant access. Never use a workspace account ID or the old Site's identity as the new Site ID.
 
 Enable `DB` and `BUCKET` in the workshop's existing hosting manifest. Apply the migrations recorded in `drizzle/meta/_journal.json`; they create private reconstruction jobs and conversion requests. Do not reset an existing database or copy legacy records.
 
-Manage server-only `FAL_KEY`, `RECONSTRUCTION_PROVIDER=fal`, `CONVERTER_URL`, `CONVERTER_TOKEN` and `PILOT_USER_IDS` through Sites. Secrets are never in the repository or client bundle. An unavailable converter preserves the saved OBJ and manual handoff. The existing converter's temporary tunnel depends on its running host.
+Manage server-only `FAL_KEY`, `RECONSTRUCTION_PROVIDER=fal`, `CONVERTER_URL`, and `CONVERTER_TOKEN` through Sites. Secrets are never in the repository or client bundle. An unavailable converter preserves the saved OBJ and manual handoff. See `../docs/SUBMISSION.md` for current converter deployment and publication details.
 
 ## Local development and checks
 
-Use Node 24. Configure the Sites portable execution profile, then use `npm run install:ci`, `npm run dev`, `npm run typecheck`, `npm test` and `npm run build`. Local `.env.local` may allow `local_seedy` for the starter's loopback-only test sign-in; this value is never a hosted fallback.
+Use Node 24. Configure the Sites portable execution profile, then use `npm run install:ci`, `npm run dev`, `npm run typecheck`, `npm test` and `npm run build`. The starter provides a loopback-only local test sign-in; this is never a hosted identity fallback.
 
 For a fresh local database, build and apply the two SQL files with the installed Wrangler CLI using `dist/server/wrangler.json` and `.wrangler/state`. Follow the existing journal and do not replay migrations against existing state.
 
-Tests cover the sample, importer, ownership, quotas, idempotency, immutable source/result links, cleanup races and pilot access. Synthetic fixtures are not a production success path. Live reconstruction and physical buildability require separate evidence.
+Tests cover signed-in and anonymous authorization, the sample, importer, ownership, quotas, idempotency, immutable source/result links, and cleanup races. Synthetic fixtures are not a production success path. Live reconstruction and physical buildability require separate evidence.
 
 ## Source and publication
 

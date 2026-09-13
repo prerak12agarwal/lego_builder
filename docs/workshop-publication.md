@@ -1,5 +1,7 @@
 # Unified Workshop hosted verification
 
+> Historical deployment evidence for Workshop version 7. The pilot-account restriction below describes that version; the current policy permits every signed-in ChatGPT user to use their own private workflow. See [current access verification](qa-signed-in-access.md). The original bottle-run evidence is retained unchanged.
+
 Verified 2026-09-13 on the canonical Workshop origin. This live follow-up supplements the independent [workshop source review](../site/test/workshop-evidence.md) and [draft instruction review](qa-draft-instructions.md).
 
 ## Published state
