@@ -15,3 +15,7 @@ Start with the project documents:
 - [research/image_to_brick_model_research.docx](research/image_to_brick_model_research.docx): research behind the selected conversion approach and tool choices.
 
 These documents distinguish proposals from confirmed requirements and implemented behavior. Consult code, manifests and CI for executable setup once the app is scaffolded.
+
+## Collaboration
+
+Keep `main` stable. Work on short-lived personal or feature branches, publish changes through pull requests and have the other partner review before merging. When both partners need to edit the same section, use one active editor and one reviewer rather than making overlapping changes at the same time. The complete standing workflow is in [AGENTS.md](AGENTS.md#standing-branch-and-review-policy).

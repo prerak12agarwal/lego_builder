@@ -32,11 +32,23 @@ Selection basis reviewed on 2026-09-13: OpenAI describes Astra as its flagship f
 
 ## Collaboration and handoffs
 
-- Use a separate branch per person and focused change. For concurrent agents, use separate worktrees and non-overlapping ownership where possible; never switch a shared working directory's branch underneath another worker.
+### Standing branch and review policy
+
+Confirmed by Prerak on 2026-09-13 for ongoing work with Jacob:
+
+- Treat `main` as the stable shared integration branch. Do not do normal feature, architecture or scope work directly on `main`, and do not push unreviewed work to it.
+- Start each unit of work from the latest `origin/main` and create a short-lived, clearly named personal or feature branch. Use the repository's agreed contributor prefix; Codex-created branches use `codex/`.
+- Commit and push work to the feature branch, then open a pull request into `main`. The other partner reviews the pull request before it is merged. A local edit is not shared until it is committed and pushed.
+- When both partners need to change the same document or code area, nominate one active editor for the overlapping section and have the other partner review it. Finish or merge that pull request before starting another overlapping edit where practical.
+- Do not use one long-lived shared development branch as the default. Separate later functionality into focused branches and modules so changes can be reviewed and merged independently.
+- Fetch before starting work and before final integration. After a pull request merges, update local `main` before creating the next branch. If `main` changed while a branch was open, integrate the latest `origin/main`, resolve both contributors' intent and rerun relevant checks before merging.
+- Keep pull requests small and describe their goal, files or contracts changed, verification performed and remaining risks. Delete completed feature branches after merge when they are no longer needed.
+- Use repository branch protection and required review settings when available; this document states the team policy but cannot enforce GitHub settings.
+
+Additional safeguards:
+
+- For concurrent agents, use separate worktrees and non-overlapping ownership where possible; never switch a shared working directory's branch underneath another worker.
 - Inspect local changes before editing. Preserve unrelated and uncommitted work. Never reset, force-push, discard, or overwrite a partner's work to make integration easier.
-- Fetch before integrating. A plain pull updates the current branch's upstream, not necessarily shared main. Bring current remote main into the feature branch deliberately; prefer merging it when the branch is already published/shared. Do not rewrite a shared branch's history without coordination.
-- Submit small PRs into the shared main branch. Use partner review; branch protection is a repository setting, not something this file enforces or claims is configured.
-- Avoid simultaneous edits to dependency manifests, lockfiles, schemas or the same documentation section. Agree a single integrator for overlapping changes; resolve conflicts using both contributors' intent and rerun relevant checks.
 - Handoffs identify the branch/revision, goal, files/contracts touched, decisions, checks and remaining risks. Keep active task status in issues/PRs rather than copying it across these documents.
 
 ## Engineering rules
