@@ -13,6 +13,7 @@ Start with the project documents:
 - [Product.md](Product.md): features, pages, UX and reference-led design decisions.
 - [AGENTS.md](AGENTS.md): Product, Architect, Developer and QA roles and collaboration rules.
 - [research/image_to_brick_model_research.docx](research/image_to_brick_model_research.docx): research behind the selected conversion approach and tool choices.
+- [agents/](agents/): detailed role briefs; runnable project configurations live in `.codex/agents/`.
 
 These documents distinguish proposals from confirmed requirements and implemented behavior. Consult code, manifests and CI for executable setup once the app is scaffolded.
 
