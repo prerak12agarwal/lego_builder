@@ -2,3 +2,9 @@
 ~$*.docx
 __pycache__/
 *.py[cod]
+.env*
+!.env.example
+node_modules/
+
+# Private test uploads
+/references/image_object/

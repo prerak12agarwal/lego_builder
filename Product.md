@@ -60,30 +60,42 @@ Model, Parts and Instructions may be tabs in a shared project workspace rather t
 - Present model dimensions with units. Explain that smaller models lose detail and piece limits can affect resemblance.
 - Publish supported file, size and piece limits from application configuration, not duplicated hard-coded copy.
 
-#### Proposed branch slice — photo to reusable mesh
+#### Approved quick MVP — photo to reusable mesh
 
-Confirmed for the accelerated image workstream: build a focused web flow that turns user-supplied images into an ordinary reconstructed 3D mesh intended for the F0 LEGO converter. This is an upstream input stage, not a finished LEGO result. Fast delivery and fast user-visible generation are both goals; numeric latency targets remain open until a real provider is benchmarked.
+Confirmed for the accelerated image workstream: build a focused web flow that turns one user-supplied image into an ordinary reconstructed 3D mesh intended for the F0 LEGO converter. This is an upstream input stage, not a finished LEGO result. Fast delivery and fast user-visible generation are both goals; a numeric latency target remains open pending a representative benchmark.
 
-The proposed minimum journey is upload → generate → inspect → reuse:
+Confirmed provider direction for this MVP: use the fal-hosted original TRELLIS model, `fal-ai/trellis`. Key configuration, funded execution and one successful local bottle inference have been verified. That observation does not establish quality or latency for other objects or hosted operation.
+
+The MVP journey is upload → generate → inspect → reuse:
 
 1. The user chooses one clear photo of a single object. The upload surface previews the selected image, explains the quick-baseline constraints, and lets the user replace or remove it before generation.
 2. Generate starts real reconstruction and shows only provider-backed states such as uploading, queued, reconstructing, preparing preview, failed, and ready. The user can retry a failed attempt without selecting the image again while that input remains available.
 3. Ready opens an interactive mesh preview with orbit, zoom, pan, fit-to-view, and camera reset. It identifies the result as an approximate reconstructed mesh and exposes obvious warnings such as missing or uncertain hidden surfaces.
 4. The successful mesh is preserved as a reusable artifact with its source association and generation status. The user can download it in a format targeted by the F0 input contract. The later LEGO conversion step should consume that same artifact rather than reconstructing the image again, once compatibility has been validated.
 
-Acceptance criteria for this proposed slice:
+Acceptance criteria for this MVP:
 
 - A supported image starts a real image-to-3D request and either returns a renderable mesh artifact or a truthful failure; samples, static models, and decorative renders never appear as successful user generation.
-- The quick baseline accepts one photo. Additional views appear only if the selected provider supports genuine multiview reconstruction; otherwise the interface does not imply that extra uploads influence the result.
+- The MVP accepts exactly one photo per generation. Genuine multiview input requires a separately validated provider path and later scope; the interface does not imply that additional images influence this result.
 - Before generation, guidance asks for one isolated, fully visible, well-lit object on a plain or uncluttered background. Unsupported files and configured size limits produce actionable errors before paid processing begins.
-- Progress text reflects known job state and does not claim a percentage or stage the provider cannot report. After refresh or close and reopen, the same authorized user can return through the job link to the current result or failure state within the configured retention window.
-- The ready state renders the returned mesh itself and provides its format, approximate bounds when available, and a download/reuse action. Proposed handoff is a prepared geometry-only `OBJ` plus manifest, with a `GLB` available for the browser preview. The same artifact identifier is reserved for downstream converter handoff; converter eligibility is reported separately and is not claimed until that ingest path is validated.
-- The first preview may use neutral shading to make geometry legible. Preserve the source photo association and available color metadata for later work, but do not claim texture or color fidelity in this geometry-first slice.
+- Progress text reflects known job state and does not claim a percentage or stage the provider cannot report. Jobs and results are private to the authorized user. After refresh or close and reopen, that user can return through the job link within the configured retention window.
+- Pilot recovery is request-driven: provider generation may continue while the site is closed, and reopening the job asks for and stores the latest provider state or result. The pilot does not claim autonomous result collection while nobody is using it. Production readiness still requires reliable server-side completion collection, expiry, and recovery behavior.
+- The ready state renders the returned neutral reconstructed mesh itself and provides its format, approximate bounds when available, and a download/reuse action. Handoff is a prepared geometry-only `OBJ` plus manifest, with a `GLB` available for the browser preview. The same artifact identifier is reserved for downstream converter handoff; converter eligibility is reported separately and is not claimed until that ingest path is validated.
+- The first preview uses neutral shading to make geometry legible. Preserve the source association and source-photo hash. The pilot retains the normalized source image privately until removal, but does not retain the user's original uploaded bytes or provider color/texture metadata; color fidelity remains deferred.
 - Mouse, touch, and keyboard users can reach upload, generate, retry, download/reuse, fit-to-view, and reset controls. Essential status and limitations are available as text outside the 3D canvas, and reduced-motion preferences are respected.
 - A failed or unusable result retains the input when possible and recommends a concrete recovery action: use a clearer background, include the whole object, improve lighting, simplify the subject, or retry a provider failure.
-- Generated meshes are described as approximate geometry. They carry no catalog validity, structural stability, parts, instructions, or buildability claim until the separate F0 converter and its validators succeed.
+- Generated meshes are described as approximate geometry with inferred hidden surfaces and unknown real-world scale. They carry no catalog validity, structural stability, parts, instructions, or buildability claim until the separate F0 converter and its validators succeed.
 
-Proposed non-goals for this branch slice are LEGO brick fitting, parts lists, assembly instructions, new account-management UI, a project-library experience, manual mesh editing, texture generation, color-fidelity claims, arbitrary-object guarantees, provider-specific advanced controls, live pricing, and purchasing. Existing Sites identity plus minimum private job and artifact storage are in scope for secure generation and recovery. Provider choice, upload retention/deletion policy, supported output format, input limits, generation timeout, and acceptable latency/cost thresholds require architecture evidence and founder approval before production integration.
+MVP non-goals are LEGO brick fitting, parts lists, assembly instructions, new account-management UI, a project-library experience, manual mesh editing, texture generation, color-fidelity claims, arbitrary-object guarantees, provider-specific advanced controls, live pricing, and purchasing. Existing Sites identity plus minimum private job and artifact storage are in scope for secure generation and recovery. Hosted publication, production retention verification, generation timeout, and acceptable generalized quality, latency and cost thresholds remain pending.
+
+Implementation status from current `reconstruction-site` source inspection:
+
+- Present in source: single JPG/PNG selection and browser normalization using centrally configured limits; real TRELLIS submission states; private per-user jobs; centralized per-user and site-wide daily pilot quotas; one unresolved job per user; idempotent submission recovery that blocks an unknown submit from becoming a duplicate paid request; saved job links; a link back to the prior ready result; and reuse of a saved source photo.
+- Present in source: a neutral interactive preview with pointer rotation/zoom, fit-to-view controls and keyboard panning; private `GLB`, `OBJ`, and manifest downloads; triangle count, returned bounds, unknown physical scale, and unchecked LEGO compatibility labels.
+- Present in source: the normalized source image and result files remain private until the user removes the job. Removal deletes app files and attempts provider cancellation for unfinished work, while warning that cancellation may still be charged. Requests to fal ask for private output access, no provider input/output storage, and 24-hour provider output expiry; these are requested provider controls, not verified deletion guarantees.
+- Verified for one local live bottle run: the actual browser upload reached fal TRELLIS, stored a ready job in 64.966 seconds, rendered the neutral bottle mesh, supported rotate and fit-to-view, and recovered the same job after refresh without another generation. This is one observation, not a median, service target, or arbitrary-object quality result.
+- The live result contained 1,656 vertices and 2,220 triangles. The downloaded `GLB` was 47,176 bytes and the `OBJ` was 138,010 bytes; both hashes matched the manifest, and reparsing the downloaded `GLB` reproduced the downloaded `OBJ` exactly. Evidence is recorded in [the bottle smoke test](reconstruction-site/test/live-evidence.md).
+- Verification also passed 25 synthetic checks, type checking and the production build. Hosted publication and hosted identity/storage behavior remain untested, as do broader object quality, repeated latency, provider retention guarantees, real-world scale and downstream converter suitability.
 
 ### F2 — Generation and recovery
 
