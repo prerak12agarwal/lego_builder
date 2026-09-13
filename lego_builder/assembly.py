@@ -233,6 +233,9 @@ def catalog_for_model(model, library):
     evidence_raw = evidence_path.read_bytes()
     evidence = json.loads(evidence_raw)
     reviewed = {(r["part_id"], r["ldraw_color"]): r for r in evidence["lot_evidence"] if r["status"] == "verified"}
+    from .source_color import color_evidence
+    source_evidence = color_evidence()
+    reviewed.update({(r["part_id"], r["ldraw_color"]): r for r in source_evidence["lot_evidence"] if r["status"] == "verified"})
     ids = sorted({p["part_id"] for p in model["placements"]})
     manifest = library.manifest(ids)
     manifest.pop("library_root", None)
@@ -247,7 +250,7 @@ def catalog_for_model(model, library):
             raise ValueError(f"Assembly root is not an official standalone Part: {part_id}")
         color_ids = sorted({p["color"] for p in model["placements"] if p["part_id"] == part_id})
         for color in color_ids:
-            if color not in {0, 36, 47, 71, 72}:
+            if type(color) is not int or not 0 <= color <= 511:
                 raise ValueError(f"Color outside exterior palette: {color}")
             library.color(color)
             if (part_id, color) not in reviewed:

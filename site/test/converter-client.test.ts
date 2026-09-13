@@ -30,3 +30,10 @@ test("redirects, mismatched result hashes and busy converter cannot publish succ
   await assert.rejects(runConverter(env,input,async () => new Response(null,{status:429})),/busy/);
   await assert.rejects(runConverter(env,input,async () => Response.json({schemaVersion:1,sourceObjSha256:"c".repeat(64),settingsSha256:input.settingsSha256,ldr:"0 x"})),/different source/);
 });
+test("color requests cannot accept a neutral downgrade or a different GLB",async()=>{
+  const colored={...input,schemaVersion:2 as const,sourceGlbSha256:"c".repeat(64),glbBase64:"fixture",settings:{...input.settings,colorMode:"source" as const,sourceGlbSha256:"c".repeat(64)}};
+  const result={schemaVersion:2,sourceObjSha256:input.sourceObjSha256,sourceGlbSha256:colored.sourceGlbSha256,settingsSha256:input.settingsSha256,ldr:"1 4 0 0 0 1 0 0 0 1 0 0 0 1 3004.dat\n0 STEP\n",colorSummary:{mode:"source",method:"surface-base-color-to-palette-v1",paletteVersion:"source-solid-palette-v1",sourceHasColor:true,usedColorCodes:[4],limitations:["palette-approximation","one-color-per-part","materials-not-reproduced"]}};
+  assert.equal((await runConverter(env,colored,async(_url,init)=>{assert.deepEqual(JSON.parse(String(init?.body)),colored);return Response.json(result);})).schemaVersion,2);
+  await assert.rejects(runConverter(env,colored,async()=>Response.json({...result,sourceGlbSha256:"d".repeat(64)})),/different source colors/);
+  await assert.rejects(runConverter(env,colored,async()=>Response.json({schemaVersion:1,sourceObjSha256:input.sourceObjSha256,settingsSha256:input.settingsSha256,ldr:result.ldr})),/different source colors/);
+});

@@ -39,7 +39,7 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
   const picker = useRef<HTMLInputElement>(null);
   const alive = useRef(true);
   const selectedRequest = useRef<string | null>(null);
-  useEffect(() => { onResultAvailable(conversion?.state === "result_available"); }, [conversion?.state, onResultAvailable]);
+  useEffect(() => { onResultAvailable(conversion?.state === "result_available" && Boolean(conversion.inspection?.hasSteps)); }, [conversion?.state, conversion?.inspection?.hasSteps, onResultAvailable]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
   useEffect(() => {
     const control = new AbortController();
@@ -107,7 +107,7 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
     try {
       const desired: ConversionSettings = { targetParts: settings.targetParts ?? 2000, inputUpAxis: settings.inputUpAxis === "unspecified" ? "y" : settings.inputUpAxis };
       let selected = conversion;
-      if (selected.settings.targetParts !== desired.targetParts || selected.settings.inputUpAxis !== desired.inputUpAxis || selected.settings.targetSizeStuds !== undefined) {
+      if (selected.settings.targetParts !== desired.targetParts || selected.settings.inputUpAxis !== desired.inputUpAxis || selected.settings.targetSizeStuds !== undefined || (job.appearance === "preserved" && selected.settings.colorMode !== "source")) {
         selected = await request<ConversionView>(base, { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify({ schemaVersion: 1, settings: desired }) });
         if (!alive.current) return;
         setConversion(selected); setSettings(selected.settings); selectedRequest.current = selected.id;
@@ -137,9 +137,11 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
       <div><label htmlFor="piece-up">Source upright axis</label><Select value={settings.inputUpAxis === "unspecified" ? "y" : settings.inputUpAxis} disabled={busy} onValueChange={value => setSettings(settings => ({ targetParts: settings.targetParts ?? 2000, inputUpAxis: value as InputUpAxis }))}><SelectTrigger id="piece-up"><SelectValue/></SelectTrigger><SelectContent><SelectItem value="x">X axis</SelectItem><SelectItem value="y">Y axis</SelectItem><SelectItem value="z">Z axis</SelectItem></SelectContent></Select></div>
       <Button disabled={!converterConfigured || loading || busy || !conversion || !Number.isInteger(settings.targetParts ?? 2000) || (settings.targetParts ?? 2000) < 100 || (settings.targetParts ?? 2000) > 2200} onClick={() => void runConversion()}>{running ? <><LoaderCircle className="spinner" size={16}/>Converting…</> : "Convert to LEGO"}</Button>
       <Button asChild variant="outline"><a href={`/api/jobs/${job.id}/files/glb`} download><Download size={16}/>{job.appearance === "preserved" ? "Download color GLB" : "Download GLB"}</a></Button>
-      <Button asChild variant="outline"><a href={`/api/jobs/${job.id}/files/obj`} download><Download size={16}/>Download geometry OBJ</a></Button>
+      <Button asChild variant="outline"><a href={`/api/jobs/${job.id}/files/${job.appearance === "preserved" ? "obj-bundle" : "obj"}`} download><Download size={16}/>{job.appearance === "preserved" ? "Download textured OBJ" : "Download geometry OBJ"}</a></Button>
     </div>
-    <p className="handoff-snapshot">{job.appearance === "preserved" ? "Color is included in the GLB download. The OBJ contains the shape used for LEGO conversion." : job.appearance === "absent" ? "TRELLIS returned this model without color information. You can still view and download its shape." : "This model was saved before color was retained. Its original colors are no longer available in the saved files."}</p>
+    <p className="handoff-snapshot">{job.appearance === "preserved" ? "LEGO conversion uses the saved model’s colors and matches them to the closest supported LEGO colors. The textured OBJ download includes its material and texture files; keep them together." : job.appearance === "absent" ? "TRELLIS returned this model without color information. LEGO conversion will use neutral gray." : "This older model has no retained colors. Its LEGO conversion uses neutral gray; generating a new model from the photo can recover color."}</p>
+    {hasResult && conversion?.colorSummary && <p className="handoff-snapshot" role="status">{conversion.colorSummary.usedColorCodes.length} LEGO colors · The model, parts list and draft steps use the same part and color assignments. Fine texture details and material finishes are approximated.</p>}
+    {hasResult && job.appearance === "preserved" && !conversion?.colorSummary && <p className="handoff-snapshot">This saved LEGO result predates color conversion. Select Convert to LEGO to make a colored version from the saved mesh, without generating the photo again.</p>}
     {!converterConfigured && <p className="handoff-snapshot" role="status">LEGO conversion requires the site owner to configure the converter backend. Downloads and existing results remain available.</p>}
     {conversion?.settings.targetSizeStuds !== undefined && <p className="handoff-snapshot">This saved legacy handoff uses {conversion.settings.targetSizeStuds} studs. Convert to LEGO creates a new explicit piece-target request; it does not reinterpret that size.</p>}
     <Tabs value={tab} onValueChange={setTab} className="pipeline-tabs">
@@ -150,7 +152,7 @@ export function PipelineWorkspace({ job, onResultAvailable, converterConfigured 
     </Tabs>
     {error && <div className="pipeline-error" role="alert"><p>{error}</p><Button variant="outline" size="sm" onClick={() => setReload(value => value + 1)} disabled={busy}>Reload saved handoff</Button></div>}
     <details className="converter-tools"><summary>Converter handoff <span>{loading ? "Preparing…" : hasResult ? "Result saved" : "Integration tools"}</span></summary><div className="converter-tools-body">
-      <p>{job.appearance === "preserved" ? "Download the color GLB for the reconstructed appearance" : "Download the saved GLB"} or the geometry-only OBJ used by the converter. Manually supplied files remain unverified.</p>
+      <p>{job.appearance === "preserved" ? "The converter uses the paired color GLB and geometry OBJ. The textured OBJ ZIP is available above for other 3D applications." : "Download the saved GLB or geometry OBJ."} Manually supplied files remain unverified.</p>
       {loading ? <p role="status"><LoaderCircle className="spinner" size={16}/> Preparing your saved handoff…</p> : conversion && <><Button variant="outline" disabled={busy} onClick={() => void createAttempt()}>{pending ? "Retry saving piece request" : "Save new piece-target request"}</Button>
       <p className="handoff-snapshot">Saved request: {conversion.settings.targetParts !== undefined ? `${conversion.settings.targetParts} pieces` : `${conversion.settings.targetSizeStuds} studs (legacy)`} · Up axis {conversion.settings.inputUpAxis}. Each request retains its original settings.</p>
       <div className="download-row"><Button asChild variant="outline"><a href={`/api/jobs/${job.id}/files/glb`} download><Download size={16}/>{job.appearance === "preserved" ? "Color GLB" : "GLB"}</a></Button><Button asChild variant="outline"><a href={`/api/jobs/${job.id}/files/obj`} download><Download size={16}/> Geometry OBJ</a></Button><Button asChild variant="outline"><a href={`${base}/${conversion.id}/handoff`} download="converter-handoff.json"><Download size={16}/> Handoff JSON</a></Button>{hasResult && <Button asChild variant="outline"><a href={`${base}/${conversion.id}/artifact`} download><Download size={16}/> Result LDR</a></Button>}<Button disabled={busy || Boolean(pending) || Boolean(hasResult)} onClick={() => picker.current?.click()}><Upload size={16}/>{busy ? "Saving…" : "Supply LDraw result"}</Button><input ref={picker} hidden type="file" accept=".ldr" aria-label="Supply converter LDraw result" onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void upload(file); }}/></div>

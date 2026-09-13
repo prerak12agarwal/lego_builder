@@ -1,0 +1,47 @@
+{
+  "schema_version": "source-color-evidence-v1",
+  "palette_version": "source-solid-palette-v1",
+  "reviewed_on": "2026-09-13",
+  "method": "Reviewed each BrickLink catalog page's Known Colors section. Counts are catalog occurrence counts shown there, not current seller inventory. LDraw names and RGB values come from the bundled official LDConfig.ldr.",
+  "limitations": [
+    "Evidence establishes that BrickLink catalogs the part/color combination; it does not establish current seller stock, price, quantity, clutch compatibility, or buildability.",
+    "Source RGB is quantized to this finite solid-color palette and is not an exact photographic color reproduction.",
+    "The three smallest rectangular fallback parts are covered here. Larger and shaped parts require their own reviewed lot evidence before use in a newly added palette color."
+  ],
+  "color_mappings": [
+    {"ldraw_color": 0, "ldraw_name": "Black", "rgb": "#1B2A34", "bricklink_color_id": 11, "bricklink_name": "Black", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 1, "ldraw_name": "Blue", "rgb": "#1E5AA8", "bricklink_color_id": 7, "bricklink_name": "Blue", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 2, "ldraw_name": "Green", "rgb": "#00852B", "bricklink_color_id": 6, "bricklink_name": "Green", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 4, "ldraw_name": "Red", "rgb": "#B40000", "bricklink_color_id": 5, "bricklink_name": "Red", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 14, "ldraw_name": "Yellow", "rgb": "#FAC80A", "bricklink_color_id": 3, "bricklink_name": "Yellow", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 15, "ldraw_name": "White", "rgb": "#F4F4F4", "bricklink_color_id": 1, "bricklink_name": "White", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 71, "ldraw_name": "Light_Bluish_Grey", "rgb": "#969696", "bricklink_color_id": 86, "bricklink_name": "Light Bluish Gray", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"},
+    {"ldraw_color": 72, "ldraw_name": "Dark_Bluish_Grey", "rgb": "#646464", "bricklink_color_id": 85, "bricklink_name": "Dark Bluish Gray", "ldraw_source": "lego_builder/data/parts-library/LDConfig.ldr", "ldraw_source_url": "https://ldraw.org/article/547.html"}
+  ],
+  "lot_evidence": [
+    {"part_id": "3004", "ldraw_color": 0, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 1817},
+    {"part_id": "3004", "ldraw_color": 1, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 1050},
+    {"part_id": "3004", "ldraw_color": 2, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 474},
+    {"part_id": "3004", "ldraw_color": 4, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 1500},
+    {"part_id": "3004", "ldraw_color": 14, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 1192},
+    {"part_id": "3004", "ldraw_color": 15, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 2078},
+    {"part_id": "3004", "ldraw_color": 71, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 933},
+    {"part_id": "3004", "ldraw_color": 72, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3004", "section": "Known Colors", "observed_catalog_occurrences": 677},
+    {"part_id": "3005", "ldraw_color": 0, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 1182},
+    {"part_id": "3005", "ldraw_color": 1, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 655},
+    {"part_id": "3005", "ldraw_color": 2, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 323},
+    {"part_id": "3005", "ldraw_color": 4, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 1028},
+    {"part_id": "3005", "ldraw_color": 14, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 730},
+    {"part_id": "3005", "ldraw_color": 15, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 1592},
+    {"part_id": "3005", "ldraw_color": 71, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 784},
+    {"part_id": "3005", "ldraw_color": 72, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3005", "section": "Known Colors", "observed_catalog_occurrences": 538},
+    {"part_id": "3024", "ldraw_color": 0, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 1410},
+    {"part_id": "3024", "ldraw_color": 1, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 446},
+    {"part_id": "3024", "ldraw_color": 2, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 302},
+    {"part_id": "3024", "ldraw_color": 4, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 875},
+    {"part_id": "3024", "ldraw_color": 14, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 599},
+    {"part_id": "3024", "ldraw_color": 15, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 1483},
+    {"part_id": "3024", "ldraw_color": 71, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 935},
+    {"part_id": "3024", "ldraw_color": 72, "status": "verified", "source_url": "https://www.bricklink.com/v2/catalog/catalogitem.page?P=3024", "section": "Known Colors", "observed_catalog_occurrences": 685}
+  ]
+}
