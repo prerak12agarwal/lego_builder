@@ -1,7 +1,8 @@
-import { FalTrellisClient, ReconstructionError, ReconstructionProviderError, createGeometryGlb, validateGlbAndExportObj } from "../core/src/index.ts";
+import { FalTrellisClient, ReconstructionError, ReconstructionProviderError, validateGlbAndExportObj } from "../core/src/index.ts";
 import { LIMITS, type JobView } from "./limits.ts";
 import { HttpError, hash, readLimited } from "./http.ts";
 import { validateNormalizedPng } from "./png.ts";
+import { validateTextureImageData } from "../core/src/texture-image.ts";
 
 type Bindings = { DB: D1Database; BUCKET: R2Bucket; FAL_KEY?: string; RECONSTRUCTION_PROVIDER?: string };
 type Row = { id: string; owner: string; request_key: string; fingerprint: string; provider: string; task: string | null; state: string; created_at: number; updated_at: number; checked_at: number; lease: string | null; lease_until: number; message: string | null; manifest: string | null };
@@ -11,7 +12,7 @@ export type ArtifactKind = keyof typeof artifactKinds;
 
 export function publicJob(row: Row): JobView {
   const manifest = row.manifest ? JSON.parse(row.manifest) : null;
-  return { id: row.id, state: row.state, createdAt: row.created_at, updatedAt: row.updated_at, message: row.message, triangles: manifest?.stats?.triangleCount ?? null, bounds: manifest?.stats?.bounds ?? null };
+  return { id: row.id, state: row.state, createdAt: row.created_at, updatedAt: row.updated_at, message: row.message, triangles: manifest?.stats?.triangleCount ?? null, bounds: manifest?.stats?.bounds ?? null, appearance: manifest?.appearance?.status ?? "legacy" };
 }
 
 export class Jobs {
@@ -115,7 +116,8 @@ export class Jobs {
         await update("collecting");
         const meshBytes = await this.downloadMesh(task.modelUrl);
         const prepared = validateGlbAndExportObj(meshBytes);
-        const glb = createGeometryGlb(prepared.geometry);
+        for (const image of prepared.textureImages) await validateTextureImageData(image.bytes, image.mimeType);
+        const glb = prepared.glb;
         const manifest = { ...prepared.manifest, id, provider: "fal-ai/trellis", settings: { mesh_simplify: 0.98, texture_size: 512 }, preprocessing: "png-1024-v1", sourceSha256: row.fingerprint, providerGlbSha256: await hash(meshBytes), glbSha256: await hash(glb), objSha256: await hash(new TextEncoder().encode(prepared.obj)), createdAt: new Date(row.created_at).toISOString() };
         row = await this.get(owner, id);
         if (row.state === "deleted" || row.lease !== lease || row.lease_until < Date.now()) return row;
@@ -127,7 +129,7 @@ export class Jobs {
         if ((await this.get(owner, id)).state === "deleted") await this.cleanup(id);
       } else await update(task.status === "IN_PROGRESS" ? "generating" : "queued");
     } catch (e) {
-      if (e instanceof ReconstructionError && !(e instanceof ReconstructionProviderError)) await update("failed", "The returned model uses unsupported or invalid geometry. Try a simpler object in a clear, fully visible photo. No replacement model has been substituted.");
+      if (e instanceof ReconstructionError && !(e instanceof ReconstructionProviderError)) await update("failed", "The returned model uses unsupported or invalid geometry or textures. Try a simpler object in a clear, fully visible photo. No replacement model has been substituted.");
       else if (e instanceof ReconstructionProviderError && e.status && [400, 404, 410, 422].includes(e.status)) await update("failed", "The provider result failed or is no longer available. A new generation would be a separate paid request.");
       else if (e instanceof HttpError && [413, 422].includes(e.status)) await update("failed", e.message);
       else await update(claimed.state, "The latest result could not be collected yet. Reopen or refresh this job to try again; this does not submit another generation.");
