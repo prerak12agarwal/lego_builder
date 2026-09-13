@@ -16,6 +16,14 @@ For this milestone, a simple object is one solid, static, mostly upright form wi
 
 The MVP is successful when a developer can run the same input and settings and receive a recognizable, catalog-valid, connected assembly that can be built from the bottom up. A good-looking render by itself is not success.
 
+## Independent Sites UI track
+
+Confirmed founder direction: build the overall consumer interface on a dedicated UI branch in parallel with the converter milestone. The supplied generated mockups are confirmed as the intended design direction: navy navigation, cobalt controls, a pale model stage, and connected Model, Parts and Instructions views. Their sample content and unverified counts are not product facts.
+
+This track uses a visibly labeled hand-authored sample revision. Its rendered placements, parts quantities, exports and step membership must agree. Uploaded photos are temporary browser-session previews; real generation remains unavailable until a genuine adapter and validation pipeline exist. Accounts, durable project storage, pricing and purchasing remain deferred. UI completion does not establish image conversion or physical buildability.
+
+Prototype acceptance: usable photo review and configuration; accessible five-stop complexity control with size separate; connected sample viewer, searchable inventory export and directly navigable instructions; keyboard camera controls and a text fallback; readable desktop/mobile layouts. Never connect local photos to the fixture as a generated result or invent generation progress, calibrated piece ranges or prices.
+
 ## Pages and user journey
 
 Routes below describe conceptual screens, not frozen URL paths.
@@ -165,7 +173,7 @@ Review the first implementation against R2 and R7 together: consistent three-qua
 
 ### Generated concept mockups
 
-The following AI-generated screens translate the approved reference direction into a connected journey. They are discussion artifacts, not implemented UI or pixel-perfect requirements:
+The following AI-generated screens translate the approved reference direction into a connected journey. The founder confirmed these screens as the intended design direction for the Sites UI. They remain reference artifacts, not implemented UI or pixel-perfect requirements:
 
 - [Upload and complexity](references/mockups/upload-and-complexity.png)
 - [Interactive model workspace](references/mockups/model-workspace.png)
@@ -176,7 +184,7 @@ Use them to evaluate hierarchy, staging, novice guidance, and consistency across
 | Decision | Status | Direction / evidence |
 | --- | --- | --- |
 | D1 — Three connected outputs | Confirmed | User request: interactive model, parts list, instructions |
-| D2 — Model-focused workspace | Proposed | Canvas plus contextual controls; validate with references |
+| D2 — Model-focused workspace | Implemented for UI preview | Sample canvas plus contextual controls and connected Model / Parts / Instructions views in [site/](site/) |
 | D3 — Visual identity | References confirmed; execution proposed | R2 and R7 are the founder's primary references. Design translation above owns the interpretation; exact theme, palette tokens and typography remain open |
 | D4 — First-release audience/object scope | Confirmed boundary | Nostalgic adults who cannot design from scratch; limited simple objects from a few images. Roadmap Q1–Q2 owns remaining scope choices |
 | D5 — Complexity control | Confirmed control; presets proposed | Stepped slider with up to five levels; F6 owns labels, estimates and behavior |

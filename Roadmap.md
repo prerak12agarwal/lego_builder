@@ -38,7 +38,7 @@ Confirmed: the team will first build and evaluate a local converter from a clean
 
 The milestone outputs are a validated canonical placement model, LDraw `.ldr` or `.mpd` export, exact bill of materials, preview, bottom-up placement sequence and validation report. LDraw is the working geometry/interchange foundation; a restricted local catalog is used during solving; BrickLink Studio is the compatibility and inspection baseline. BrickLink/Rebrickable mappings and live sourcing are enrichment work, not prerequisites for the first successful conversion.
 
-Defer photo reconstruction, the consumer web app, accounts, persistence, pricing and automated purchasing until this milestone passes its exit gate. This changes delivery order, not the long-term product promise.
+Defer photo reconstruction, production web integration, accounts, persistence, pricing and automated purchasing until this milestone passes its exit gate. A founder-approved independent Sites UI track may proceed now with explicitly labeled sample data; it does not satisfy P0–P4 exit gates. This changes delivery order, not the long-term product promise.
 
 Defer arbitrary-object guarantees, moving mechanisms, unrestricted manual brick editing, collaborative editing inside the app, marketplace checkout, and photorealistic accuracy. Collaboration between the two developers is required now; multiplayer product features are a separate choice.
 
