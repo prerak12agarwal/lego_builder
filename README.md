@@ -4,7 +4,7 @@ A local OBJ-to-LEGO research converter. The general workflow extracts an approxi
 
 The outputs are **digital candidates**. Artifact and catalog checks do not establish collision-free connections, stability or physical buildability. General sculptural results are still visibly stepped; uniformly polished results for arbitrary objects remain an engineering goal.
 
-The independent [image reconstruction pilot](reconstruction-site/README.md) provides photo upload, fal TRELLIS reconstruction, neutral 3D preview and GLB/OBJ downloads. The [Sites UI preview](site/README.md) provides Model, Parts and Instructions views with labeled sample data plus browser-local LDraw inspection. Both applications are preserved alongside this local converter; merging their source does not connect the three user flows or establish downstream eligibility for reconstructed meshes. Their READMEs own setup, test and publication commands.
+The unified [image-to-LDraw workspace](reconstruction-site/README.md) combines photo reconstruction, saved OBJ requests, converter execution and LDraw model/parts inspection. The Python service is packaged separately because Sites cannot execute its native geometry dependencies. See [demo submission setup](docs/SUBMISSION.md) for deployment, configuration and the manual fallback. The original [Sites UI preview](site/README.md) remains available as a separate design prototype.
 
 ## Install and convert an OBJ
 

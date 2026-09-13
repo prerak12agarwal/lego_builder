@@ -83,6 +83,16 @@ The independent Sites UI track includes founder-approved browser-local LDraw ins
 
 The shared exterior converter and Cybertruck design are P0 work. The shared pipeline must be implemented and exercised on different subjects during this milestone; it is not deferred until after a one-off vehicle export. Success on these fixtures does not guarantee impressive results for every possible mesh or universal use of every LEGO part. Digital candidates require LDraw, inventory and artifact checks; assembly and physical-build claims need their corresponding evidence.
 
+### Confirmed unified pipeline integration slice
+
+Confirmed founder direction: connect image upload, fal-hosted TRELLIS, the retained OBJ, the existing generic Python converter and LDraw model/parts inspection in the published workshop. Product F8 owns the acceptance criteria. Preserve the implemented manual handoff while adding an authenticated, bounded HTTPS Python execution boundary; new generic requests target about 2,000 parts, retain explicit orientation and remain distinct from legacy size-based handoffs.
+
+Present in source: the existing reconstruction job and private artifact storage now persist an owner-scoped awaiting-converter request automatically for a ready mesh. Its saved URL and hashes bind the mesh, settings and immutable result slot. The owner-only receiver can accept a matching root `.ldr` and open its model, derived parts and nonempty authored steps in the same consumer workspace; missing steps stay visible and are never inferred. Prior results remain available when a new request is pending. This manual receiver validates the future adapter surface only and does not establish image conversion, canonical-model validity or buildability.
+
+Automatic dispatch and the external Python service are the approved extension being integrated; deployment and a real saved-OBJ-to-LDraw run need separate evidence. The application requires server-only converter configuration, access to the target Sites project and persistent D1/R2 bindings. The current deployment account cannot locate the requested project, so publication is not established. Earlier [pipeline QA](reconstruction-site/test/pipeline-evidence.md) covers the manual receiving slice only. The photo, source checksum, settings and returned LDraw must remain linked through an actual converter run without repeating paid reconstruction.
+
+This vertical slice advances P2 and P3 but does not reorder or waive their dependencies: the converter still has to satisfy P0/P1 validity and consistency gates, image reconstruction needs representative quality/latency/cost evidence, and physical buildability still requires P4 evidence. A connected demo may be labeled as a pipeline prototype until those gates pass.
+
 ## Quality and release gates
 
 These are release gates for the complete product and validated assemblies. Development digital candidates retain their explicitly failed or unperformed checks and cannot be presented as meeting these gates.
@@ -106,6 +116,7 @@ These are release gates for the complete product and validated assemblies. Devel
 | Q5 | Calibrated complexity ranges, size limits and acceptable generation wait | Confirmed: optimize for both delivery speed and user-visible generation speed. Proposed benchmark question: can the chosen baseline reach a median of 60 seconds or less from upload start to usable viewer, with slower jobs reported separately? This is unmeasured and not a release promise. Calibrate mesh sizes and practical part limits during P0; up to five consumer slider levels remain confirmed for later UI work | Live image latency claim; P0 exit for converter limits; P3 for slider ranges |
 | Q6 | Accounts and business model | Private projects; defer billing and public gallery | Persistence and launch scope |
 | Q7 | Exact theme, typography and brand; references received | Product's reference register and design translation own the direction; R2 and R7 are the founder's favorites | Visual implementation |
+| Q8 | Integrated runtime provisioning, timing and recovery evidence | Accepted boundary: authenticated HTTPS Python service called by owner-authorized Sites routes, preserving source/settings hashes and completed stages. Runtime hosting, target-Site access and measured timeout/recovery behavior need deployment evidence | Hosted end-to-end claim |
 
 ## Keeping this useful
 
