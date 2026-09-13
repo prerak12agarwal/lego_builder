@@ -6,6 +6,7 @@ import pytest
 import trimesh
 from lego_builder.generic import read_obj,envelope,generate_obj,fit_shell,convert_obj
 from lego_builder.mesh import ConversionError
+from lego_builder.assembly import draft_instruction_plan, ldraw_text, validate_roundtrip, validate_candidate, revision
 
 
 def write_mesh(path,mesh,group='arbitrary object'):
@@ -124,3 +125,48 @@ def test_shared_validator_enforces_hard_output_cap():
     report=validate_candidate(model)
     assert 'hard_output_piece_limit_exceeded' in report['errors']
     assert 'invalid_or_missing_piece_target_constraints' not in report['errors']
+
+
+def test_draft_layers_are_deterministic_and_roundtrip_with_mixed_parts(tmp_path):
+    model=generate_obj(write_mesh(tmp_path/'layers.obj',trimesh.creation.box(extents=[2,3,4])),100,'z',max_trials=2)
+    plan=model['instruction_plan']
+    assert plan['mechanics']=='not_evaluated'
+    assert [group['bottom_layer'] for group in plan['groups']]==sorted(group['bottom_layer'] for group in plan['groups'])
+    assert [item for group in plan['groups'] for item in group['placement_ids']]==sorted([item for group in plan['groups'] for item in group['placement_ids']], key=lambda item: next(group['bottom_layer'] for group in plan['groups'] if item in group['placement_ids']))
+    ldr=ldraw_text(model)
+    assert '0 !LEGO_BUILDER_INSTRUCTIONS DRAFT_LAYER_V1' in ldr
+    assert ldr.count('0 STEP')==len(plan['groups'])
+    validate_roundtrip(ldr,model)
+    assert validate_candidate(model,ldr)['artifact_checks_passed']
+
+
+def test_draft_plan_rejects_duplicate_missing_and_tampered_membership():
+    placements=[{'id':'p1','part_id':'3024','color':71,'position_ldu':[0,0,0],'rotation':[1,0,0,0,1,0,0,0,1],'draft_bottom_layer':0},
+                {'id':'p2','part_id':'3003','color':71,'position_ldu':[20,0,0],'rotation':[1,0,0,0,1,0,0,0,1],'draft_bottom_layer':1},
+                {'id':'p3','part_id':'3039','color':71,'position_ldu':[40,0,0],'rotation':[1,0,0,0,1,0,0,0,1],'draft_bottom_layer':2}]
+    model={'schema_version':'lego-builder-ldraw-model-v1','algorithm_version':'test','status':'digital_candidate','name':'mixed',
+           'constraints':{'target_parts':3,'target_band':[1,3],'target_tolerance':.5,'max_output_parts':3},'provenance':{},'placements':placements,
+           'instruction_plan':draft_instruction_plan(placements)}
+    model['revision_id']=revision(model);model['instruction_plan']['revision_id']=model['revision_id']
+    cases=[
+        [{'bottom_layer':0,'placement_ids':['p1','p1']},{'bottom_layer':1,'placement_ids':['p2']},{'bottom_layer':2,'placement_ids':['p3']}],
+        [{'bottom_layer':0,'placement_ids':['p1']},{'bottom_layer':1,'placement_ids':['p2']}],
+        [{'bottom_layer':0,'placement_ids':['p2']},{'bottom_layer':1,'placement_ids':['p1']},{'bottom_layer':2,'placement_ids':['p3']}],
+        [{'bottom_layer':2,'placement_ids':['p3']},{'bottom_layer':1,'placement_ids':['p2']},{'bottom_layer':0,'placement_ids':['p1']}],
+    ]
+    for groups in cases:
+        broken={**model,'instruction_plan':{**model['instruction_plan'],'groups':groups}}
+        broken['revision_id']=revision(broken);broken['instruction_plan']['revision_id']=broken['revision_id']
+        assert not validate_candidate(broken)['artifact_checks_passed']
+    stale={**model,'instruction_plan':{**model['instruction_plan'],'revision_id':'0'*64}}
+    assert not validate_candidate(stale)['artifact_checks_passed']
+    wrong_mechanics={**model,'instruction_plan':{**model['instruction_plan'],'mechanics':'verified'}}
+    wrong_mechanics['revision_id']=revision(wrong_mechanics);wrong_mechanics['instruction_plan']['revision_id']=wrong_mechanics['revision_id']
+    assert not validate_candidate(wrong_mechanics)['artifact_checks_passed']
+
+
+def test_draft_ldr_rejects_adjacent_empty_step_boundary(tmp_path):
+    model=generate_obj(write_mesh(tmp_path/'step-tamper.obj',trimesh.creation.box()),100,'z',max_trials=2)
+    valid=ldraw_text(model)
+    tampered=valid.replace('0 STEP\n', '0 STEP\n0 STEP\n', 1)
+    assert not validate_candidate(model,tampered)['artifact_checks_passed']

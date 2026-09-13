@@ -12,7 +12,8 @@ export function converterEndpoint(env: ConverterBindings) {
 export function converterConfigured(env: ConverterBindings) { try { converterEndpoint(env); return true; } catch { return false; } }
 export async function runConverter(env: ConverterBindings, input: ServiceInput, send: typeof fetch = fetch): Promise<ConversionResultInput> {
   const endpoint = converterEndpoint(env);
-  const control = new AbortController(); const timeout = setTimeout(() => control.abort(), 190_000);
+  // Leave startup headroom around the converter's bounded 180-second worker.
+  const control = new AbortController(); const timeout = setTimeout(() => control.abort(), 240_000);
   try {
     const response = await send(endpoint, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.CONVERTER_TOKEN!.trim()}` }, body: JSON.stringify(input), signal: control.signal, redirect: "manual" });
     if (!response.ok) throw new HttpError(response.status === 429 ? 429 : 502, response.status === 429 ? "The converter is busy. Try this saved request again shortly." : "The converter could not complete this mesh. Your OBJ remains available to download.");

@@ -12,10 +12,10 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 import trimesh
-from .assembly import SCHEMA, revision
+from .assembly import SCHEMA, revision, draft_instruction_plan
 from .mesh import ConversionError, surface_voxels, MAX_BYTES, MAX_FACES
 
-ALGORITHM = "generic-exterior-shell-v1"
+ALGORITHM = "generic-exterior-shell-v2-draft-layers"
 MAX_GRID_CELLS = 500_000
 MAX_OUTPUT_PARTS = 10_000
 # Actual LDraw local X is the long dimension for these rectangular parts.
@@ -136,6 +136,7 @@ def fit_shell(shell, inferred, metadata):
         if origin_shift is not None:point+=origin_shift
         placements.append({"id":f"p{len(placements)+1:06d}","part_id":part,"color":71,
                            "position_ldu":np.round(point,7).tolist(),"rotation":np.round(YAW[yaw].reshape(9),9).tolist(),"component":component})
+        placements[-1]["draft_bottom_layer"] = int(z)
         if covered[x:x+w,y:y+d,z:z+h].any():
             raise RuntimeError("Overlapping reserved part envelopes")
         covered[x:x+w,y:y+d,z:z+h] |= remaining[x:x+w,y:y+d,z:z+h]
@@ -260,7 +261,13 @@ def generate_obj(path,target_parts=2000,up="y",closing_cells=1,max_trials=5):
     constraints={"target_parts":target_parts,"target_band":[int(target_parts*(1-.1)),min(MAX_OUTPUT_PARTS,int(target_parts*(1+.1)))],"target_tolerance":.1,"max_output_parts":MAX_OUTPUT_PARTS,"max_grid_cells":MAX_GRID_CELLS}
     model={"schema_version":SCHEMA,"algorithm_version":ALGORITHM,"status":"digital_candidate","name":"Generic OBJ exterior sculpture",
            "constraints":constraints,"provenance":metadata,"placements":placements}
+    # Legacy/fault-injected candidates without fitter layer coordinates remain
+    # inspectable without pretending they have authored instructions.
+    if all(type(p.get("draft_bottom_layer")) is int for p in placements):
+        model["instruction_plan"] = draft_instruction_plan(placements)
     model["revision_id"]=revision(model)
+    if "instruction_plan" in model:
+        model["instruction_plan"]["revision_id"] = model["revision_id"]
     return model
 
 

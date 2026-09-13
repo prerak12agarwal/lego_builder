@@ -7,7 +7,7 @@ The canonical workshop combines the original public sample and local LDraw test 
 - `/build?new=1`: new photo upload; an existing active job is recovered before another submission.
 - `/build`: recover the latest saved job and the previous ready result. Saved job and conversion links retain their immutable IDs.
 
-The photo pipeline uses the existing fal-hosted TRELLIS adapter, private GLB/OBJ/manifest storage, and authenticated Python converter. It returns actual LDraw for inspection; missing authored steps are never invented and buildability is unverified. The old `reconstruction-site/` deployment and its data remain separate and unchanged. No history is copied between Sites; their authenticated user IDs differ.
+The photo pipeline uses the existing fal-hosted TRELLIS adapter, private GLB/OBJ/manifest storage, and authenticated Python converter. It returns actual LDraw for inspection. Converter-authored steps appear as draft instructions with unverified assembly order and buildability; the browser never invents missing steps. The old `reconstruction-site/` deployment and its data remain separate and unchanged. No history is copied between Sites; their authenticated user IDs differ.
 
 ## Runtime and private access
 

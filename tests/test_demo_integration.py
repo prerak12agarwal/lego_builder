@@ -102,8 +102,9 @@ def test_real_bottle_obj_http_result_passes_partner_receiver(http_service):
       const result = parseConversionResult(input.result);
       const inspection = inspectRootLdr(result.ldr);
       assert.ok(inspection.placements > 0 && inspection.placements <= 2500);
-      assert.equal(inspection.hasSteps, false);
-      assert.equal(inspection.stepCount, 0);
+      assert.match(result.ldr, /^0 !LEGO_BUILDER_INSTRUCTIONS DRAFT_LAYER_V1$/m);
+      assert.equal(inspection.hasSteps, true);
+      assert.ok(inspection.stepCount > 0);
       assert.deepEqual(parseConversionRequest({{schemaVersion:1,settings:{{targetSizeStuds:24,inputUpAxis:'unspecified'}}}}).settings, {{targetSizeStuds:24,inputUpAxis:'unspecified'}});
       assert.throws(() => parseConversionRequest({{schemaVersion:1,settings:{{targetParts:2000,targetSizeStuds:24,inputUpAxis:'y'}}}}));
       const row = '1 71 0 0 0 1 0 0 0 1 0 0 0 1 3001.dat\\n';
@@ -118,8 +119,14 @@ def test_real_bottle_obj_http_result_passes_partner_receiver(http_service):
         readFileSync({json.dumps(colors)}, 'utf8'), partTransport, new AbortController().signal);
       assert.equal(externalRequests, 0);
       assert.equal(revision.placements.length, inspection.placements);
-      assert.equal(revision.hasSteps, false);
-      assert.equal(revision.steps.length, 0);
+      assert.equal(revision.hasSteps, true);
+      assert.ok(revision.steps.length > 0);
+      const stepIds = revision.steps.flatMap(step => step.placementIds);
+      assert.equal(stepIds.length, revision.placements.length);
+      assert.equal(new Set(stepIds).size, revision.placements.length);
+      assert.deepEqual(new Set(stepIds), new Set(revision.placements.map(piece => piece.id)));
+      const finalCumulative = revision.steps.flatMap(step => step.placementIds);
+      assert.equal(new Set(finalCumulative).size, revision.placements.length);
       assert.ok(revision.dependencyCount > 0);
       const partCounts = {{}};
       for (const piece of revision.placements) {{

@@ -65,7 +65,9 @@ def test_busy_and_oversized_requests_do_not_start_conversion(running_server):
     try:assert call(running_server,'POST','/convert',b'{}',headers)[0]==429
     finally:running_server.conversion_slot.release()
     assert call(running_server,'POST','/convert',b'',{**headers,'Content-Length':str(MAX_REQUEST_BYTES+1)})==(413,{'error':'request_size_limit'})
-    assert running_server.conversion_slot.acquire(blocking=False)
+    # The HTTP response is written before the handler's finally clause releases
+    # the slot; wait for that completion rather than racing the server thread.
+    assert running_server.conversion_slot.acquire(timeout=1)
     running_server.conversion_slot.release()
 
 

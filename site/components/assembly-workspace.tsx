@@ -26,6 +26,7 @@ export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab:
   const [step, setStep] = useState(0);
   const [query, setQuery] = useState("");
   const [missingSteps, setMissingSteps] = useState(false);
+  const [draftSteps, setDraftSteps] = useState(false);
   useEffect(() => {
     const control = new AbortController();
     let current: LoadedLDraw | null = null;
@@ -43,14 +44,16 @@ export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab:
         if (checksum !== result.sha256) throw Error("The downloaded file does not match this saved result.");
         const colors = await fetch("/ldraw/LDConfig.ldr", { signal: control.signal });
         if (!colors.ok) throw Error("The LDraw color library could not be loaded.");
-        const revision = await importLDraw("model.ldr", new TextDecoder("utf-8", { fatal: true }).decode(bytes), await colors.text(), (name, signal) => transport.current!(name, signal, setProgress), control.signal, setProgress);
+        const ldr = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+        const draft = ldr.split(/\r?\n/).some(line => line.trim() === "0 !LEGO_BUILDER_INSTRUCTIONS DRAFT_LAYER_V1");
+        const revision = await importLDraw("model.ldr", ldr, await colors.text(), (name, signal) => transport.current!(name, signal, setProgress), control.signal, setProgress);
         if (revision.placements.length !== result.placements || revision.steps.length !== result.steps || revision.hasSteps !== result.hasSteps)
           throw Error("The model and assembly steps do not match the saved result metadata.");
         revision.id = result.revisionId;
         control.signal.throwIfAborted();
         current = await prepareLDraw(revision);
         control.signal.throwIfAborted();
-        setLoaded(current); setMissingSteps(!revision.hasSteps); setProgress("");
+        setLoaded(current); setDraftSteps(draft); setMissingSteps(!revision.hasSteps); setProgress("");
       } catch (cause) {
         if (current && control.signal.aborted) disposeModel(current.group);
         if (!control.signal.aborted || control.signal.reason?.message?.includes("too long"))
@@ -73,7 +76,8 @@ export function AssemblyWorkspace({ result, tab }: { result: SavedAssembly; tab:
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   return <div className="assembly-content">
-    <div className="assembly-summary"><strong>{model.placements.length.toLocaleString()} pieces</strong><span>{lots.length} part / color combinations</span><span>{model.hasSteps ? `${model.steps.length} authored steps` : "Assembly steps missing"}</span></div>
+    <div className="assembly-summary"><strong>{model.placements.length.toLocaleString()} pieces</strong><span>{lots.length} part / color combinations</span><span>{model.hasSteps ? `${model.steps.length} ${draftSteps ? "draft" : "authored"} steps` : "Assembly steps missing"}</span></div>
+    {tab === "instructions" && model.hasSteps && draftSteps && <p className="assembly-disclaimer" role="note"><strong>Draft instructions</strong> — assembly order, connections, stability and physical buildability are unverified.</p>}
     {tab === "model" && <LDrawViewer loaded={loaded}/>}
     {tab === "parts" && <><div className="assembly-toolbar"><input aria-label="Search parts" placeholder="Search parts or colors…" value={query} onChange={event => setQuery(event.target.value)}/><Button variant="outline" onClick={downloadCsv}><Download size={16}/> Parts CSV</Button></div><Table><TableHeader><TableRow><TableHead>Part</TableHead><TableHead>Color</TableHead><TableHead>Quantity</TableHead></TableRow></TableHeader><TableBody>{matches.map(lot => <TableRow key={lot.key}><TableCell><strong>{lot.name}</strong><small className="part-id">{lot.part}</small></TableCell><TableCell><span className="part-color" style={{ background: lot.colorHex }}/>{lot.colorName}</TableCell><TableCell>{lot.quantity}</TableCell></TableRow>)}</TableBody></Table>{!matches.length && <p className="assembly-message">No matching parts.</p>}</>}
     {tab === "instructions" && (model.hasSteps ? <><div className="assembly-stepbar"><div><h3>Step {step + 1} of {model.steps.length}</h3><p>{added.length} {added.length === 1 ? "piece" : "pieces"} added · {placed} of {model.placements.length} placed</p></div><div className="assembly-step-controls"><Select value={String(step)} onValueChange={value => setStep(Number(value))}><SelectTrigger aria-label="Choose assembly step"><SelectValue/></SelectTrigger><SelectContent>{model.steps.map((item,index) => <SelectItem key={item.number} value={String(index)}>Step {item.number}</SelectItem>)}</SelectContent></Select><Button variant="outline" size="icon" aria-label="Previous step" disabled={step === 0} onClick={() => setStep(value => value - 1)}><ArrowLeft size={16}/></Button><Button disabled={step === model.steps.length - 1} onClick={() => setStep(value => value + 1)}>Next step <ArrowRight size={16}/></Button></div></div><LDrawViewer loaded={loaded} step={step}/><div className="step-pieces"><h3>Pieces for this step</h3>{importedInventory(added).map(lot => <div key={lot.key}><span className="part-color" style={{ background: lot.colorHex }}/><span>{lot.name} · {lot.colorName}</span><strong>×{lot.quantity}</strong></div>)}</div></> : <div className="assembly-message"><BookOpen size={36}/><h3>Assembly steps aren’t included</h3><p>This LDraw file has no authored step boundaries. The full model and parts remain available. Start a new handoff attempt to supply a corrected file.</p></div>)}
